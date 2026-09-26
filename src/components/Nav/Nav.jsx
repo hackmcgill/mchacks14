@@ -104,7 +104,7 @@ const Nav = ({
     <Container>
       <div>
         <Links $hasBorder={hasBorder}>
-          {NavItems(false)}
+          <div className="Nav__links">{NavItems(false)}</div>
           <div className="Nav__socials">
             <SocialMediaBar />
           </div>
