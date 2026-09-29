@@ -2,14 +2,18 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Links = styled.div`
-  display: flex;
-  align-items: center;
-  position: fixed;
-  padding: 1rem 0;
-  top: 14px;
-  left: calc(40px);
-  gap: 2.5vw;
-  height: 100%px;
+  .Nav__links {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    padding: 1rem 0;
+    top: 14px;
+    left: calc(40px);
+    gap: 2.5vw;
+    margin-right: 150px;
+    flex-wrap: wrap;
+    row-gap: 1px;
+  }
 
   .Nav__socials {
     position: fixed;
@@ -38,6 +42,13 @@ export const Links = styled.div`
 
   @media only screen and (max-width: ${styleVars.smUp}) {
     display: none;
+  }
+
+  @media only screen and (max-width: ${(props) =>
+      props.$hasBorder ? "1160px" : "1300px"}) {
+    .Nav__socials {
+      top: 75px;
+    }
   }
 `
 
