@@ -59,7 +59,7 @@ const SocialMediaBar = () => (
       </NavLink>
     </div>
     <div className="SocialMediaBar__icon">
-      <NavLink href="https://mchacks-13.devpost.com/" target="_blank" rel="noopener noreferrer">
+      <NavLink href="https://mchacks13.devpost.com/" target="_blank" rel="noopener noreferrer">
         <Devpost className="icon"/>
       </NavLink>
     </div>

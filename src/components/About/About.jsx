@@ -17,7 +17,7 @@ const About = ({ scrollRef }) => (
           or crafting the next big tech potion, McHacks is your very own
           playground. Join us for the{" "}
           <strong>
-            13<sup>th</sup> edition
+            14<sup>th</sup> edition
           </strong>{" "}
           of Canada’s most magical hackathon and bring your ideas to life, one
           line of code at a time.
