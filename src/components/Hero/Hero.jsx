@@ -20,15 +20,15 @@ const interestForm = () => {
 //   window.location = "/live"
 // }
 
-const apply = () => {
-  window.open("/bot_or_not_challenge.pdf", "_blank")
-}
+// const apply = () => {
+//   window.open("/bot_or_not_challenge.pdf", "_blank")
+// }
 
 const Hero = () => (
   <HeroStyles>
     <div className="hero__wrapper">
       <div className="hero__clouds"></div>
-      <h1 className="hero__heading">McHacks 13</h1>
+      <h1 className="hero__heading">McHacks 14</h1>
       <div className="hero__images-container">
         <div className="hero__leftCloud-container">
           <img src={LeftCloud} className="hero__leftCloud" alt="Cloud" />
@@ -53,14 +53,14 @@ const Hero = () => (
       </div>
       <div className="hero__grid">
         <div className="hero__grid__date">
-          <h2 className="hero__grid__subheading">Jan. 17-18, 2026 | In-Person | McGill University</h2>
+          <h2 className="hero__grid__subheading">Jan. 16-17, 2027 | In-Person | McGill University</h2>
         </div>
       </div>
       <Button onClick={interestForm}>
         McHacks 14 Interest Form
       </Button>
       <div className="grid__clouds"></div>
-      <p className="hero__challenge-text">
+      {/*<p className="hero__challenge-text">
        Want to win $1000 or $500? Think you can tell humans from bots on 
        social media? Prove it and sign up for the Bot or Not Post Hackathon
        Challenge and submit your project by February 14th, 1:00 PM EST! Open
@@ -73,7 +73,7 @@ const Hero = () => (
         onClick={apply}
         className="hero__portal" 
         alt="Portal" 
-      />
+      />*/}
     </div>
   </HeroStyles>
 )

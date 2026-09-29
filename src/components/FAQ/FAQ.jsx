@@ -23,13 +23,14 @@ const FAQ = ({ scrollRef }) => (
               👀).
             </Question>
             <Question question="When and where is McHacks?">
-              McHacks 13 will take place on <strong>January 17-18, 2026</strong>{" "}
+              McHacks 14 will take place on <strong>January 16-17, 2027</strong>{" "}
               in-person at McGill University’s downtown campus in Montreal, QC.
             </Question>
             <Question question="How can I participate in McHacks?">
-              Simply apply through our website! Once accepted, bring your laptop
+              Applications will open soon! In the meantime, let us know you want to join by filling out the interest form.
+              {/*Simply apply through our website! Once accepted, bring your laptop
               and your ideas. We’ll provide the rest (snacks, mentors, and{" "}
-              <em>unlimited coffee refills</em> included).
+              <em>unlimited coffee refills</em> included).*/}
             </Question>
             <Question question="Who can participate?">
               Any high school, college/CEGEP and university students can join!
