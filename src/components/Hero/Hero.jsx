@@ -10,9 +10,10 @@ import star2 from "../../assets/images/designs/mchacks13-star2.svg"
 import star3 from "../../assets/images/designs/mchacks13-star3.svg"
 import star4 from "../../assets/images/designs/mchacks13-star4.svg"
 import Portal from "../../assets/gifs/mchacks13-portal.gif"
+import Button from "./Button"
 
 const interestForm = () => {
-  window.location = "https://forms.gle/Xp6Li1dXW4uNEQxp8"
+  window.location = "https://docs.google.com/forms/d/e/1FAIpQLSesvFEVGTwj6ZmPs2YBE3xehJTkoBe8fsHZV8zsq2CXhEDR_w/viewform"
 }
 
 // const live = () => {
@@ -55,6 +56,9 @@ const Hero = () => (
           <h2 className="hero__grid__subheading">Jan. 17-18, 2026 | In-Person | McGill University</h2>
         </div>
       </div>
+      <Button onClick={interestForm}>
+        McHacks 14 Interest Form
+      </Button>
       <div className="grid__clouds"></div>
       <p className="hero__challenge-text">
        Want to win $1000 or $500? Think you can tell humans from bots on 
