@@ -86,12 +86,9 @@ const CodeOfConduct = () => (
           and workshop venues and all related social events.
           <br></br>
           <br></br>
-          As we are in the midst of a global pandemic and McHacks is online, we
-          require that participants respect their
-          municipal/state/provincial/federal COVID-19 guidelines. The organizers
-          of McHacks 13 will not be liable if participants break such rules.
-          Every participant is liable for their own actions, words, comments,
-          posts and online activities.
+          The organizers of McHacks 14 will not be liable if participants break 
+          such rules. Every participant is liable for their own actions, words, 
+          comments, posts and online activities.
         </p>
         <h2>Reporting Procedures</h2>
         <p>
@@ -154,7 +151,7 @@ const CodeOfConduct = () => (
           any time.
           <br></br>
           <br></br>
-          Last modified on November 15, 2023.
+          Last modified on October 8, 2026.
         </p>
       </Text>
     </Content>
