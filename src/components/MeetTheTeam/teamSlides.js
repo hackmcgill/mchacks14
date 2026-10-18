@@ -15,7 +15,6 @@ Legend:
   "Muhammad",
   "Jamie",
   "Mona", // (H)
-  "Choshika",
 
 //Experience
   "Jeffrey", // Lead
