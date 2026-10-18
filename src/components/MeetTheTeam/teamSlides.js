@@ -1,5 +1,62 @@
 import { resolveTeamSocialUrl } from "./teamSocialLinks"
 
+const teamOrder = [
+
+/* 
+Legend: 
+ +: More than one role 
+ (H): Real person (not a stick...?)
+*/
+
+//Co-Directors
+  "Shirley", // (H)
+
+//Dev
+  "Muhammad",
+  "Jamie",
+  "Mona", // (H)
+  "Choshika",
+
+//Experience
+  "Jeffrey", // Lead
+  "Aidan", // (H)
+  "Alex",
+  "Arnav", // + Design
+
+// Design
+  "Amy", // Lead (H)
+
+// Communication
+  "Lyland", // Lead + Design
+
+// Logistic
+  "Qian", // Co-Lead (H)
+  "Emily",
+  "Remi", // Co-Lead (H) 
+
+// Finance
+  "Doaa",
+
+// Sponsorship
+  "Julia", // Co-Lead
+  "Jimmy", // (H)
+  "Jaanya",
+
+]
+
+const teamOrderIndex = new Map(teamOrder.map((name, index) => [name, index]))
+
+const byTeamOrder = (a, b) => {
+  const aIndex = teamOrderIndex.has(a.name)
+    ? teamOrderIndex.get(a.name)
+    : Number.POSITIVE_INFINITY
+  const bIndex = teamOrderIndex.has(b.name)
+    ? teamOrderIndex.get(b.name)
+    : Number.POSITIVE_INFINITY
+  if (aIndex !== bIndex) return aIndex - bIndex
+  return a.name.localeCompare(b.name)
+}
+
 const parseMemberName = (filePath) => {
   const base = filePath.replace(/^\.\//, "").replace(/\.(webp|svg)$/i, "")
   const memberMatch = base.match(/^Member=([^,]+)/)
@@ -55,4 +112,4 @@ export default [...defaults.values()]
     hoverSrc: hovers.get(slide.name)?.src ?? slide.src,
     profileUrl: resolveTeamSocialUrl(slide.name),
   }))
-  .sort((a, b) => a.name.localeCompare(b.name))
+  .sort(byTeamOrder)
