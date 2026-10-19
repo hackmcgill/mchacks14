@@ -30,8 +30,8 @@ Legend:
 
 // Logistic
   "Qian", // Co-Lead (H)
-  "Emily",
-  "Remi", // Co-Lead (H) 
+  "Remi", // Co-Lead (H)
+  "Emily", 
 
 // Finance
   "Doaa",
@@ -57,7 +57,7 @@ const byTeamOrder = (a, b) => {
 }
 
 const parseMemberName = (filePath) => {
-  const base = filePath.replace(/^\.\//, "").replace(/\.(webp|svg)$/i, "")
+  const base = filePath.replace(/^\.\//, "").replace(/\.(webp)$/i, "")
   const memberMatch = base.match(/^Member=([^,]+)/)
   if (memberMatch) return memberMatch[1].trim()
   return base
@@ -69,7 +69,6 @@ const parseMemberName = (filePath) => {
 const formatRank = (id) => {
   const lower = id.toLowerCase()
   if (lower.endsWith(".webp")) return 2
-  if (lower.endsWith(".svg")) return 1
   return 0
 }
 
@@ -93,13 +92,13 @@ const loadSlidesFromContext = (context) => {
 const defaultContext = require.context(
   "../../assets/images/TeamDefault",
   false,
-  /\.(webp|svg)$/
+  /\.(webp)$/
 )
 
 const hoverContext = require.context(
   "../../assets/images/TeamHover",
   false,
-  /\.(webp|svg)$/
+  /\.(webp)$/
 )
 
 const defaults = loadSlidesFromContext(defaultContext)
