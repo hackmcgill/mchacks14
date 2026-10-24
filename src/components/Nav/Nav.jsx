@@ -98,7 +98,7 @@ const Nav = ({ navItems = [], docPage = false }) => {
         </Links>
 
         <HomeLogoContainer>
-          <NavLink href="/">
+          <NavLink as={Link} to="/">
             <IconContainer>
               <img src={HomeLogo} alt="McHacks Home Logo" />
             </IconContainer>
