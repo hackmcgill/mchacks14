@@ -67,49 +67,11 @@ const Nav = ({ navItems = [], docPage = false }) => {
   return (
     <>
       <Container>
-        <div>
-          <Links $hasBorder={hasBorder}>
-            <div className="Nav__links">{NavItems(false)}</div>
-            <div className="Nav__socials">
-              <SocialMediaBar />
-            </div>
-            <div className="Nav__mlh-banner">
-              <a
-                id="mlh-trust-badge"
-                style={{
-                  display: "block",
-                  maxWidth: "100px",
-                  minWidth: "60px",
-                  position: "fixed",
-                  right: "50px",
-                  top: "0",
-                  width: "10%",
-                  zIndex: "10000",
-                }}
-                href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2027-season&utm_content=white"
-                target="_blank"
-              >
-                <img
-                  src="https://s3.amazonaws.com/logged-assets/trust-badge/2027/mlh-trust-badge-2027-white.svg"
-                  alt="Major League Hacking 2027 Hackathon Season"
-                  style={{ width: "100%" }}
-                />
-              </a>
-            </div>
-          </Links>
-
-          <HomeLogoContainer>
-            <NavLink as={Link} to="/">
-              <IconContainer>
-                <img src={HomeLogo} alt="McHacks Home Logo" />
-              </IconContainer>
-            </NavLink>
-          </HomeLogoContainer>
+        <div className="Nav__links">{NavItems(false)}</div>
+        <div className="Nav__socials">
+          <SocialMediaBar />
         </div>
       </Container>
-      <Menu right styles={MobileMenu} $hasBorder={hasBorder}>
-        {NavItems(true)}
-      </Menu>
     </>
   )
 }
