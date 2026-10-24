@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 
-// import { Link } from "gatsby"
 import { slide as Menu } from "react-burger-menu"
+import { Link } from "gatsby"
 import HomeLogo from "../../assets/images/logos/mchacks13-home-logo.svg"
 
 import Container from "./Container"
@@ -13,15 +13,7 @@ import NavLink from "./NavLink"
 import SocialMediaBar from "../SocialMedia/SocialMediaBar"
 import HomeLogoContainer from "./HomeLogoContainer"
 
-const Nav = ({
-  scrollToAbout,
-  scrollToSponsor,
-  scrollToInvolvement,
-  scrollToFaq,
-  schedule,
-  docPage = false,
-  hiddenBackground = true,
-}) => {
+const Nav = ({ navItems = [], docPage = false }) => {
   const [hasBorder, setHasBorder] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const handleScroll = () => {
@@ -41,53 +33,24 @@ const Nav = ({
 
   const NavItems = (mobile) => (
     <>
-      <NavLink href="/">
+      <NavLink as={Link} to="/">
         <IconContainer>
           <img src={HomeLogo} alt="McHacks Home Logo" />
         </IconContainer>
       </NavLink>
 
-      {scrollToAbout ? (
-        <NavLink onClick={scrollToAbout} $mobile={mobile}>
-          ABOUT
+      {navItems.map((navItem) => (
+        <NavLink onClick={navItem.onClick} $mobile={mobile}>
+          {navItem.label.trim().toUpperCase()}
         </NavLink>
-      ) : null}
+      ))}
 
-      {scrollToSponsor ? (
-        <NavLink onClick={scrollToSponsor} $mobile={mobile}>
-          SPONSOR
-        </NavLink>
-      ) : null}
-
-      {scrollToInvolvement ? (
-        <NavLink onClick={scrollToInvolvement} $mobile={mobile}>
-          GET INVOLVED
-        </NavLink>
-      ) : null}
-
-      {scrollToFaq ? (
-        <NavLink onClick={scrollToFaq} $mobile={mobile}>
-          FAQ
-        </NavLink>
-      ) : null}
-      {/* {schedule ? (
-        <NavLink href="/schedule" $mobile={mobile}>
-          Schedule
-        </NavLink>
-      ) : null} */}
       {docPage ? (
-        <NavLink href="/" $mobile={mobile}>
+        <NavLink as={Link} to="/" $mobile={mobile}>
           HOME
         </NavLink>
       ) : null}
 
-      {/* <NavLink href="https://app.mchacks.ca" $mobile={mobile}>
-        Apply
-      </NavLink> */}
-
-      {/*<NavLink href="https://forms.gle/2CHq5PZZLxuirVCT6" $mobile={mobile}>
-        Volunteer
-      </NavLink> */}
       <NavLink href="https://app.mchacks.ca/" $mobile={mobile}>
         APPLY
       </NavLink>
@@ -100,6 +63,7 @@ const Nav = ({
       </NavLink>
     </>
   )
+
   return (
     <Container>
       <div>

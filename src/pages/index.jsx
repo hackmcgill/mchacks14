@@ -17,10 +17,10 @@ const scrollTo = (ref, offset = 50) => {
   if (ref.current) {
     window.scrollTo({
       top: ref.current.offsetTop - offset,
-      behavior: 'smooth',
-    });
+      behavior: "smooth",
+    })
   }
-};
+}
 
 const IndexPage = () => {
   const aboutRef = useRef(null)
@@ -29,25 +29,37 @@ const IndexPage = () => {
   const involvementRef = useRef(null)
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' }, 0);
-  }, []);
+    window.scrollTo({ top: 0, behavior: "auto" }, 0)
+  }, [])
+
+  const navItems = [
+    {
+      label: "About",
+      onClick: () => scrollTo(aboutRef),
+    },
+    {
+      label: "Sponsor",
+      onClick: () => scrollTo(sponsorRef),
+    },
+    {
+      label: "Get Involved",
+      onClick: () => scrollTo(involvementRef),
+    },
+    {
+      label: "Faq",
+      onClick: () => scrollTo(faqRef),
+    },
+  ]
 
   return (
     <div>
       <SEO />
-      <Nav
-        scrollToAbout={() => scrollTo(aboutRef)}
-        scrollToSponsor={() => scrollTo(sponsorRef)}
-        scrollToInvolvement={() => scrollTo(involvementRef)}
-        scrollToFaq={() => scrollTo(faqRef)}
-        schedule={true}
-        darkBackground={true}
-      />
+      <Nav navItems={navItems} schedule={true} />
       <Hero />
       <About scrollRef={aboutRef} />
       <EventInfo />
       <Sponsor scrollRef={sponsorRef} />
-      <Involvement scrollRef={involvementRef}/>
+      <Involvement scrollRef={involvementRef} />
       <FAQ scrollRef={faqRef} />
       <SponsorLogos />
       <CommunityPartnerLogos />
