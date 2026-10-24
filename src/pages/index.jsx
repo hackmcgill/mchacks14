@@ -46,7 +46,7 @@ const IndexPage = () => {
       onClick: () => scrollTo(involvementRef),
     },
     {
-      label: "Faq",
+      label: "FAQ",
       onClick: () => scrollTo(faqRef),
     },
   ]

@@ -4,11 +4,11 @@ import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 export const Container = styled.nav`
   z-index: 200;
-  height: 72px;
+  height: 7.2rem;
   width: 94%;
   border-radius: 24px;
-  padding: 1.25rem 1.5rem;
-  background-color: ${styleVars.m14Navy};
+  padding: 2rem 2.4rem;
+  background-color: ${styleVars.m14Navy1000};
   position: fixed;
   top: 34px;
   left: 50%;
@@ -36,7 +36,7 @@ export const Container = styled.nav`
   .Nav__links {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 4rem;
   }
 
   .Nav__socials {

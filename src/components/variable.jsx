@@ -77,7 +77,9 @@ export const hackRed = "#A51A4B"
 export const hackGrey = "#797979"
 
 // mchacks 14
-export const m14Navy = "#16293E"
+export const m14Navy1000 = "#16293E"
+export const m14GlowAmber300 = "#F3A134"
+export const m14GlowAmber200 = "#FFC465"
 
 // global colors
 export const globalColorPrimary = hackWhite

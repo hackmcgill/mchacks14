@@ -41,25 +41,25 @@ const Nav = ({ navItems = [], docPage = false }) => {
 
       {navItems.map((navItem) => (
         <NavLink onClick={navItem.onClick} $mobile={mobile}>
-          {navItem.label.trim().toUpperCase()}
+          {navItem.label}
         </NavLink>
       ))}
 
       {docPage ? (
         <NavLink as={Link} to="/" $mobile={mobile}>
-          HOME
+          Home
         </NavLink>
       ) : null}
 
       <NavLink href="https://app.mchacks.ca/" $mobile={mobile}>
-        APPLY
+        Apply
       </NavLink>
 
       <NavLink
         href="https://docs.google.com/forms/d/e/1FAIpQLSesvFEVGTwj6ZmPs2YBE3xehJTkoBe8fsHZV8zsq2CXhEDR_w/viewform"
         $mobile={mobile}
       >
-        INTEREST FORM
+        Interest Form
       </NavLink>
     </>
   )
