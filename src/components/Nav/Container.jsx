@@ -33,6 +33,11 @@ export const Container = styled.nav`
     color: white;
   }
 
+  .Nav__left_items {
+    display: flex;
+    gap: 2.4rem;
+  }
+
   .Nav__links {
     display: flex;
     align-items: center;

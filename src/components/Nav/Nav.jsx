@@ -33,12 +33,6 @@ const Nav = ({ navItems = [], docPage = false }) => {
 
   const NavItems = (mobile) => (
     <>
-      <NavLink as={Link} to="/">
-        <IconContainer>
-          <img src={HomeLogo} alt="McHacks Home Logo" />
-        </IconContainer>
-      </NavLink>
-
       {navItems.map((navItem) => (
         <NavLink onClick={navItem.onClick} $mobile={mobile}>
           {navItem.label}
@@ -67,7 +61,14 @@ const Nav = ({ navItems = [], docPage = false }) => {
   return (
     <>
       <Container>
-        <div className="Nav__links">{NavItems(false)}</div>
+        <div className="Nav__left_items">
+          <NavLink as={Link} to="/">
+            <IconContainer>
+              <img src={HomeLogo} alt="McHacks Home Logo" />
+            </IconContainer>
+          </NavLink>
+          <span className="Nav__links">{NavItems(false)}</span>
+        </div>
         <div className="Nav__socials">
           <SocialMediaBar />
         </div>
