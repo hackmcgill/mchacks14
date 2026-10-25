@@ -4,10 +4,10 @@ import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 export const Container = styled.nav`
   z-index: 200;
-  height: 7.2rem;
+  height: ${(props) => (props.$menuOpen ? "90vh" : "7.2rem")};
   width: 94%;
   border-radius: 24px;
-  padding: 2rem 2.4rem;
+  padding: 0 2.4rem;
   background-color: ${styleVars.m14Navy1000};
   position: fixed;
   top: 34px;
@@ -18,24 +18,12 @@ export const Container = styled.nav`
   justify-content: space-between;
   align-items: center;
 
-  .home-link {
-    font-family: "ArcadeClassic", sans-serif;
-    font-size: 24px;
-    cursor:
-      url(${HoverCursor}) 0 28,
-      auto;
-    color: ${styleVars.m12Maroon};
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .home-link:hover {
-    color: white;
-  }
-
-  .Nav__left_items {
+  .Nav__left_group {
     display: flex;
-    gap: 2.4rem;
+  }
+
+  .Nav__mchacks_logo {
+    margin-right: 2.4rem;
   }
 
   .Nav__links {
@@ -44,35 +32,62 @@ export const Container = styled.nav`
     gap: 4rem;
   }
 
-  .Nav__socials {
+  // TODO: better naming for this
+  .Nav__hamburger_menu {
+    font-size: 2.4rem;
+    color: ${styleVars.m14GlowAmber300};
   }
 
-  .Nav__mlh-banner {
-    position: fixed;
-    top: 0;
-    right: 4.5rem;
-    right: calc(3rem + 0.9vw); // NEW
-    width: 90px;
-    height: auto;
-    transition: opacity 0.15s ease-in-out;
-    opacity: ${(props) => (props.$hasBorder ? "0" : "1")};
-    pointer-events: ${(props) => (props.$hasBorder ? "none" : "")};
-    z-index: 0;
-
-    img {
-      filter: drop-shadow(2px 4px 2px rgb(0 0 0 / 0.15));
-      width: 10rem;
-    }
-  }
-
-  @media only screen and (max-width: ${styleVars.smUp}) {
+  .Nav__hamburger_menu_button {
     display: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: ${styleVars.m14GlowAmber300};
+    cursor:
+      url(${HoverCursor}) 0 28,
+      auto;
   }
 
-  @media only screen and (max-width: ${(props) =>
-      props.$hasBorder ? "1160px" : "1300px"}) {
+  @media only screen and (max-width: 1100px) {
+    align-items: flex-start;
+    justify-content: start;
+    flex-direction: column;
+
+    .Nav__hamburger_menu_button {
+      display: block;
+      position: absolute;
+      top: 2rem;
+      right: 2.4rem;
+    }
+
+    .Nav__left_group {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .Nav__mchacks_logo {
+      display: flex;
+      align-items: center;
+      height: 7.2rem;
+      margin-right: 0;
+    }
+
+    .Nav__links {
+      display: ${(props) => (props.$menuOpen ? "flex" : "none")};
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      gap: 2.4rem;
+      margin-top: 8rem;
+    }
+
     .Nav__socials {
-      top: 75px;
+      display: ${(props) => (props.$menuOpen ? "flex" : "none")};
+      justify-content: center;
+      width: 100%;
+      margin-top: 4rem;
     }
   }
 `

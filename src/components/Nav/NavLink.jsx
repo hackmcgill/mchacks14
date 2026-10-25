@@ -6,7 +6,7 @@ export const NavLink = styled.a`
   font-family: 'Instrument Sans', sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
-  display: flex;
+  width: fit-content;
   cursor: url(${HoverCursor}) 0 28, auto;
   color: ${styleVars.m14GlowAmber300};
   text-decoration: none;
