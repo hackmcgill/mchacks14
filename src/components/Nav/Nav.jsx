@@ -15,6 +15,10 @@ const Nav = ({ navItems = [], docPage = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const originalBodyOverflow = useRef(null)
 
+  /*
+  Locks the page’s background scrolling while the mobile menu is open and 
+  restores scrolling when the menu closes
+  */
   useEffect(() => {
     if (isMenuOpen) {
       originalBodyOverflow.current = document.body.style.overflow
