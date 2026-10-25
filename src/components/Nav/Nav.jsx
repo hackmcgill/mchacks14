@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import { Link } from "gatsby"
 import HomeLogo from "../../assets/images/logos/mchacks13-home-logo.svg"
 
-import Container from "./Container"
+import Container, { MenuOverlay } from "./Container"
 import IconContainer from "./IconContainer"
 import NavLink from "./NavLink"
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons"
@@ -13,6 +13,24 @@ import SocialMediaBar from "../SocialMedia/SocialMediaBar"
 
 const Nav = ({ navItems = [], docPage = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const originalBodyOverflow = useRef(null)
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      originalBodyOverflow.current = document.body.style.overflow
+      document.body.style.overflow = "hidden"
+    } else if (originalBodyOverflow.current !== null) {
+      document.body.style.overflow = originalBodyOverflow.current
+      originalBodyOverflow.current = null
+    }
+
+    return () => {
+      if (originalBodyOverflow.current !== null) {
+        document.body.style.overflow = originalBodyOverflow.current
+        originalBodyOverflow.current = null
+      }
+    }
+  }, [isMenuOpen])
 
   const NavItems = (mobile) => (
     <>
@@ -40,17 +58,12 @@ const Nav = ({ navItems = [], docPage = false }) => {
         </NavLink>
       ) : null}
 
-      <NavLink
-        href="https://app.mchacks.ca/"
-        onClick={() => mobile && setIsMenuOpen(false)}
-        $mobile={mobile}
-      >
+      <NavLink href="https://app.mchacks.ca/" $mobile={mobile}>
         Apply
       </NavLink>
 
       <NavLink
         href="https://docs.google.com/forms/d/e/1FAIpQLSesvFEVGTwj6ZmPs2YBE3xehJTkoBe8fsHZV8zsq2CXhEDR_w/viewform"
-        onClick={() => mobile && setIsMenuOpen(false)}
         $mobile={mobile}
       >
         Interest Form
@@ -60,10 +73,17 @@ const Nav = ({ navItems = [], docPage = false }) => {
 
   return (
     <>
+      {isMenuOpen ? (
+        <MenuOverlay aria-hidden="true" onClick={() => setIsMenuOpen(false)} />
+      ) : null}
       <Container $menuOpen={isMenuOpen}>
         <span className="Nav__left_group">
           <span className="Nav__mchacks_logo">
-            <NavLink as={Link} to="/">
+            <NavLink
+              as={Link}
+              to="/"
+              onClick={() => isMenuOpen && setIsMenuOpen(false)}
+            >
               <IconContainer>
                 <img src={HomeLogo} alt="McHacks Home Logo" />
               </IconContainer>

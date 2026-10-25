@@ -2,9 +2,16 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
+export const MenuOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: rgb(0 0 0 / 0.35);
+`
+
 export const Container = styled.nav`
   z-index: 200;
-  height: ${(props) => (props.$menuOpen ? "90vh" : "7.2rem")};
+  height: 7.2rem;
   width: 94%;
   border-radius: 24px;
   padding: 0 2.4rem;
@@ -32,7 +39,6 @@ export const Container = styled.nav`
     gap: 4rem;
   }
 
-  // TODO: better naming for this
   .Nav__hamburger_menu {
     font-size: 2.4rem;
     color: ${styleVars.m14GlowAmber300};
@@ -52,6 +58,14 @@ export const Container = styled.nav`
   }
 
   @media only screen and (max-width: 1100px) {
+    height: auto;
+    max-height: ${(props) =>
+      props.$menuOpen ? "calc(100vh - 34px)" : "7.2rem"};
+    padding-bottom: ${(props) => (props.$menuOpen ? "13.5rem" : "0")};
+    overflow: hidden;
+    transition:
+      max-height 350ms ease-in-out,
+      padding-bottom 350ms ease-in-out;
     align-items: flex-start;
     justify-content: start;
     flex-direction: column;
@@ -77,19 +91,35 @@ export const Container = styled.nav`
     }
 
     .Nav__links {
-      display: ${(props) => (props.$menuOpen ? "flex" : "none")};
+      display: flex;
       flex-direction: column;
       width: 100%;
       align-items: center;
       gap: 2.4rem;
-      margin-top: 8rem;
+      margin-top: ${(props) => (props.$menuOpen ? "8rem" : "0")};
+      max-height: ${(props) => (props.$menuOpen ? "30rem" : "0")};
+      opacity: ${(props) => (props.$menuOpen ? "1" : "0")};
+      overflow: hidden;
+      pointer-events: ${(props) => (props.$menuOpen ? "auto" : "none")};
+      transition:
+        max-height 350ms ease-in-out,
+        margin-top 350ms ease-in-out,
+        opacity 200ms ease-in-out;
     }
 
     .Nav__socials {
-      display: ${(props) => (props.$menuOpen ? "flex" : "none")};
+      display: flex;
       justify-content: center;
       width: 100%;
-      margin-top: 4rem;
+      margin-top: ${(props) => (props.$menuOpen ? "4rem" : "0")};
+      max-height: ${(props) => (props.$menuOpen ? "10rem" : "0")};
+      opacity: ${(props) => (props.$menuOpen ? "1" : "0")};
+      overflow: hidden;
+      pointer-events: ${(props) => (props.$menuOpen ? "auto" : "none")};
+      transition:
+        max-height 350ms ease-in-out,
+        margin-top 350ms ease-in-out,
+        opacity 200ms ease-in-out;
     }
   }
 `
