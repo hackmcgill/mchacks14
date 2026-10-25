@@ -36,6 +36,8 @@ export const Container = styled.nav`
   .Nav__hamburger_menu {
     font-size: 2.4rem;
     color: ${styleVars.m14GlowAmber300};
+    stroke: ${styleVars.m14Navy1000};
+    stroke-width: 30px;
   }
 
   .Nav__hamburger_menu_button {
