@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 
 import { Link } from "gatsby"
-import HomeLogo from "../../assets/images/logos/mchacks13-home-logo.svg"
+import HomeLogo from "../../assets/images/logos/mchacks14-logo.svg"
 
 import Container, { MenuOverlay } from "./Container"
 import IconContainer from "./IconContainer"
