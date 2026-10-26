@@ -117,12 +117,11 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
 
 
     .hero__heading-image {
-      width: 44vw;
+      width: 46vw;
       max-width: 80%;
       height: auto;
       display: block;
-      margin: -100px auto 0 auto;
-      fill: white;
+      margin: -215px auto 0 auto;
       filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
       transform: translateY(-8vh);
     }
