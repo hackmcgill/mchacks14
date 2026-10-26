@@ -3,8 +3,16 @@ import * as styleVars from "../variable"
 import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 
-export const HeroStyles = styled.section`
-  padding-top: 50px;
+export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
   .hero__portal {
     width: 20%;
@@ -76,7 +84,9 @@ export const HeroStyles = styled.section`
   }
 
   .hero__wrapper {
-    margin-top: 50px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 
   .hero__images-container {
@@ -84,69 +94,8 @@ export const HeroStyles = styled.section`
     width: 100%;
     height: auto;
     display: flex;
-    justify-content: space-between;
-
-    .hero__star1, .hero__star2, .hero__star3, .hero__star4, .hero__moon, .hero__saturn {
-      fill: white;
-      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-      animation: shine 2.5s infinite ease-in-out, floatUpDown 3.5s ease-in-out infinite;
-    }
-
-    .hero__leftCloud, .hero__rightCloud {
-      animation: floatUpDown 5s ease-in-out infinite;
-    }
-
-    .hero__leftCloud-container {
-      position: relative;
-    }
-
-    .hero__leftCloud {
-      animation-delay: 1.7s;
-    }
-
-    .hero__rightCloud {
-      animation-delay: 3.3s;
-    }
-
-    .hero__star1 {
-      animation-delay: 3s;
-    }
-
-    .hero__star2 {
-      animation-delay: 1.3s;
-    }
-
-    .hero__leftMoon-stars {
-      position: absolute;
-      top: -15%;
-      left: 10%;
-    }
-
-    .hero__rightCloud-container {
-      position: relative;
-    }
-
-    .hero__saturn {
-      position: absolute;
-      top: -27%;
-      right: 20%;
-      animation-delay: 1.5s;
-    }
-
-    .hero__star3 {
-      position: absolute;
-      top: 0;
-      right: 250px;
-      animation-delay: 1s;
-    }
-
-    .hero__star4 {
-      position: absolute;
-      top: 80px;
-      right: 150px;
-      animation-delay: 0.3s;
-    }
-
+    justify-content: center;
+    align-items: center;
 
     @keyframes shine {
       0%, 100% {
@@ -168,16 +117,17 @@ export const HeroStyles = styled.section`
 
 
     .hero__heading-image {
-      width: 45%;
+      width: 44vw;
+      max-width: 80%;
       height: auto;
-      margin-left: -70px;
       display: block;
+      margin: -100px auto 0 auto;
       fill: white;
       filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+      transform: translateY(-8vh);
     }
 
   }
-}
 
 .hero__wrapper {
   position: relative;
@@ -186,10 +136,10 @@ export const HeroStyles = styled.section`
   z-index: 1;
   text-align: center;
   width: 100%;
-  padding-top: 240px;
+  padding-top: 0;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 0;
 }
 
 .hero__grid {
@@ -260,47 +210,9 @@ export const HeroStyles = styled.section`
 
 @media screen and (max-width: ${styleVars.lgUp}) {
   .hero__wrapper {
-    margin-top: 60px !important;
-    padding-top: 10px;
-    gap: 10px;
-  }
-
-  .hero__leftCloud, .hero__rightCloud {
-    width: 120px;
-  }
-
-  .hero__rightCloud {
-    right: 0px;
-  }
-
-  .hero__moon {
-    width: 41px;
-  }
-
-  .hero__star1, .hero__star2 {
-    width: 25px;
-  }
-
-
-  .hero__heading-image {
-    height: 50px !important;
-    margin-left: -20px !important;
-  }
-
-  .hero__saturn {
-    width: 56px;
-  }
-
-  .hero__star3 {
-    width: 32px;
-    top: -20px !important;
-    left: 0px;
-  }
-
-  .hero__star4 {
-    width: 36px;
-    top: 30px !important;
-    left: 20px;
+    margin-top: 0 !important;
+    padding-top: 0;
+    gap: 0;
   }
 
   .hero__grid {

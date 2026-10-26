@@ -31,17 +31,21 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
-  background: url(../assets/images/designs/mchacks13-bg.svg);
-  background-repeat: no-repeat;
-  background-size: 100%;
   background-color: #121947;
   cursor: url(../../static/mchacks13-cursor.png) 0 28, auto;
 }
 
+.site-hero {
+  background-image: url(../assets/images/designs/mchacks14-bg.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-color: #121947;
+}
+
 @media only screen and (max-width: 435px) {
-  body {
-    background: url(../assets/images/designs/mchacks13-bg-mobile.svg);
-    background-repeat: no-repeat;
+  .site-hero {
+    background-image: url(../assets/images/designs/mchacks13-bg-mobile.svg);
   }
 }
 
