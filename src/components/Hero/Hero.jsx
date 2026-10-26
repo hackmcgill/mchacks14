@@ -33,7 +33,7 @@ const Hero = () => (
         <img
           className="hero__heading-image"
           src={McHacksLogo}
-          alt="McHacks 13"
+          alt="McHacks 14"
         />
       </div>
     </div>
