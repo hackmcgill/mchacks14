@@ -12,21 +12,27 @@ Legend:
   "Shirley", // (H)
 
 //Dev
+  "Jane", // Lead
   "Muhammad",
   "Jamie",
   "Mona", // (H)
+  "Jongmin",
 
 //Experience
   "Jeffrey", // Lead
-  "Aidan", // (H)
   "Alex",
+  "Aidan", // (H)
+  "Jen",
+  "Clara",
   "Arnav", // + Design
 
 // Design
   "Amy", // Lead (H)
+  "Ashley",
 
 // Communication
   "Lyland", // Lead + Design
+  "Janelle",
 
 // Logistic
   "Qian", // Co-Lead (H)
@@ -34,12 +40,15 @@ Legend:
   "Emily", 
 
 // Finance
+  "Ikram", // Lead (H)
   "Doaa",
 
 // Sponsorship
   "Julia", // Co-Lead
   "Jimmy", // (H)
   "Jaanya",
+  "Carolyn",
+  "Daniel"
 
 ]
 
@@ -57,19 +66,12 @@ const byTeamOrder = (a, b) => {
 }
 
 const parseMemberName = (filePath) => {
-  const base = filePath.replace(/^\.\//, "").replace(/\.(webp)$/i, "")
-  const memberMatch = base.match(/^Member=([^,]+)/)
-  if (memberMatch) return memberMatch[1].trim()
-  return base
+  return filePath
+    .replace(/^\.\//, "")
+    .replace(/\.(webp)$/i, "")
     .replace(/-Default(\s*\(\d+\))?$/i, "")
     .replace(/-Hover(\s*\(\d+\))?$/i, "")
     .trim()
-}
-
-const formatRank = (id) => {
-  const lower = id.toLowerCase()
-  if (lower.endsWith(".webp")) return 2
-  return 0
 }
 
 const loadSlidesFromContext = (context) => {
@@ -77,11 +79,9 @@ const loadSlidesFromContext = (context) => {
 
   context.keys().forEach((id) => {
     const name = parseMemberName(id)
-    const mod = context(id)
-    const src = mod?.default ?? mod
-    const existing = byName.get(name)
-
-    if (!existing || formatRank(id) > formatRank(existing.id)) {
+    if (!byName.has(name)) {
+      const mod = context(id)
+      const src = mod?.default ?? mod
       byName.set(name, { id, name, src })
     }
   })
