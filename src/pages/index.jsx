@@ -52,6 +52,7 @@ const IndexPage = () => {
       <SponsorLogos />
       <CommunityPartnerLogos />
       <TravelPartnerLogos />
+      <MeetTheTeam/>
       <Footer />
     </div>
   )
