@@ -10,8 +10,7 @@ export const Container = styled.footer`
   height: 15.2rem;
   padding: 4rem 2.4rem;
   gap: 3.2rem;
-  font-family: "Instrument Sans", sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 
   .footer__logo {
     flex-shrink: 0;
@@ -19,25 +18,6 @@ export const Container = styled.footer`
 
   .footer__social-links {
     margin-left: auto;
-  }
-
-  a {
-    color: ${styleVars.m14GlowAmber300};
-
-    &:focus,
-    &:hover {
-      color: ${styleVars.m14GlowAmber200};
-    }
-  }
-
-  @media only screen and (max-width: ${styleVars.mdUp}) {
-    gap: 3rem;
-    padding: 4rem 7vw;
-    font-size: 1.6rem;
-
-    .footer__social-links {
-      margin-left: auto;
-    }
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
