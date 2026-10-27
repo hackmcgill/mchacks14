@@ -39,14 +39,8 @@ body {
   background-image: url(../assets/images/designs/mchacks14-bg.webp);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: 80% center;
   background-color: #121947;
-}
-
-@media only screen and (max-width: 435px) {
-  .site-hero {
-    background-image: url(../assets/images/designs/mchacks13-bg-mobile.svg);
-  }
 }
 
 p {
