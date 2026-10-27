@@ -13,7 +13,18 @@ import SocialMediaBar from "../SocialMedia/SocialMediaBar"
 
 const Nav = ({ navItems = [], docPage = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const originalBodyOverflow = useRef(null)
+
+  const handleScroll = () => {
+    setScrolled(window.pageYOffset > 20)
+  }
+
+  useEffect(() => {
+    handleScroll()
+    document.addEventListener("scroll", handleScroll)
+    return () => document.removeEventListener("scroll", handleScroll)
+  }, [])
 
   /*
   Locks the page’s background scrolling while the mobile menu is open and 
@@ -80,7 +91,7 @@ const Nav = ({ navItems = [], docPage = false }) => {
       {isMenuOpen ? (
         <MenuOverlay aria-hidden="true" onClick={() => setIsMenuOpen(false)} />
       ) : null}
-      <Container $menuOpen={isMenuOpen}>
+      <Container $menuOpen={isMenuOpen} $scrolled={scrolled}>
         <span className="Nav__left_group">
           <span className="Nav__mchacks_logo">
             <NavLink
@@ -99,6 +110,19 @@ const Nav = ({ navItems = [], docPage = false }) => {
 
         <div className="Nav__socials">
           <SocialMediaBar />
+        </div>
+        <div className="Nav__mlh_banner">
+          <a
+            id="mlh-trust-badge"
+            href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2027-season&utm_content=white"
+            target="_blank"
+          >
+            <img
+              src="https://s3.amazonaws.com/logged-assets/trust-badge/2027/mlh-trust-badge-2027-white.svg"
+              alt="Major League Hacking 2027 Hackathon Season"
+              style={{ width: "100%" }}
+            />
+          </a>
         </div>
 
         <button

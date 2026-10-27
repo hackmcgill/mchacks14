@@ -12,15 +12,15 @@ export const MenuOverlay = styled.div`
 export const Container = styled.nav`
   z-index: 200;
   height: 7.2rem;
-  width: 94%;
+  max-width: 2550px;
   border-radius: 24px;
   padding: 0 2.4rem;
   background-color: ${styleVars.m14Navy1000};
   position: fixed;
   top: 34px;
-  left: 50%;
-  right: 0;
-  transform: translateX(-50%);
+  left: 40px;
+  right: 40px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +57,33 @@ export const Container = styled.nav`
       auto;
   }
 
-  @media only screen and (max-width: 1100px) {
+  .Nav__mlh_banner {
+    position: fixed;
+    top: 0;
+    right: 25px;
+    width: 90px;
+    transition: opacity 0.15s ease-in-out;
+    opacity: ${(props) => (props.$scrolled ? "0" : "1")};
+    pointer-events: ${(props) => (props.$scrolled ? "none" : "")};
+    z-index: 1000;
+
+    img {
+      filter: drop-shadow(2px 4px 2px rgb(0 0 0 / 0.15));
+      width: 10rem;
+    }
+  }
+
+  .Nav__socials {
+    margin-right: ${(props) => (props.$scrolled ? "0" : "65px")};
+    transition: margin-right 0.25s ease-in-out;
+  }
+
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    right: 20px;
+    left: 20px;
+  }
+
+  @media only screen and (max-width: 1150px) {
     height: auto;
     max-height: ${(props) =>
       props.$menuOpen ? "calc(100vh - 34px)" : "7.2rem"};
@@ -111,6 +137,7 @@ export const Container = styled.nav`
       display: flex;
       justify-content: center;
       width: 100%;
+      margin-right: 0;
       margin-top: ${(props) => (props.$menuOpen ? "4rem" : "0")};
       max-height: ${(props) => (props.$menuOpen ? "10rem" : "0")};
       opacity: ${(props) => (props.$menuOpen ? "1" : "0")};
@@ -120,6 +147,10 @@ export const Container = styled.nav`
         max-height 350ms ease-in-out,
         margin-top 350ms ease-in-out,
         opacity 200ms ease-in-out;
+    }
+
+    .Nav__mlh_banner {
+      display: none;
     }
   }
 `
