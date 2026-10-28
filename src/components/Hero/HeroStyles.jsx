@@ -12,7 +12,7 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
   justify-content: center;
   overflow: hidden;
   container-type: size;
-  --hero-x: 0.8;
+  --hero-x: 0.88;
 
   && {
     background-position: calc(var(--hero-x) * 100%) center;
@@ -123,18 +123,6 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
         transform: translateY(-10px); /* Move up by 10 pixels */
       }
     }
-
-
-    .hero__heading-image {
-      width: 46vw;
-      max-width: 80%;
-      height: auto;
-      display: block;
-      margin: -215px auto 0 auto;
-      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
-      transform: translateY(-8vh);
-    }
-
   }
 
   .hero__wrapper {
