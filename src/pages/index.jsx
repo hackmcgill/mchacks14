@@ -6,7 +6,7 @@ import Hero from "../components/Hero/Hero"
 import About from "../components/About/About"
 import Sponsor from "../components/Sponsor/Sponsor"
 import FAQ from "../components/FAQ/FAQ"
-import Involvement from "../components/Involvement/Involvement"
+import GetInvolved from "../components/GetInvolved/GetInvolved"
 import SponsorLogos from "../components/Logos/SponsorLogos"
 import Footer from "../components/Footer/Footer"
 import EventInfo from "../components/EventInfo/EventInfo"
@@ -22,11 +22,20 @@ const scrollTo = (ref, offset = 50) => {
   }
 };
 
+const scrollToId = (id, offset = 0) => {
+  const element = document.getElementById(id)
+  if (element) {
+    window.scrollTo({
+      top: element.getBoundingClientRect().top + window.scrollY - offset,
+      behavior: 'smooth',
+    });
+  }
+};
+
 const IndexPage = () => {
   const aboutRef = useRef(null)
   const sponsorRef = useRef(null)
   const faqRef = useRef(null)
-  const involvementRef = useRef(null)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' }, 0);
@@ -38,7 +47,7 @@ const IndexPage = () => {
       <Nav
         scrollToAbout={() => scrollTo(aboutRef)}
         scrollToSponsor={() => scrollTo(sponsorRef)}
-        scrollToInvolvement={() => scrollTo(involvementRef)}
+        scrollToInvolvement={() => scrollToId("get-involved")}
         scrollToFaq={() => scrollTo(faqRef)}
         schedule={true}
         darkBackground={true}
@@ -47,7 +56,7 @@ const IndexPage = () => {
       <About scrollRef={aboutRef} />
       <EventInfo />
       <Sponsor scrollRef={sponsorRef} />
-      <Involvement scrollRef={involvementRef}/>
+      <GetInvolved />
       <FAQ scrollRef={faqRef} />
       <SponsorLogos />
       <CommunityPartnerLogos />

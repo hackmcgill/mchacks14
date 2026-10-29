@@ -60,7 +60,14 @@ const Nav = ({
       ) : null}
 
       {scrollToInvolvement ? (
-        <NavLink onClick={scrollToInvolvement} $mobile={mobile}>
+        <NavLink
+          href="#get-involved"
+          onClick={(e) => {
+            e.preventDefault()
+            scrollToInvolvement()
+          }}
+          $mobile={mobile}
+        >
           GET INVOLVED
         </NavLink>
       ) : null}
