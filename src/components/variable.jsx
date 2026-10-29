@@ -70,12 +70,16 @@ export const m12LightPurple = "#9790BC"
 export const m12DarkestGrey = "#1F2025"
 
 // mchacks 13 colour palette
-// why mchacks 13?
 export const m13White = "#EEF9FF"
 export const m13Red = "#FF2026"
 export const m13Orange = "#FFA96E" // guess?
 export const hackRed = "#A51A4B"
 export const hackGrey = "#797979"
+
+// mchacks 14
+export const m14Navy1000 = "#16293E"
+export const m14GlowAmber300 = "#F3A134"
+export const m14GlowAmber200 = "#FFC465"
 
 // global colors
 export const globalColorPrimary = hackWhite
