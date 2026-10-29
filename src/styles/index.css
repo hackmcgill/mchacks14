@@ -43,7 +43,6 @@ body {
   background-size: cover;
   background-position: 80% center;
   background-color: #121947;
-  min-height: 800px;
   @media screen and (max-width: 560px) {
     background-image: url(../assets/images/designs/mchacks14-bg-mobile.webp);
   }
