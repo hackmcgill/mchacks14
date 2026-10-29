@@ -17,7 +17,6 @@ const apply = () => {
 const Hero = () => (
   <HeroStyles>
     <div className="hero__wrapper">
-      <div className="hero__clouds"></div>
       <h1 className="hero__heading">McHacks 14</h1>
       <div className="hero__hit-frame">
         <button type="button" className="invisible-apply" onClick={apply} aria-label="Click me to apply"/>
