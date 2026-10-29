@@ -47,12 +47,12 @@ const roles = [
   },
 ]
 
-const GetInvolved = () => {
+const GetInvolved = ({ scrollRef }) => {
   const [activeId, setActiveId] = useState("judge")
   const active = roles.find((role) => role.id === activeId)
 
   return (
-    <Container id="get-involved" aria-labelledby="get-involved-title">
+    <Container ref={scrollRef} aria-labelledby="get-involved-title">
       <h2 id="get-involved-title" className="visually-hidden">
         Get Involved
       </h2>

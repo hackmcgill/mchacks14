@@ -3,16 +3,18 @@ import * as styleVars from "../variable"
 
 export const Links = styled.div`
   display: flex;
-  gap: 35px;
-  justify-content: space-between;
+  gap: 2.4rem;
   align-items: center;
+  flex-shrink: 0;
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    gap: 16px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.6rem;
   }
 
   @media only screen and (max-width: ${styleVars.xsUp}) {
-    flex-grow: 1;
+    gap: 1.2rem;
   }
 `
 

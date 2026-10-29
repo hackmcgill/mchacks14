@@ -3,12 +3,12 @@ import * as styleVars from "../variable"
 import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 export const NavLink = styled.a`
-  font-family: 'Afacad', sans-serif;
-  font-size: 25px;
-  font-weight: 500;
-  display: flex;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  width: fit-content;
   cursor: url(${HoverCursor}) 0 28, auto;
-  color: ${styleVars.m13Red};
+  color: ${styleVars.m14GlowAmber300};
   text-decoration: none;
   transition: color 0.3s ease;
 
@@ -16,8 +16,7 @@ export const NavLink = styled.a`
   &:focus,
   &:hover,
   &:active {
-    background: transparent;
-    color: ${styleVars.m13Orange};
+    color: ${styleVars.m14GlowAmber200};
   }
 
   .home-link {

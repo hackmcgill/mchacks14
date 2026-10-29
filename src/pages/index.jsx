@@ -7,60 +7,59 @@ import About from "../components/About/About"
 import Sponsor from "../components/Sponsor/Sponsor"
 import FAQ from "../components/FAQ/FAQ"
 import GetInvolved from "../components/GetInvolved/GetInvolved"
-import SponsorLogos from "../components/Logos/SponsorLogos"
+import MeetTheTeam from "../components/MeetTheTeam/MeetTheTeamCarousel"
 import Footer from "../components/Footer/Footer"
 import EventInfo from "../components/EventInfo/EventInfo"
-import CommunityPartnerLogos from "../components/Logos/CommunityPartnerLogos"
-import TravelPartnerLogos from "../components/Logos/TravelPartnerLogos"
 
 const scrollTo = (ref, offset = 50) => {
   if (ref.current) {
     window.scrollTo({
       top: ref.current.offsetTop - offset,
-      behavior: 'smooth',
-    });
+      behavior: "smooth",
+    })
   }
-};
-
-const scrollToId = (id, offset = 0) => {
-  const element = document.getElementById(id)
-  if (element) {
-    window.scrollTo({
-      top: element.getBoundingClientRect().top + window.scrollY - offset,
-      behavior: 'smooth',
-    });
-  }
-};
+}
 
 const IndexPage = () => {
   const aboutRef = useRef(null)
   const sponsorRef = useRef(null)
   const faqRef = useRef(null)
+  const involvementRef = useRef(null)
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' }, 0);
-  }, []);
+    window.scrollTo({ top: 0, behavior: "auto" }, 0)
+  }, [])
+
+  const navItems = [
+    {
+      label: "About",
+      onClick: () => scrollTo(aboutRef),
+    },
+    {
+      label: "Sponsor",
+      onClick: () => scrollTo(sponsorRef),
+    },
+    {
+      label: "Get Involved",
+      onClick: () => scrollTo(involvementRef),
+    },
+    {
+      label: "FAQ",
+      onClick: () => scrollTo(faqRef),
+    },
+  ]
 
   return (
     <div>
       <SEO />
-      <Nav
-        scrollToAbout={() => scrollTo(aboutRef)}
-        scrollToSponsor={() => scrollTo(sponsorRef)}
-        scrollToInvolvement={() => scrollToId("get-involved")}
-        scrollToFaq={() => scrollTo(faqRef)}
-        schedule={true}
-        darkBackground={true}
-      />
+      <Nav navItems={navItems} schedule={true} />
       <Hero />
       <About scrollRef={aboutRef} />
       <EventInfo />
       <Sponsor scrollRef={sponsorRef} />
-      <GetInvolved />
+      <GetInvolved scrollRef={involvementRef} />
       <FAQ scrollRef={faqRef} />
-      <SponsorLogos />
-      <CommunityPartnerLogos />
-      <TravelPartnerLogos />
+      <MeetTheTeam />
       <Footer />
     </div>
   )
