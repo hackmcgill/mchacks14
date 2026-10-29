@@ -6,10 +6,6 @@ import Nav from "../components/Nav/Nav"
 import SEO from "../components/SEO/SEO"
 
 const CodeOfConductPage = () => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" }, 0)
-  }, [])
-
   return (
     <div>
       <SEO />

@@ -2,56 +2,46 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Container = styled.footer`
-
-  ${props => props.$isHomePage ? `
-    background: rgba(170, 170, 170, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-  ` : `
-    background: ${styleVars.hackWhite};
-    border-top: 1px solid ${styleVars.m13Red};
-  `}
-
-  
-
+  background: ${styleVars.m14Grey900};
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 2;
-  height: 80px;
-  margin-top: 0;
-  padding: 20px;
-  gap: 32px;
-  font-family: Afacad, sans-serif;
-  font-size: 20px;
+  justify-content: center;
+  align-items: start;
+  height: 15.2rem;
+  padding: 4rem 2.4rem;
+  gap: 3.2rem;
+  font-size: 1.6rem;
 
-  @media only screen and (max-width: ${styleVars.lgUp}) {
-    padding: 16px;
-    gap: 24px;
-    font-size: 1.125rem;
+  .footer__logo {
+    flex-shrink: 0;
   }
 
-  @media only screen and (max-width: ${styleVars.mdUp}) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 12px;
-    gap: 16px;
-    font-size: 1rem; 
+  .footer__social-links {
+    margin-left: auto;
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    font-size: 0.875rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    height: 20rem;
+    padding: 4rem 7vw;
+
+    .footer__logo {
+      width: 4.8rem;
+      grid-row: span 2;
+    }
+
+    .footer__social-links > div {
+      justify-content: flex-end;
+      gap: 1.8rem;
+    }
   }
 
   @media only screen and (max-width: ${styleVars.xsUp}) {
-    font-size: 0.75rem; 
-    gap: 8px;
-
-    .footer__social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    padding: 3.5rem 8vw;
+    gap: 2rem;
+    font-size: 1.5rem;
   }
 `
 
