@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
-import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 export const Container = styled.section`
   max-width: 1080px;
@@ -44,7 +43,7 @@ export const Container = styled.section`
     .DayTab {
       text-align: center;
       flex: 1;
-      cursor: url(${HoverCursor}) 0 28, auto;
+      cursor: pointer;
       border-bottom: 2px solid ${styleVars.hackBlack20};
       padding: 35px 0 10px 0;
       font-size: 1.2em;
