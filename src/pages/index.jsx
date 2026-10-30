@@ -6,7 +6,7 @@ import Hero from "../components/Hero/Hero"
 import About from "../components/About/About"
 import Sponsor from "../components/Sponsor/Sponsor"
 import FAQ from "../components/FAQ/FAQ"
-import Involvement from "../components/Involvement/Involvement"
+import GetInvolved from "../components/GetInvolved/GetInvolved"
 import MeetTheTeam from "../components/MeetTheTeam/MeetTheTeamCarousel"
 import Footer from "../components/Footer/Footer"
 import EventInfo from "../components/EventInfo/EventInfo"
@@ -57,7 +57,7 @@ const IndexPage = () => {
       <About scrollRef={aboutRef} />
       <EventInfo />
       <Sponsor scrollRef={sponsorRef} />
-      <Involvement scrollRef={involvementRef} />
+      <GetInvolved scrollRef={involvementRef} />
       <FAQ scrollRef={faqRef} />
       <MeetTheTeam />
       <Footer />
