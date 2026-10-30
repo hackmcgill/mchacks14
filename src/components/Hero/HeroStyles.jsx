@@ -5,7 +5,7 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 100vh;
+  min-height: max(100vh, 800px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,28 +163,6 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
       width: 100%;
     }
 
-    .hero__grid__shapes {
-      grid-column: 1;
-      grid-row: 2 / span 2;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    .hero__grid__location {
-      grid-column: 2;
-      grid-row: 2;
-    }
-
-    .hero__grid__date {
-      grid-column: 3;
-      grid-row: 2;
-    }
-
     .hero__grid__subheading {
       font-size: 35px;
       line-height: normal;
@@ -200,27 +178,11 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
     display: none; /* Leave in h1 for SEO */
   }
 
-  .hero__grass_image {
-    width: 100%;
-    margin-bottom: -10px;
-  }
-
   @media screen and (max-width: ${styleVars.lgUp}) {
     .hero__wrapper {
       margin-top: 0 !important;
       padding-top: 0;
       gap: 0;
-    }
-
-    .hero__grid {
-      display: flex;
-      gap: 20px;
-      margin-top: -60px;
-      margin-bottom: 20px;
-    }
-
-    .hero__grid__subheading {
-      font-size: 13px !important;
     }
   }
 `
