@@ -8,19 +8,19 @@ const About = ({ scrollRef }) => (
   <Container ref={scrollRef} style={{}}>
     <Content>
       <Text>
-        <h1>Code That Casts Spells</h1>
+        <h1>Your Next Stop: McHacks 14</h1>
         <p>
-          For 24 enchanting hours, McGill University transforms into a realm of imagination and innovation. Over
-          500 curious minds will gather under one roof, casting spells of
-          creativity through code, design, and daring ideas. Whether you're
-          summoning your first "Hello, World!", brewing APIs in your cauldron,
-          or crafting the next big tech potion, McHacks is your very own
-          playground. Join us for the{" "}
-          <strong>
-            14<sup>th</sup> edition
-          </strong>{" "}
-          of Canada’s most magical hackathon and bring your ideas to life, one
-          line of code at a time.
+          Join 750+ hackers at McGill University for 24 hours of building,
+          learning, and connecting. Whether you're exploring your first idea or
+          bringing years of experience, McHacks is a place to try something new,
+          collaborate with like-minded people, and turn your ideas into real
+          projects. With hands-on workshops, supportive mentors, and a community
+          that welcomes everyone, we'll help you make the most of every hour.
+          We'll take care of the food, you bring the ideas, and we'll see where
+          they take you.
+        </p>
+        <p>
+          Welcome aboard McHacks 14!
         </p>
       </Text>
     </Content>

@@ -2,35 +2,29 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 const Text = styled.div`
-  font-size: 18px;
-  padding-right: 30px;
-  padding-left: 54px;
-  max-width: 440px;
+  font-size: 22px;
+  max-width: 682px;
 
-  h3 {
-    color: ${styleVars.hackWhite};
-    font-size: 26px;
-    font-weight: bold;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-
-  p {
-    color: ${styleVars.textColor};
-    margin: 0;
-    margin-bottom: 16px;
+  h1 {
+    color: ${styleVars.m14OffWhite};
+    font-family: "Schibsted Grotesk";
+    font-size: 40px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -2px;
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    width: 100%;
-    margin: 0;
-    padding: 0;
   }
 
-  @media only screen and (max-width: 1118px) {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+
+    h1 {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.85px;
+    }
   }
 `
 

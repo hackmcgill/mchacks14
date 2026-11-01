@@ -2,25 +2,23 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Text = styled.div`
-  max-width: 582px;
-  font-size: 16px;
+  max-width: 656px;
+  font-size: 22px;
   height: min-content;
 
   h2 {
-    color: ${styleVars.m13White};
-    text-align: center;
-    font-family: "Averia Serif Libre";
+    color: ${styleVars.m14OffWhite};
+    font-family: "Schibsted Grotesk";
     font-size: 40px;
-    font-style: italic;
     font-weight: 700;
     line-height: normal;
     letter-spacing: -2px;
   }
 
   p {
-    color: ${styleVars.m13White};
-    font-family: Afacad;
-    font-size: 25px;
+    color: ${styleVars.m14OffWhite};
+    font-family: "Instrument Sans";
+    font-size: 22px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -35,7 +33,6 @@ export const Text = styled.div`
 
     h2 {
       font-size: 17px;
-      font-style: italic;
       font-weight: 700;
       line-height: normal;
       letter-spacing: -0.85px;

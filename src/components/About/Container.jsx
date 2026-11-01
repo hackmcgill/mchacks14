@@ -7,14 +7,12 @@ export const Container = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 200px;
+  background-color: ${styleVars.m14Dark};
 
   @media only screen and (max-width: 1250px) {
-    margin-top: 100px;
   }
 
   @media only screen and (max-width: 1158px) {
-    margin-top: 50px;
   }
 
   @media screen and (max-width: ${styleVars.smUp}) {
@@ -22,7 +20,6 @@ export const Container = styled.section`
     flex-direction: column;
     align-self: center;
     justify-self: center;
-    margin-top: 20px;
     width: 80%;
   }
 

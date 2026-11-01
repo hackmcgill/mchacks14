@@ -81,6 +81,8 @@ export const m14Navy1000 = "#16293E"
 export const m14GlowAmber300 = "#F3A134"
 export const m14GlowAmber200 = "#FFC465"
 export const m14Grey900 = "#3F3F3F"
+export const m14Dark = "#242020"
+export const m14OffWhite = "#EDE0D9"
 
 // global colors
 export const globalColorPrimary = hackWhite

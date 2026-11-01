@@ -5,10 +5,6 @@ export default styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: rgba(170, 170, 170, 0.3);
-  backdrop-filter: blur(12px);
-  border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 16px 36px;
   gap: 40px;
 
