@@ -2,10 +2,11 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Text = styled.div`
-  max-width: 728px;
+  max-width: 55vw;
   font-size: 22px;
   height: min-content;
 
+  margin-right: 6vw;
 
   h1 {
     color: ${styleVars.m14OffWhite};
@@ -14,7 +15,6 @@ export const Text = styled.div`
     font-weight: 700;
     line-height: normal;
     letter-spacing: -2px;
-    margin-bottom: 20px;
   }
 
   p {
@@ -26,12 +26,7 @@ export const Text = styled.div`
     line-height: normal;
   }
 
-  @media only screen and (max-width: ${styleVars.smUp}) {
-    padding: 40px;
-  }
-
   @media only screen and (max-width: ${styleVars.xsUp}) {
-    padding: 0px;
 
     h1 {
       font-size: 17px;
@@ -40,7 +35,6 @@ export const Text = styled.div`
       letter-spacing: -0.85px;
     }
     p {
-      padding: 0px;
       font-size: 14px;
       font-style: normal;
       font-weight: 400;

@@ -3,26 +3,18 @@ import * as styleVars from "../variable"
 
 export const Container = styled.section`
   position: relative;
+  width: 100%;
+  max-width: 1440px;
+  aspect-ratio: 1 / 1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  padding-top: 10%;
+  padding-bottom: 10%;
+  
   background-color: ${styleVars.m14Dark};
-
-  @media only screen and (max-width: 1250px) {
-  }
-
-  @media only screen and (max-width: 1158px) {
-  }
-
-  @media screen and (max-width: ${styleVars.smUp}) {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-self: center;
-    width: 80%;
-  }
-
 `
 
 export default Container
