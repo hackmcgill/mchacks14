@@ -26,6 +26,12 @@ export const Text = styled.div`
     line-height: normal;
   }
 
+  #stats_title {
+    position: absolute;
+    left: 16%;
+    top: 50%;
+  }
+
   @media only screen and (max-width: ${styleVars.xsUp}) {
 
     h1 {
