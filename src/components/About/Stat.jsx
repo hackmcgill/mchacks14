@@ -5,7 +5,7 @@ export const Stat = styled.div`
   position: absolute;
   top: ${props => props.$top};
   left: ${props => props.$left};
-  width: clamp(75px, 11vw, 110px);
+  width: 8vw;
   aspect-ratio: 1;
 
   display: flex;
@@ -23,12 +23,12 @@ export const Stat = styled.div`
   letter-spacing: -1px;
 
   .stat_number {
-    font-size: clamp(34px, 2.5vw, 28px);
+    font-size: 34px;
     font-weight: 700;
   }
 
   .stat_label {
-    font-size: clamp(19px, 1.2vw, 14px);
+    font-size: 20px;
     padding: 0px 1vw;
   }
 `;

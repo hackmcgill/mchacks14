@@ -6,6 +6,7 @@ export const Image = styled.div`
   right: ${props => props.$right};
   width: ${props => props.$width};
   transform: rotate(${(props) => props.$initrotation});
+  transform-origin: top center;
   transition: transform 0.3s ease-in-out; 
   
   &:hover {

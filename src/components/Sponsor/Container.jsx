@@ -5,15 +5,8 @@ export const Container = styled.section`
   position: relative;
   width: 100%;
   max-width: 1440px;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 2 / 1;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding-top: 10%;
-  padding-bottom: 10%;
-  
   background-color: ${styleVars.m14Dark};
 `
 
