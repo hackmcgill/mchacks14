@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
-import HoverCursor from "../../../static/mchacks13-hover-cursor.png"
 
 export const MenuOverlay = styled.div`
   position: fixed;
@@ -52,9 +51,7 @@ export const Container = styled.nav`
     padding: 0;
     background: transparent;
     color: ${styleVars.m14GlowAmber300};
-    cursor:
-      url(${HoverCursor}) 0 28,
-      auto;
+    cursor: pointer;
   }
 
   .Nav__mlh_banner {
