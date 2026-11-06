@@ -37,12 +37,24 @@ export const Stat = styled.div`
 
     .stat_number {
       font-size: 28px;
-      font-weight: 700;
     }
 
     .stat_label {
       font-size: 18px;
-      padding: 0px 1vw;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 18vw;
+    transform: translate(-15%, -15%);
+    letter-spacing: -0.5px;
+
+    .stat_number {
+      font-size: 17px;
+    }
+
+    .stat_label {
+      font-size: 12px;
     }
   }
 `
