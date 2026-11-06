@@ -12,8 +12,25 @@ const Content = styled.div`
   width: 50vw;
 
   @media only screen and (max-width: 1200px) {
-    display: none;
+    right: 10%;
+    top: 40%;
+    height: max-content;
+    width: max-content;
+
+    display: flex;
+    flex-direction: row;
   }
+
+  @media only screen and (max-width: 800px) {
+    right: 10%;
+    top: 46%;
+  }
+
+  @media only screen and (max-width: 400px) {
+    right: 10%;
+    top: 50%;
+  }
+
   @media only screen and (max-width: 1280px) {
     height: 110vh;
   }

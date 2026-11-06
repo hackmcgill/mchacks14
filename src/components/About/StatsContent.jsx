@@ -25,6 +25,7 @@ const Content = styled.div`
   }
 
   @media only screen and (max-width: 1200px) {
+    top: 55%;
     #lineStats {
       width: 75vw;
     }

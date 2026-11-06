@@ -11,8 +11,24 @@ const Content = styled.div`
   height: 100vh;
   width: 50vw;
   
-  @media only screen and (max-width: 1200px) {
-    display: none;
+@media only screen and (max-width: 1200px) {
+    left: 10%;
+    top: 60%;
+    height: max-content;
+    width: max-content;
+
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media only screen and (max-width: 800px) {
+    left: 10%;
+    top: 66%;
+  }
+
+  @media only screen and (max-width: 400px) {
+    left: 10%;
+    top: 72%;
   }
     
   @media only screen and (max-width: 1280px) {

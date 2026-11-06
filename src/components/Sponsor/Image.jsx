@@ -12,6 +12,12 @@ export const Image = styled.div`
   &:hover {
     transform: rotate(${(props) => props.$hovrotation});
   } 
+
+  @media only screen and (max-width: 1200px) {
+    position: static;
+    width: 15vw;
+    margin: 0 2vw; 
+  }
 `
 
 export default Image
