@@ -2,12 +2,8 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Text = styled.div`
-  max-width: 50vw;
   font-size: 22px;
-  height: min-content;
-
-  margin-right: 15vw;
-
+  
   h2 {
     color: ${styleVars.m14OffWhite};
     font-family: "Schibsted Grotesk";

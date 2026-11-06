@@ -11,6 +11,9 @@ const Content = styled.div`
   height: 100vh;
   width: 50vw;
 
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
   @media only screen and (max-width: 1280px) {
     height: 110vh;
   }

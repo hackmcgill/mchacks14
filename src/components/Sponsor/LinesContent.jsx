@@ -35,6 +35,10 @@ const Content = styled.div`
     bottom: 0%;
     width: 45vw;
   }
+
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
 `
 
 export const LinesContent = () => (

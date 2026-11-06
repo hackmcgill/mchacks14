@@ -7,6 +7,22 @@ const Content = styled.div`
   position: absolute;
   top: 6%;
   left: 22%;
+  max-width: 50vw;
+
+  margin-right: 15vw;
+
+  @media only screen and (max-width: 1200px) {
+    position: static;
+    max-width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5vw 10vw;
+    margin-right: 0;
+  }
 `
 
 export const TextContent = () => (

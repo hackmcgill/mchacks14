@@ -3,8 +3,8 @@ import * as styleVars from "../variable"
 
 export const Stat = styled.div`
   position: absolute;
-  top: ${props => props.$top};
-  left: ${props => props.$left};
+  top: ${(props) => props.$top};
+  left: ${(props) => props.$left};
   width: 8vw;
   aspect-ratio: 1;
 
@@ -31,6 +31,20 @@ export const Stat = styled.div`
     font-size: 20px;
     padding: 0px 1vw;
   }
-`;
+
+  @media only screen and (max-width: 1200px) {
+    width: 12vw;
+
+    .stat_number {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .stat_label {
+      font-size: 18px;
+      padding: 0px 1vw;
+    }
+  }
+`
 
 export default Stat

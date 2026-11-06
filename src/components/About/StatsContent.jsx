@@ -9,8 +9,6 @@ const Content = styled.div`
   position: absolute;
   top: 50%;
   left: 0%;
-  width: content;
-  height: content;
 
   #titleStats {
     position: absolute;
@@ -24,6 +22,12 @@ const Content = styled.div`
 
   #lineStats {
     width: 58vw;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    #lineStats {
+      width: 90vw;
+    }
   }
 `
 
