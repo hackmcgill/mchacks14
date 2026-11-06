@@ -23,12 +23,12 @@ export const Stat = styled.div`
   letter-spacing: -1px;
 
   .stat_number {
-    font-size: clamp(36px, 2.5vw, 28px);
+    font-size: clamp(34px, 2.5vw, 28px);
     font-weight: 700;
   }
 
   .stat_label {
-    font-size: clamp(20px, 1.2vw, 14px);
+    font-size: clamp(19px, 1.2vw, 14px);
     padding: 0px 1vw;
   }
 `;
