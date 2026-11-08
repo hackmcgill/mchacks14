@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet"
 import styled from "styled-components"
 
 import * as styleVars from "../variable"
-import faqItems from "./faq"
+import faqItems from "./data/faq"
 import FaqCard from "./FaqCard"
 import useScrollProgress from "./useScrollProgress"
 import {
