@@ -59,9 +59,9 @@ export const WALL_RANGES = [
   },
 ]
 
-// Size of ONE wall-tile.webp tile at 1x, in CSS px (the file itself is 2x).
-export const TILE_W = 2199 * 2
-export const TILE_H = 1591 * 2
+const SCALE_FACTOR = 2
+export const TILE_W = 2199 * SCALE_FACTOR
+export const TILE_H = 1591 * SCALE_FACTOR
 
 // ---- Escalator --------------------------------------------------------------
 export const ESC_ANGLE_DEG = 20 // must match the slope in the artwork exactly

@@ -43,7 +43,6 @@ const rangeBlocks = WALL_RANGES.map((range) => {
 }).join("\n  ")
 
 const CARD_BLACK = "#050505"
-const AMBER = styleVars.m14GlowAmber300
 
 const Track = styled.section`
   ${rangeBlocks}
