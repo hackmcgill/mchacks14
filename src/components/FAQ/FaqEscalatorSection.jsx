@@ -44,9 +44,6 @@ const rangeBlocks = WALL_RANGES.map((range) => {
 
 const CARD_BLACK = "#050505"
 const AMBER = styleVars.m14GlowAmber300
-const AMBER_LIGHT = styleVars.m14GlowAmber200
-const OFF_WHITE = styleVars.m13White
-const TOGGLE_BG = styleVars.m12DarkestTeal
 
 const Track = styled.section`
   ${rangeBlocks}
@@ -182,8 +179,8 @@ const Track = styled.section`
     padding: 18px 18px 18px 28px;
     border: 0;
     background: none;
-    color: ${AMBER};
-    font-family: "Afacad", "Hind Siliguri", sans-serif;
+    color: ${styleVars.m14GlowAmber200};
+    font-family: "Instrument Sans", sans-serif;
     font-size: 2rem;
     font-weight: 600;
     line-height: 1.2;
@@ -215,8 +212,11 @@ const Track = styled.section`
     justify-content: center;
     width: 34px;
     height: 34px;
-    background: ${TOGGLE_BG};
-    color: ${styleVars.m12OffWhite};
+    background: transparent;
+
+    &:hover {
+      color: ${styleVars.m14GlowAmber100};
+    }
   }
 
   .faq-card__toggle svg {
@@ -252,14 +252,14 @@ const Track = styled.section`
 
   .faq-card__answer {
     padding: 0 30px 26px 28px;
-    color: ${OFF_WHITE};
-    font-family: "Afacad", "Hind Siliguri", sans-serif;
+    font-family: "Instrument Sans", sans-serif;
     font-size: 1.7rem;
     line-height: 1.45;
+    color: ${styleVars.m14GlowAmber100};
   }
 
   .faq-card__answer a {
-    color: ${AMBER_LIGHT};
+    color: ${styleVars.m14GlowAmber200};
   }
 
   @media (prefers-reduced-motion: reduce) {
