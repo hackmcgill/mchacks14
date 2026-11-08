@@ -66,9 +66,11 @@ export const TILE_H = 1591 * SCALE_FACTOR
 // ---- Escalator --------------------------------------------------------------
 export const ESC_ANGLE_DEG = 20 // must match the slope in the artwork exactly
 // Slope distance (in SVG units) travelled over the whole pin. At 4100 the
-// bottom landing is just reaching the bottom edge of the screen at progress 1,
-// so the end of the escalator never slides into view.
-export const ESC_TRAVEL_UNITS = 4100
+// bottom landing only just reached the bottom edge of the screen, so the
+// escalator looked chopped off at the end. At 5000 the landing (with its
+// rounded end) has slid fully into view by progress 1. Don't go past ~5300:
+// the artwork is cropped at its bottom edge, and that edge would show.
+export const ESC_TRAVEL_UNITS = 5000
 
 // Artwork geometry (SVG viewBox units) used for the maths above.
 export const ESC_VIEWBOX_W = 5994

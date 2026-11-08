@@ -99,7 +99,7 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [105.2, 9.1],
+      base: [103.2, 9.5],
       lg: [88.9, 31.2],
       md: [70.6, 40.8],
     },
@@ -117,7 +117,7 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [129.3, 15.7],
+      base: [124.3, 15.7],
       lg: [121.5, 16.8],
       md: [109.1, 19.7],
     },
@@ -128,7 +128,7 @@ const faqItems = [
     question: "How big can my team be?",
     answer: <>Teams can have up to 4 people.</>,
     layouts: {
-      base: [147.2, 35.4],
+      base: [147.2, 37.4],
       lg: [153.8, 14.9],
       md: [135.8, 47.9],
     },
