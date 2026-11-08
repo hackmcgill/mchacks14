@@ -7,16 +7,16 @@ import meetTheTeamHeading from "../../assets/images/designs/mchacks14-team-headi
 
 export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Meet the Team" })`
   position: absolute;
-  top: 28%;
+  top: 27%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  max-width: 55%;
+  max-width: 60%;
   height: auto;
   pointer-events: none;
   @media screen and (max-width: ${styleVars.smUp}) {
-    max-width: 80%;
-    top: 52%;
+    max-width: 100%;
+    top: 46%;
   }
 `;
 
