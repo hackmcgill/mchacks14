@@ -7,7 +7,7 @@ import meetTheTeamHeading from "../../assets/images/designs/mchacks14-team-headi
 
 export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Meet the Team" })`
   position: absolute;
-  top: 30%;
+  top: 28%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
@@ -23,7 +23,8 @@ export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Me
 const Container = styled.section`
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 600px;
   background: ${styleVars.m13White} url(${meetTheTeamBackground});
 
   @media screen and (max-width: ${styleVars.smUp}) {
