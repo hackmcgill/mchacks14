@@ -15,8 +15,10 @@ const Viewport = styled.div`
     max-width: 70vw;
   `
       : `
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    bottom: calc(100vw * 950 / 5760);
   `}
 `
 
