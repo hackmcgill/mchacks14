@@ -2,6 +2,7 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 import meetTheTeamBackground from "./McHacks14-MeetTheTeamBackground.png"
 import meetTheTeamPlatform from "../../assets/images/designs/mchacks14-platform.webp"
+import meetTheTeamBlackLine from "../../assets/images/designs/mchacks14-platform-black-line.webp"
 import meetTheTeamHeading from "../../assets/images/designs/mchacks14-team-heading.webp"
 
 export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Meet the Team" })`
@@ -36,6 +37,14 @@ export const Platform = styled.img.attrs({ src: meetTheTeamPlatform, alt: "The M
   display: block;
   width: 100%;
   pointer-events: none;
+`;
+
+export const BlackLine = styled.img.attrs({ src: meetTheTeamBlackLine, alt: "" })`
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: auto;
+  bottom: calc(100vw * 924 / 5760 + min(36vh, 280px) * 0.34);
 `;
 
 export default Container

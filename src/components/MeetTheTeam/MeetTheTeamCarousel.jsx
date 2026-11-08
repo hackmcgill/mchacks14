@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import Container, { HeadingImage, Platform } from "./Container"
+import Container, { BlackLine, HeadingImage, Platform } from "./Container"
 import TeamMarquee from "./TeamMarquee"
 
 const MeetTheTeam = ({ scrollRef }) => {
@@ -16,6 +16,7 @@ const MeetTheTeam = ({ scrollRef }) => {
 
   return (
     <Container ref={setSectionRef}>
+      <BlackLine />
       <TeamMarquee active backgroundRef={sectionRef} />
       <HeadingImage />
       <Platform />
