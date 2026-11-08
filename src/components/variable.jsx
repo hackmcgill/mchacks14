@@ -80,6 +80,7 @@ export const hackGrey = "#797979"
 export const m14Navy1000 = "#16293E"
 export const m14GlowAmber300 = "#F3A134"
 export const m14GlowAmber200 = "#FFC465"
+export const m14GlowAmber100 = "#FEEDC7"
 export const m14Grey900 = "#3F3F3F"
 
 // global colors
@@ -90,3 +91,8 @@ export const xsUp = "435px"
 export const smUp = "768px"
 export const mdUp = "992px"
 export const lgUp = "1200px"
+
+// FAQ scene width boundaries (separate from the site CSS breakpoints above)
+export const faqTabletUp = "768px" // below this the FAQ is a static list
+export const faqLaptopUp = "1024px"
+export const faqDesktopUp = "1440px"
