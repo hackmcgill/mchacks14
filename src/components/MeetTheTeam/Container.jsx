@@ -2,6 +2,22 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 import meetTheTeamBackground from "./McHacks14-MeetTheTeamBackground.png"
 import meetTheTeamPlatform from "../../assets/images/designs/mchacks14-platform.webp"
+import meetTheTeamHeading from "../../assets/images/designs/mchacks14-team-heading.webp"
+
+export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Meet the Team" })`
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  max-width: 55%;
+  height: auto;
+  pointer-events: none;
+  @media screen and (max-width: ${styleVars.smUp}) {
+    max-width: 80%;
+    top: 52%;
+  }
+`;
 
 const Container = styled.section`
   position: relative;
