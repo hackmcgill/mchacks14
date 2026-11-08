@@ -134,7 +134,7 @@ const Track = styled.section`
     transform-origin: top left;
     /* outline + shadow live out here: clip-path on the inner shape would cut them off */
     filter: drop-shadow(0 0 1.5px #e8edf3)
-      drop-shadow(0 8px 10px rgba(0, 0, 0, 0.25));
+      drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.5));
   }
 
   .faq-card:focus-within {
@@ -147,7 +147,7 @@ const Track = styled.section`
 
   .faq-card:has(.faq-card__button:focus-visible) {
     filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 3px #fff)
-      drop-shadow(0 8px 10px rgba(0, 0, 0, 0.25));
+      drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.5));
   }
 
   .faq-card__shape {
