@@ -90,3 +90,8 @@ export const xsUp = "435px"
 export const smUp = "768px"
 export const mdUp = "992px"
 export const lgUp = "1200px"
+
+// FAQ scene width boundaries (separate from the site CSS breakpoints above)
+export const faqTabletUp = "768px" // below this the FAQ is a static list
+export const faqLaptopUp = "1024px"
+export const faqDesktopUp = "1440px"
