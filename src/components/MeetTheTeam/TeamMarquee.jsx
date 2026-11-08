@@ -3,7 +3,7 @@ import styled from "styled-components"
 import teamSlides from "./teamSlides"
 import TeamMemberCard, { CARD_HEIGHT, CARD_WIDTH } from "./TeamMemberCard"
 
-const SPEED = 50
+const SPEED = 40
 
 const Viewport = styled.div`
   overflow: hidden;
