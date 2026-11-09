@@ -1,3 +1,4 @@
+import teamAltitudes from "./teamAltitudes"
 import { resolveTeamSocialUrl } from "./teamSocialLinks"
 
 const teamOrder = [
@@ -109,5 +110,6 @@ export default [...defaults.values()]
     ...slide,
     hoverSrc: hovers.get(slide.name)?.src ?? slide.src,
     profileUrl: resolveTeamSocialUrl(slide.name),
+    altitude: teamAltitudes[slide.name] || 0,
   }))
   .sort(byTeamOrder)

@@ -11,12 +11,12 @@ export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Me
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  max-width: 60%;
+  max-width: 70%;
   height: auto;
   pointer-events: none;
   @media screen and (max-width: ${styleVars.smUp}) {
-    max-width: 100%;
-    top: 46%;
+    max-width: 110%;
+    top: 33%;
   }
 `;
 
@@ -24,7 +24,7 @@ const Container = styled.section`
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
+  min-height: 800px;
   background: ${styleVars.m13White} url(${meetTheTeamBackground});
 
   @media screen and (max-width: ${styleVars.smUp}) {
@@ -45,7 +45,7 @@ export const BlackLine = styled.img.attrs({ src: meetTheTeamBlackLine, alt: "" }
   display: block;
   width: 100%;
   height: auto;
-  bottom: calc(100vw * 924 / 5760 + min(36vh, 280px) * 0.34);
+  bottom: calc(100vw * 924 / 5760 + 280px * 0.34);
 `;
 
 export default Container
