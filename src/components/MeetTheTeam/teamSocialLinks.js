@@ -1,5 +1,5 @@
 const teamSocialLinks = {
-  Aidan: "https://adntaha.github.io/",
+  Aidan: "https://aidantaha.com/",
   Alex: "https://www.instagram.com/aalex.wang/",
   Amy: "https://www.linkedin.com/in/amyddao/",
   Arnav: "https://www.linkedin.com/in/arnavkhanna11",
