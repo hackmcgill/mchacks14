@@ -9,7 +9,7 @@ const Content = styled.div`
   position: absolute;
   right: 0%;
   top: 0%;
-    height: inherit;
+  height: inherit;
   width: inherit;
   aspect-ratio: inherit;
 

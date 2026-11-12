@@ -6,7 +6,7 @@ export const Container = styled.section`
   width: 100%;
   max-width: 1440px;
   aspect-ratio: 10 / 9;
-  
+
   background-color: ${styleVars.m14Dark};
 
   @media only screen and (max-width: ${styleVars.lgUp}) {
