@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { StaticImage } from "gatsby-plugin-image"
+import * as styleVars from "../variable"
 
 import Image from "./Image"
 
@@ -8,30 +9,30 @@ const Content = styled.div`
   position: absolute;
   right: 0%;
   top: 0%;
-  height: 100vh;
-  width: 50vw;
+  height: inherit;
+  width: inherit;
+  aspect-ratio: inherit;
 
-  @media only screen and (max-width: 1200px) {
-    right: 10%;
-    top: 40%;
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    right: 14%;
+    top: 20%;
     height: max-content;
     width: max-content;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 22px;
   }
 
-  @media only screen and (max-width: 800px) {
-    right: 10%;
-    top: 46%;
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    top: 15%;
   }
 
-  @media only screen and (max-width: 400px) {
-    right: 10%;
-    top: 50%;
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+    display: none;
   }
 
-  @media only screen and (max-width: 1280px) {
+  @media only screen and (min-width: ${styleVars.lgUp}) and (max-width: 1280px) {
     height: 110vh;
   }
 `
@@ -40,7 +41,7 @@ export const ImagesContent = () => (
   <Content>
     <Image
       $top="24%"
-      $right="18%"
+      $right="10%"
       $width="12vw"
       $initrotation="10deg"
       $hovrotation="4deg"
@@ -52,8 +53,8 @@ export const ImagesContent = () => (
       />
     </Image>
     <Image
-      $top="56%"
-      $right="26%"
+      $top="62%"
+      $right="10%"
       $width="11vw"
       $initrotation="-4deg"
       $hovrotation="-10deg"
@@ -65,8 +66,8 @@ export const ImagesContent = () => (
       />
     </Image>
     <Image
-      $top="62%"
-      $right="56%"
+      $top="76%"
+      $right="34%"
       $width="13vw"
       $initrotation="0deg"
       $hovrotation="8deg"
@@ -78,8 +79,8 @@ export const ImagesContent = () => (
       />
     </Image>
     <Image
-      $top="84%"
-      $right="22%"
+      $top="94%"
+      $right="14%"
       $width="10vw"
       $initrotation="-6deg"
       $hovrotation="-14deg"

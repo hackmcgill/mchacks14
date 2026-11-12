@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import * as styleVars from "../variable"
 
 import { ReactComponent as LineGreen } from "../../../static/About/line-green.svg"
 import { ReactComponent as LineMaroon } from "../../../static/About/line-maroon.svg"
@@ -57,7 +58,7 @@ const Content = styled.div`
     width: 38vw;
   }
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: ${styleVars.xsUp}) {
     display: none;
   }
 `

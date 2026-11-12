@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { StaticImage } from "gatsby-plugin-image"
+import * as styleVars from "../variable"
 
 import Image from "./Image"
 
@@ -8,30 +9,30 @@ const Content = styled.div`
   position: absolute;
   right: 0%;
   top: 0%;
-  height: 100vh;
-  width: 50vw;
-  
-@media only screen and (max-width: 1200px) {
-    left: 10%;
-    top: 60%;
+    height: inherit;
+  width: inherit;
+  aspect-ratio: inherit;
+
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    right: 10%;
+    top: 16%;
     height: max-content;
     width: max-content;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 22px;
   }
 
-  @media only screen and (max-width: 800px) {
-    left: 10%;
-    top: 66%;
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    top: 15%;
   }
 
-  @media only screen and (max-width: 400px) {
-    left: 10%;
-    top: 72%;
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+    display: none;
   }
-    
-  @media only screen and (max-width: 1280px) {
+
+  @media only screen and (min-width: ${styleVars.lgUp}) and (max-width: 1280px) {
     height: 110vh;
   }
 `
@@ -40,7 +41,7 @@ export const ImagesContent = () => (
   <Content>
     <Image
       $top="14%"
-      $right="16%"
+      $right="10%"
       $width="13vw"
       $initrotation="-4deg"
       $hovrotation="-12deg"
@@ -53,7 +54,7 @@ export const ImagesContent = () => (
     </Image>
     <Image
       $top="50%"
-      $right="12%"
+      $right="8%"
       $width="10vw"
       $initrotation="-2deg"
       $hovrotation="-10deg"
@@ -65,8 +66,8 @@ export const ImagesContent = () => (
       />
     </Image>
     <Image
-      $top="50%"
-      $right="60%"
+      $top="62%"
+      $right="30%"
       $width="14vw"
       $initrotation="4deg"
       $hovrotation="12deg"

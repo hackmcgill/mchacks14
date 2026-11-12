@@ -32,8 +32,9 @@ export const Stat = styled.div`
     padding: 0px 1vw;
   }
 
-  @media only screen and (max-width: 1200px) {
-    width: 12vw;
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    width: 10vw;
+    transform: translate(-10%, -10%);
 
     .stat_number {
       font-size: 28px;
@@ -44,17 +45,42 @@ export const Stat = styled.div`
     }
   }
 
-  @media only screen and (max-width: 600px) {
-    width: 18vw;
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    width: 10vw;
     transform: translate(-15%, -15%);
     letter-spacing: -0.5px;
 
     .stat_number {
-      font-size: 17px;
+      font-size: 22px;
+    }
+
+    .stat_label {
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    transform: translate(-15%, -15%);
+
+    .stat_number {
+      font-size: 16px;
     }
 
     .stat_label {
       font-size: 12px;
+    }
+  }
+
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+    width: 12vw;
+    transform: translate(-15%, -15%);
+
+    .stat_number {
+      font-size: 14px;
+    }
+
+    .stat_label {
+      font-size: 10px;
     }
   }
 `

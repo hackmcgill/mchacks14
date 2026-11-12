@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import * as styleVars from "../variable"
 
 import { ReactComponent as LineStats } from "../../../static/About/line-stats.svg"
 import Text from "./Text"
@@ -24,16 +25,19 @@ const Content = styled.div`
     width: 58vw;
   }
 
-  @media only screen and (max-width: 1200px) {
-    top: 55%;
-    #lineStats {
-      width: 75vw;
-    }
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    top: 60%;
   }
 
   @media only screen and (max-width: 600px) {
+    top: 70%;
+  }
+
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+    top: 60%;
+
     #lineStats {
-      width: 90vw;
+      width: 78vw;
     }
   }
 `

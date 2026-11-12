@@ -9,19 +9,17 @@ export const Container = styled.section`
 
   background-color: ${styleVars.m14Dark};
 
-  
-  @media only screen and (max-width: 1200px) {
-    aspect-ratio: 1 / 1;
-  }
-  
-  @media only screen and (max-width: 600px) {
-    aspect-ratio: 2 / 3;
-  }
-    
-  @media only screen and (max-width: 400px) {
-    aspect-ratio: 4 / 5;
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    aspect-ratio: 3 / 2;
   }
 
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    aspect-ratio: 4 / 3;
+  }
+
+  @media only screen and (max-width: 600px) {
+    aspect-ratio: 4 / 5;
+  }
 `
 
 export default Container

@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import * as styleVars from "../variable"
 
 import Text from "./Text"
 
@@ -7,28 +8,23 @@ const Content = styled.div`
   position: absolute;
   top: 6%;
   left: 22%;
-  max-width: 50vw;
+  max-width: 56vw;
 
-  margin-right: 15vw;
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    max-width: 48vw;
+  }
 
-  @media only screen and (max-width: 1200px) {
-    position: static;
-    max-width: 100vw;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    padding: 5vw 10vw;
-    margin-right: 0;
+  @media only screen and (max-width: ${styleVars.xsUp}) {
+    top: 8%;
+    left: 14%;
+    max-width: 72vw;
   }
 `
 
 export const TextContent = () => (
   <Content>
     <Text>
-      <h2>Sponsor a Weekend of Building</h2>
+      <h1>Sponsor a Weekend of Building</h1>
       <p>
         McHacks brings together 750+ students to build projects, learn from each
         other, and explore new ideas in tech. None of it would be possible
