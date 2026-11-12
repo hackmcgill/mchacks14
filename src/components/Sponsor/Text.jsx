@@ -2,50 +2,51 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 export const Text = styled.div`
-  max-width: 582px;
-  font-size: 16px;
-  height: min-content;
+  font-size: 22px;
+  line-height: normal;
 
-  h2 {
-    color: ${styleVars.m13White};
-    text-align: center;
-    font-family: "Averia Serif Libre";
-    font-size: 40px;
-    font-style: italic;
+  h1 {
+    color: ${styleVars.m14OffWhite};
+    font-family: "Schibsted Grotesk";
     font-weight: 700;
-    line-height: normal;
+    font-size: 40px;
     letter-spacing: -2px;
   }
 
   p {
-    color: ${styleVars.m13White};
-    font-family: Afacad;
-    font-size: 25px;
-    font-style: normal;
+    color: ${styleVars.m14OffWhite};
+    font-family: "Instrument Sans", sans-serif;
     font-weight: 400;
-    line-height: normal;
+    font-size: 22px;
+  }
+
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    h1 {
+      font-size: 32px;
+      letter-spacing: -1.6px;
+    }
+    p {
+      font-size: 20px;
+    }
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    padding: 40px;
+    h1 {
+      font-size: 24px;
+      letter-spacing: -1.2px;
+    }
+    p {
+      font-size: 16px;
+    }
   }
 
   @media only screen and (max-width: ${styleVars.xsUp}) {
-    padding: 0px;
-
-    h2 {
+    h1 {
       font-size: 17px;
-      font-style: italic;
-      font-weight: 700;
-      line-height: normal;
       letter-spacing: -0.85px;
     }
     p {
-      padding: 0px;
       font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
     }
   }
 `

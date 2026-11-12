@@ -3,29 +3,23 @@ import * as styleVars from "../variable"
 
 export const Container = styled.section`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 200px;
+  width: 100%;
+  max-width: 1440px;
+  aspect-ratio: 10 / 9;
 
-  @media only screen and (max-width: 1250px) {
-    margin-top: 100px;
+  background-color: ${styleVars.m14Dark};
+
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    aspect-ratio: 9 / 10;
   }
 
-  @media only screen and (max-width: 1158px) {
-    margin-top: 50px;
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    aspect-ratio: 8 / 10;
   }
 
-  @media screen and (max-width: ${styleVars.smUp}) {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-self: center;
-    margin-top: 20px;
-    width: 80%;
+  @media only screen and (max-width: 600px) {
+    aspect-ratio: 7 / 10;
   }
-
 `
 
 export default Container

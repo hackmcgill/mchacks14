@@ -9,7 +9,6 @@ import FAQ from "../components/FAQ/FAQ"
 import GetInvolved from "../components/GetInvolved/GetInvolved"
 import MeetTheTeam from "../components/MeetTheTeam/MeetTheTeamCarousel"
 import Footer from "../components/Footer/Footer"
-import EventInfo from "../components/EventInfo/EventInfo"
 
 const scrollTo = (ref, offset = 50) => {
   if (ref.current) {
@@ -55,7 +54,6 @@ const IndexPage = () => {
       <Nav navItems={navItems} schedule={true} />
       <Hero />
       <About scrollRef={aboutRef} />
-      <EventInfo />
       <Sponsor scrollRef={sponsorRef} />
       <GetInvolved scrollRef={involvementRef} />
       <FAQ scrollRef={faqRef} />
