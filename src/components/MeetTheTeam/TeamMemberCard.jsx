@@ -1,8 +1,8 @@
 import React, { memo, useState } from "react"
 import styled from "styled-components"
 
-export const CARD_WIDTH = "clamp(105px, 8.5vw, 155px)"
-export const CARD_HEIGHT = "min(36vh, 280px)"
+export const CARD_WIDTH = "clamp(155px, 10vw, 155px)"
+export const CARD_HEIGHT = "300px"
 
 const memberShellStyles = `
   flex: 0 0 auto;
@@ -12,6 +12,7 @@ const memberShellStyles = `
   display: block;
   text-decoration: none;
   color: inherit;
+  transform: translate3d(0, calc(var(--member-altitude, 0) * -1px), 0);
 `
 
 export const MemberWrap = styled.div`
@@ -49,7 +50,7 @@ const profileNetworkLabel = (profileUrl) => {
   return "profile"
 }
 
-const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad }) => {
+const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad, altitude = 0 }) => {
   const [hovered, setHovered] = useState(false)
   const [hoverReady, setHoverReady] = useState(false)
 
@@ -75,6 +76,8 @@ const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad }) => 
     />
   )
 
+  const altitudeStyle = { "--member-altitude": altitude }
+
   if (profileUrl) {
     const network = profileNetworkLabel(profileUrl)
     return (
@@ -83,6 +86,7 @@ const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad }) => 
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${name} on ${network}`}
+        style={altitudeStyle}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
         onClick={handleProfileClick}
@@ -93,7 +97,7 @@ const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad }) => 
   }
 
   return (
-    <MemberWrap onMouseEnter={onEnter} onMouseLeave={onLeave}>
+    <MemberWrap style={altitudeStyle} onMouseEnter={onEnter} onMouseLeave={onLeave}>
       {image}
     </MemberWrap>
   )

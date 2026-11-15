@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef } from "react"
 import styled from "styled-components"
+import { getAltitudeRoom } from "./teamAltitudes"
 import teamSlides from "./teamSlides"
 import TeamMemberCard, { CARD_HEIGHT, CARD_WIDTH } from "./TeamMemberCard"
 
-const SPEED = 50
+const SPEED = 40
 
 const Viewport = styled.div`
   overflow: hidden;
@@ -15,8 +16,10 @@ const Viewport = styled.div`
     max-width: 70vw;
   `
       : `
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    bottom: calc(100vw * 950 / 5760 - ${props.$drop || 0}px);
   `}
 `
 
@@ -127,22 +130,26 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
   if (!teamSlides.length) return null
 
   const loopSlides = [...teamSlides, ...teamSlides]
+  const { lift, drop } = getAltitudeRoom()
 
   return (
     <Viewport
       ref={viewportRef}
       $inline={inline}
+      $drop={drop}
+      style={{ paddingTop: lift, paddingBottom: drop }}
       onMouseEnter={() => setCarouselPaused(true)}
       onMouseLeave={() => setCarouselPaused(false)}
     >
       <Track ref={trackRef} aria-label="McHacks organizing team">
-        {loopSlides.map(({ id, name, src, hoverSrc, profileUrl }, index) => (
+        {loopSlides.map(({ id, name, src, hoverSrc, profileUrl, altitude }, index) => (
           <TeamMemberCard
             key={`${id}-${index}`}
             name={name}
             src={src}
             hoverSrc={hoverSrc}
             profileUrl={profileUrl}
+            altitude={altitude}
             eagerLoad={index < 6}
           />
         ))}
