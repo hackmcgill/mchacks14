@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
 
-export const Image = styled.div`
+export const Image = styled.img`
   position: absolute;
   top: ${(props) => props.$top};
   right: ${(props) => props.$right};
@@ -14,9 +14,5 @@ export const Image = styled.div`
     transform: rotate(${(props) => props.$hovrotation});
   }
 
-  @media only screen and (max-width: ${styleVars.lgUp}) {
-    position: static;
-    width: 12vw;
-  }
 `
 export default Image

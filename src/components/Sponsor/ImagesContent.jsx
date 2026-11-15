@@ -1,9 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import { StaticImage } from "gatsby-plugin-image"
 import * as styleVars from "../variable"
 
 import Image from "./Image"
+import image1 from "../../../static/Sponsor/sponsor-image-1.png"
+import image2 from "../../../static/Sponsor/sponsor-image-2.png"
+import image3 from "../../../static/Sponsor/sponsor-image-3.png"
 
 const Content = styled.div`
   position: absolute;
@@ -13,71 +15,67 @@ const Content = styled.div`
   width: inherit;
   aspect-ratio: inherit;
 
-  @media only screen and (max-width: ${styleVars.lgUp}) {
-    right: 10%;
-    top: 16%;
-    height: max-content;
-    width: max-content;
-
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  @media only screen and (max-width: ${styleVars.mdUp}) {
-    top: 15%;
-  }
-
   @media only screen and (max-width: ${styleVars.xsUp}) {
     display: none;
   }
-
-  @media only screen and (min-width: ${styleVars.lgUp}) and (max-width: 1280px) {
-    height: 110vh;
-  }
 `
+
+const images = [
+  {
+    src: image1,
+    top: "14%",
+    right: "10%",
+    mobiletop: "14%",
+    mobileright: "10%",
+    width: "13vw",
+    mobilewidth: "",
+    initrotation: "-4deg",
+    hovrotation: "-12deg",
+    alt: "Image of hackathon speaker",
+  },
+  {
+    src: image2,
+    top: "50%",
+    right: "8%",
+    mobiletop: "50%",
+    mobileright: "8%",
+    width: "10vw",
+    mobilewidth: "",
+    initrotation: "-2deg",
+    hovrotation: "-10deg",
+    alt: "Image of hackathon participants",
+  },
+  {
+    src: image3,
+    top: "62%",
+    right: "30%",
+    mobiletop: "62%",
+    mobileright: "30%",
+    width: "14vw",
+    mobilewidth: "",
+    initrotation: "4deg",
+    hovrotation: "12deg",
+    alt: "Image of hackathon participants",
+  },
+]
 
 export const ImagesContent = () => (
   <Content>
-    <Image
-      $top="14%"
-      $right="10%"
-      $width="13vw"
-      $initrotation="-4deg"
-      $hovrotation="-12deg"
-    >
-      <StaticImage
-        src="../../../static/Sponsor/sponsor-image-1.png"
-        placeholder="blurred"
-        alt="Image of hackathon speaker"
+    {images.map((image) => (
+      <Image
+        key={image.src}
+        $top={image.top}
+        $right={image.right}
+        $mobiletop={image.mobiletop}
+        $mobileright={image.mobileright}
+        $width={image.width}
+        $mobilewidth={image.mobilewidth}
+        $initrotation={image.initrotation}
+        $hovrotation={image.hovrotation}
+        src={image.src}
+        alt={image.alt}
       />
-    </Image>
-    <Image
-      $top="50%"
-      $right="8%"
-      $width="10vw"
-      $initrotation="-2deg"
-      $hovrotation="-10deg"
-    >
-      <StaticImage
-        src="../../../static/Sponsor/sponsor-image-2.png"
-        placeholder="blurred"
-        alt="Image of hackathon participants"
-      />
-    </Image>
-    <Image
-      $top="62%"
-      $right="30%"
-      $width="14vw"
-      $initrotation="4deg"
-      $hovrotation="12deg"
-    >
-      <StaticImage
-        src="../../../static/Sponsor/sponsor-image-3.png"
-        placeholder="blurred"
-        alt="Image of hackathon participants"
-      />
-    </Image>
+    ))}
   </Content>
 )
 
