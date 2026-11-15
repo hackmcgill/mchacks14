@@ -5,7 +5,8 @@ export const Stat = styled.div`
   position: absolute;
   top: ${(props) => props.$top};
   left: ${(props) => props.$left};
-  width: 8vw;
+  transform: translate(-50%, -50%);
+  width: clamp(62px, calc(38.667px + 6.4815vw), 132px);
   aspect-ratio: 1;
 
   display: flex;
@@ -20,68 +21,16 @@ export const Stat = styled.div`
   font-family: "Schibsted Grotesk";
   text-align: center;
   line-height: 0.99;
-  letter-spacing: -1px;
+  letter-spacing: -2%;
 
   .stat_number {
-    font-size: 34px;
+    font-size: clamp(16px, calc(10.667px + 1.4815vw), 32px);
     font-weight: 700;
   }
 
   .stat_label {
-    font-size: 20px;
+    font-size: clamp(12px, calc(9.333px + 0.7407vw), 20px);
     padding: 0px 1vw;
-  }
-
-  @media only screen and (max-width: ${styleVars.lgUp}) {
-    width: 10vw;
-    transform: translate(-10%, -10%);
-
-    .stat_number {
-      font-size: 28px;
-    }
-
-    .stat_label {
-      font-size: 18px;
-    }
-  }
-
-  @media only screen and (max-width: ${styleVars.mdUp}) {
-    width: 10vw;
-    transform: translate(-15%, -15%);
-    letter-spacing: -0.5px;
-
-    .stat_number {
-      font-size: 22px;
-    }
-
-    .stat_label {
-      font-size: 16px;
-    }
-  }
-
-  @media only screen and (max-width: ${styleVars.smUp}) {
-    transform: translate(-15%, -15%);
-
-    .stat_number {
-      font-size: 16px;
-    }
-
-    .stat_label {
-      font-size: 12px;
-    }
-  }
-
-  @media only screen and (max-width: ${styleVars.xsUp}) {
-    width: 12vw;
-    transform: translate(-15%, -15%);
-
-    .stat_number {
-      font-size: 14px;
-    }
-
-    .stat_label {
-      font-size: 10px;
-    }
   }
 `
 

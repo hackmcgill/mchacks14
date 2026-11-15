@@ -25,14 +25,6 @@ const Content = styled.div`
     width: 58vw;
   }
 
-  @media only screen and (max-width: ${styleVars.mdUp}) {
-    top: 60%;
-  }
-
-  @media only screen and (max-width: 600px) {
-    top: 70%;
-  }
-
   @media only screen and (max-width: ${styleVars.xsUp}) {
     top: 60%;
 
@@ -43,12 +35,12 @@ const Content = styled.div`
 `
 
 const stats = [
-  { number: "1500+", label: "applicants", top: "22%", left: "6%" },
-  { number: "485", label: "projects submitted", top: "50%", left: "26%" },
-  { number: "45", label: "schools", top: "50%", left: "62%" },
-  { number: "7", label: "yummy meals", top: "66%", left: "90%" },
-  { number: "40+", label: "mentors & judges", top: "80%", left: "10%" },
-  { number: "12", label: "workshops & events", top: "84%", left: "54%" },
+  { number: "1500+", label: "applicants", top: "32%", left: "12%" },
+  { number: "485", label: "projects submitted", top: "60%", left: "32%" },
+  { number: "45", label: "schools", top: "60%", left: "68%" },
+  { number: "7", label: "yummy meals", top: "76%", left: "98%" },
+  { number: "40+", label: "mentors & judges", top: "90%", left: "16%" },
+  { number: "12", label: "workshops & events", top: "94%", left: "60%" },
 ]
 
 export const StatsContent = () => (
