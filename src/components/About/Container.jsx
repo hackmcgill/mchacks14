@@ -5,6 +5,7 @@ export const Container = styled.section`
   position: relative;
   width: 100%;
   max-width: 1440px;
+  min-width: 360px;
   aspect-ratio: 10 / 9;
 
   background-color: ${styleVars.m14Dark};
@@ -18,7 +19,7 @@ export const Container = styled.section`
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    aspect-ratio: 10 / 14;
+    aspect-ratio: 10 / 19;
   }
 `
 

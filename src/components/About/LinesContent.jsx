@@ -58,7 +58,7 @@ const Content = styled.div`
     width: 38vw;
   }
 
-  @media only screen and (max-width: ${styleVars.xsUp}) {
+  @media only screen and (max-width: ${styleVars.smUp}) {
     display: none;
   }
 `

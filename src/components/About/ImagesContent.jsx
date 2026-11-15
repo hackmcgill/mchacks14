@@ -15,10 +15,6 @@ const Content = styled.div`
   height: inherit;
   width: inherit;
   aspect-ratio: inherit;
-
-  @media only screen and (max-width: ${styleVars.xsUp}) {
-    display: none;
-  }
 `
 
 const images = [
@@ -26,10 +22,10 @@ const images = [
     src: image1,
     top: "14%",
     right: "10%",
-    mobiletop: "14%",
-    mobileright: "10%",
+    mobiletop: "40%",
+    mobileright: "50%",
     width: "12vw",
-    mobilewidth: "",
+    mobilewidth: "30vw",
     initrotation: "10deg",
     hovrotation: "4deg",
     alt: "Image of hackathon participants",
@@ -38,10 +34,10 @@ const images = [
     src: image2,
     top: "42%",
     right: "10%",
-    mobiletop: "42%",
-    mobileright: "10%",
+    mobiletop: "40%",
+    mobileright: "20%",
     width: "11vw",
-    mobilewidth: "",
+    mobilewidth: "26vw",
     initrotation: "-4deg",
     hovrotation: "-10deg",
     alt: "Image of hackathon speaker",
@@ -50,10 +46,10 @@ const images = [
     src: image3,
     top: "46%",
     right: "34%",
-    mobiletop: "46%",
-    mobileright: "34%",
+    mobiletop: "54%",
+    mobileright: "60%",
     width: "13vw",
-    mobilewidth: "",
+    mobilewidth: "26vw",
     initrotation: "0deg",
     hovrotation: "8deg",
     alt: "Image of hackathon participants",
@@ -62,10 +58,10 @@ const images = [
     src: image4,
     top: "60%",
     right: "14%",
-    mobiletop: "60%",
-    mobileright: "14%",
+    mobiletop: "54%",
+    mobileright: "20%",
     width: "10vw",
-    mobilewidth: "",
+    mobilewidth: "30vw",
     initrotation: "-6deg",
     hovrotation: "-14deg",
     alt: "Image of hackathon participants",

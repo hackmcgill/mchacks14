@@ -13,6 +13,11 @@ export const Image = styled.img`
   &:hover {
     transform: rotate(${(props) => props.$hovrotation});
   }
-
+    
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    top: ${(props) => props.$mobiletop};
+    right: ${(props) => props.$mobileright};
+    width: ${(props) => props.$mobilewidth};
+  }
 `
 export default Image

@@ -8,7 +8,7 @@ import Stat from "./Stat"
 
 const Content = styled.div`
   position: absolute;
-  top: 50%;
+  bottom: 10%;
   left: 0%;
 
   #titleStats {
@@ -25,8 +25,8 @@ const Content = styled.div`
     width: 58vw;
   }
 
-  @media only screen and (max-width: ${styleVars.xsUp}) {
-    top: 60%;
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    bottom: 6%;
 
     #lineStats {
       width: 78vw;
