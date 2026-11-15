@@ -15,6 +15,14 @@ const Content = styled.div`
   width: inherit;
   aspect-ratio: inherit;
 
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    top: 4%;
+  }
+
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    top: 8%;
+  }
+
   @media only screen and (max-width: ${styleVars.xsUp}) {
     display: none;
   }
