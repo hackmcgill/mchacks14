@@ -22,6 +22,16 @@ const Content = styled.div`
   @media only screen and (max-width: ${styleVars.mdUp}) {
     top: 8%;
   }
+
+  @media only screen and (max-width: 450px) {
+    img:nth-child(-n + 2) {
+      top: 55%;
+    }
+
+    img:nth-child(n + 3) {
+      top: 75%
+    }
+  }
 `
 
 const images = [
@@ -32,7 +42,7 @@ const images = [
     mobiletop: "50%",
     mobileright: "10%",
     width: "13vw",
-    mobilewidth: "30vw",
+    mobilewidth: "33vw",
     initrotation: "-4deg",
     hovrotation: "-12deg",
     alt: "Image of hackathon speaker",
@@ -44,7 +54,7 @@ const images = [
     mobiletop: "60%",
     mobileright: "60%",
     width: "10vw",
-    mobilewidth: "26vw",
+    mobilewidth: "30vw",
     initrotation: "-2deg",
     hovrotation: "-10deg",
     alt: "Image of hackathon participants",
