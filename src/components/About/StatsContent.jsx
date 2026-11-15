@@ -60,7 +60,7 @@ export const StatsContent = () => (
     <LineStats className="line" id="lineStats" />
 
     {stats.map((s) => (
-      <Stat $top={s.top} $left={s.left}>
+      <Stat $top={s.top} $left={s.left} key={s.label}>
         <span className="stat_number">{s.number}</span>
         <span className="stat_label">{s.label}</span>
       </Stat>
