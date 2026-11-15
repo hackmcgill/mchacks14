@@ -3,10 +3,10 @@ import styled from "styled-components"
 import * as styleVars from "../variable"
 
 import Image from "./Image"
-import image1 from "../../../static/About/about-image-1.png"
-import image2 from "../../../static/About/about-image-2.png"
-import image3 from "../../../static/About/about-image-3.png"
-import image4 from "../../../static/About/about-image-4.png"
+import image1 from "../../../static/About/about-image-1.webp"
+import image2 from "../../../static/About/about-image-2.webp"
+import image3 from "../../../static/About/about-image-3.webp"
+import image4 from "../../../static/About/about-image-4.webp"
 
 const Content = styled.div`
   position: absolute;
