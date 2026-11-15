@@ -1,7 +1,12 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
 import wallTile from "../../assets/images/wall-tile.webp"
-import { TILE_W, TILE_H, STATIC_MODE_QUERY } from "../FAQ/faqScene.config"
+import {
+  TILE_W,
+  TILE_H,
+  STATIC_MODE_QUERY,
+  STACKED_LAYOUT_QUERY,
+} from "../FAQ/faqScene.config"
 
 const Container = styled.section`
   position: relative;
@@ -17,8 +22,12 @@ const Container = styled.section`
   background-position: 0 0;
   background-size: ${TILE_W}px ${TILE_H}px;
 
+  /* Same tile scale as the FAQ above it, which is static below 1024px. */
   @media ${STATIC_MODE_QUERY} {
     background-size: ${TILE_W / 2}px ${TILE_H / 2}px;
+  }
+
+  @media ${STACKED_LAYOUT_QUERY} {
     height: 1370px;
   }
 

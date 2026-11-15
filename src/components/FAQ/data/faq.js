@@ -12,25 +12,27 @@ import React from "react"
  *          boundaries come from components/variable.jsx):
  *            base  1440px and wider
  *            lg    1024px to 1439px
- *            md    768px to 1023px
- *          Below 768px the FAQ is a static stacked list and these are unused.
+ *          Below 1024px the FAQ is a static list (no escalator) and these are
+ *          unused.
  *          x is the card's left edge on the wall in vw. v is its "lane": the
- *          top edge's vertical offset in vh from the pan line. The wall pans
- *          up-left at the range's angle, and a card at (x, v) is placed at
- *          wall y = v vh + x vw * tan(angle), so on screen its top edge is
- *          always at y = v vh + tan(angle) * screenX: every card slides along
- *          its own line parallel to the pan.
+ *          top edge's vertical offset in vh from the pan line. The pan has
+ *          three legs (see faqScene.config.js): diagonal, horizontal while the
+ *          escalator leaves, then vertical. A card at (x, v) is placed at wall
+ *          y = v vh + min(x, knee) vw * tan(angle), so while the wall pans
+ *          diagonally every card slides along its own line parallel to the
+ *          pan, and past the knee v is a plain vertical offset (cards for the
+ *          vertical leg use large v, stacked below one another).
  *
  *          Values come from a simulator (exact rotated card boxes with EVERY
  *          card open, the escalator's real position at each scroll step,
  *          several typical window sizes per range) that enforces: no two open
- *          cards overlap; no card gets within ~32px of the escalator's black
- *          band (cards may pass over the figures; they render above them);
- *          every card is fully on screen below the navbar at some scroll
- *          position, in reading order, with the right-hand side kept in use.
- *          Window HEIGHT is not part of the check: very short windows can
- *          still overlap. If you move a card or change a range's angle /
- *          travel, re-run that check.
+ *          cards overlap; no card touches the escalator at all (it is drawn
+ *          above the cards) and none gets within ~32px of its black band; every
+ *          card is fully on screen below the navbar at some scroll position;
+ *          the last two cards are still on screen when the pin ends; cards are
+ *          spread evenly over the scroll. Window HEIGHT is only sampled at a few
+ *          typical sizes. If you move a card or change a range's geometry,
+ *          re-run that check.
  * rotate – small tilt in degrees (-4 … 4).
  */
 const faqItems = [
@@ -48,9 +50,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [10.2, 17.4],
-      lg: [4.3, 25.6],
-      md: [16.9, 23.4],
+      base: [5.3, 14.6],
+      lg: [5.4, 17.4],
     },
     rotate: -2.5,
   },
@@ -65,9 +66,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [77.6, 0.9],
-      lg: [72.9, 3.7],
-      md: [93.1, -19.4],
+      base: [76.6, -8.5],
+      lg: [81.5, -19.3],
     },
     rotate: -1.5,
   },
@@ -83,9 +83,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [46.8, 20.6],
-      lg: [40.9, 22.3],
-      md: [57.1, 3.6],
+      base: [44.2, 5.0],
+      lg: [45.4, 4.3],
     },
     rotate: 1.5,
   },
@@ -99,9 +98,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [103.2, 9.5],
-      lg: [88.9, 31.2],
-      md: [70.6, 40.8],
+      base: [114.4, -24.2],
+      lg: [77.4, 20.5],
     },
     rotate: 0.5,
   },
@@ -117,9 +115,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [124.3, 15.7],
-      lg: [121.5, 16.8],
-      md: [109.1, 19.7],
+      base: [121.2, -0.3],
+      lg: [118.7, -21.5],
     },
     rotate: 3.5,
   },
@@ -128,9 +125,8 @@ const faqItems = [
     question: "How big can my team be?",
     answer: <>Teams can have up to 4 people.</>,
     layouts: {
-      base: [147.2, 37.4],
-      lg: [153.8, 14.9],
-      md: [135.8, 47.9],
+      base: [186.3, 46.8],
+      lg: [115.6, 26.5],
     },
     rotate: 2,
   },
@@ -144,9 +140,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [159.6, -1.2],
-      lg: [191, -14.7],
-      md: [146.3, 9.2],
+      base: [150.2, 12.1],
+      lg: [150.1, -19.7],
     },
     rotate: 0,
   },
@@ -163,9 +158,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [178.5, 9.1],
-      lg: [178.9, 25.6],
-      md: [172.1, 23.9],
+      base: [184.8, -3.4],
+      lg: [164.1, 8.8],
     },
     rotate: 0.5,
   },
@@ -180,9 +174,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [242.3, -15.7],
-      lg: [251.2, -17.5],
-      md: [207.3, -20.7],
+      base: [191.5, 147.6],
+      lg: [151.8, 61.4],
     },
     rotate: -2,
   },
@@ -200,9 +193,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [208.8, 15],
-      lg: [211, 15.5],
-      md: [209.1, 17.6],
+      base: [140.2, 102.6],
+      lg: [196.9, -3.8],
     },
     rotate: 1.5,
   },
@@ -218,9 +210,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [238.7, 20.2],
-      lg: [242.1, 28.6],
-      md: [244.3, 21.3],
+      base: [144.5, 159.3],
+      lg: [199.1, 57.4],
     },
     rotate: -1,
   },
@@ -229,9 +220,8 @@ const faqItems = [
     question: "Does it cost anything to attend?",
     answer: <>Admission to McHacks is completely free!</>,
     layouts: {
-      base: [269.2, -4.6],
-      lg: [273.8, 5.8],
-      md: [280.7, -7.2],
+      base: [177.6, 258.2],
+      lg: [155.3, 103.3],
     },
     rotate: -0.5,
   },
@@ -247,9 +237,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [270.6, 15.7],
-      lg: [278.4, 27.8],
-      md: [281.3, 21.8],
+      base: [135.1, 258.6],
+      lg: [195.8, 116.7],
     },
     rotate: 1,
   },

@@ -12,7 +12,9 @@ import {
   TILE_W,
   TILE_H,
   ESC_ANGLE_DEG,
-  ESC_TRAVEL_UNITS,
+  ESC_BOTTOM_OVERSHOOT,
+  ESC_EXIT_SPAN,
+  BEND_REF_X,
   ESC_VIEWBOX_W,
   ESC_VIEWBOX_H,
   ESC_LANDING_TOP_Y,
@@ -30,17 +32,30 @@ const ESC_SIN = Math.sin(ESC_ANGLE)
 // properties so the server-rendered markup is already right for any width:
 //   --travel / --pan-tan : wall travel (viewport widths) and tan(pan angle)
 //   --esc-h / --esc-y    : escalator height (svh) and start height of its landing
+//   --bend / --knee      : where the pan bends from diagonal to horizontal (fraction
+//                          of scroll) and the card x (vw) beyond which cards sit on
+//                          the flat leg
 //   --cx / --cv          : the card's x (vw) and lane v (vh) for this range,
 //                          picked from --x/--v (base) or --x-<name>/--v-<name>.
 const rangeBlocks = WALL_RANGES.map((range) => {
   const tan = Math.tan((range.angleDeg * Math.PI) / 180)
   const suffix = range.maxWidth ? `-${range.name}` : ""
-  const body = `--travel: ${range.travelX}; --pan-tan: ${tan}; --esc-h: ${range.escHeightSvh}; --esc-y: ${range.escStartY};`
+  const body = `--travel: ${range.travelX}; --pan-tan: ${tan}; --esc-h: ${range.escHeightSvh}; --esc-y: ${range.escStartY}; --bend: ${range.bend}; --vert-screens: ${range.vertScreens}; --knee: ${BEND_REF_X + range.bend * range.travelX * 100};`
   const card = `.faq-card { --cx: var(--x${suffix}); --cv: var(--v${suffix}); }`
   return range.maxWidth
     ? `@media (max-width: ${range.maxWidth}) { ${body} ${card} }`
     : `${body} ${card}`
 }).join("\n  ")
+
+// Wall camera at scroll progress p (px): diagonal until `bend`, horizontal until
+// the escalator has left (`bend + ESC_EXIT_SPAN`), then vertical only.
+const cameraAt = (p, d) => {
+  const end = Math.min(1, d.bend + ESC_EXIT_SPAN)
+  return {
+    x: Math.min(p, end) * d.travelX,
+    y: Math.min(p, d.bend) * d.travelY + Math.max(0, p - end) * d.vertSpeed,
+  }
+}
 
 const CARD_BLACK = "#050505"
 
@@ -92,7 +107,7 @@ const Track = styled.section`
     width: calc(100vw + var(--travel) * 100vw);
     height: calc(100vh + var(--travel) * var(--pan-tan) * 100vw);
     height: calc(100svh + var(--travel) * var(--pan-tan) * 100vw);
-    z-index: 2; /* cards sit above the escalator (and its figures) */
+    z-index: 1; /* the escalator (and its figures) is drawn above the cards */
     will-change: transform;
   }
 
@@ -113,7 +128,7 @@ const Track = styled.section`
     height: calc(var(--esc-h) * 1svh);
     width: auto;
     max-width: none;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
     user-select: none;
     will-change: transform;
@@ -124,10 +139,15 @@ const Track = styled.section`
   .faq-card {
     position: absolute;
     /* x along the wall; --v is the lane: vertical offset from the pan line,
-       so a card's on-screen path is always parallel to the pan direction. */
+       so a card's on-screen path is always parallel to the pan direction.
+       The pan line is bent: it rises at --pan-tan until x = --knee, then is flat. */
     left: calc(var(--cx) * 1vw);
-    top: calc(var(--cv) * 1vh + var(--cx) * var(--pan-tan) * 1vw);
-    top: calc(var(--cv) * 1svh + var(--cx) * var(--pan-tan) * 1vw);
+    top: calc(
+      var(--cv) * 1vh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw
+    );
+    top: calc(
+      var(--cv) * 1svh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw
+    );
     width: clamp(260px, 30vw, 420px);
     z-index: 1;
     transform: rotate(var(--rot));
@@ -311,6 +331,35 @@ const Track = styled.section`
     .faq-escalator {
       display: none;
     }
+
+    /* Tablets and up: cards sit side by side and wrap onto the next row. */
+    @media (min-width: ${styleVars.faqTabletUp}) {
+      .faq-stage {
+        padding: 120px 32px 88px;
+      }
+
+      .faq-wall {
+        max-width: 960px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 28px 24px;
+      }
+
+      .faq-card {
+        width: calc((100% - 24px) / 2);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .faq-wall {
+        max-width: 1280px;
+      }
+
+      .faq-card {
+        width: calc((100% - 48px) / 3);
+      }
+    }
   }
 `
 
@@ -320,7 +369,18 @@ const FaqEscalatorSection = ({ scrollRef }) => {
   const wallRef = useRef(null)
   const escalatorRef = useRef(null)
   const staticModeRef = useRef(false)
-  const dimsRef = useRef({ vw: 0, vh: 0, s: 0, travelX: 0, travelY: 0, tan: 0 })
+  const dimsRef = useRef({
+    vw: 0,
+    vh: 0,
+    s: 0,
+    travelX: 0,
+    travelY: 0,
+    tan: 0,
+    bend: 1,
+    vertSpeed: 0,
+    slopeTravel: 0,
+    slideTravel: 0,
+  })
 
   // Share the track node with the page's nav ref (used by scrollTo on "FAQ").
   const setTrackRef = useCallback(
@@ -339,16 +399,28 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     const escalator = escalatorRef.current
     if (!wall || !tiles || !escalator) return
 
-    const { s, travelX, travelY } = dimsRef.current
-    const dx = progress * travelX
-    const dy = progress * travelY
+    const dims = dimsRef.current
+    const { bend, slopeTravel, slideTravel } = dims
+    const { x: dx, y: dy } = cameraAt(progress, dims)
 
     wall.style.transform = `translate3d(${-dx}px, ${-dy}px, 0)`
     tiles.style.transform = `translate3d(${-(dx % TILE_W)}px, ${-(dy % TILE_H)}px, 0)`
 
-    // Exactly along the 20° slope, so the slope's edge looks stationary.
-    const d = progress * ESC_TRAVEL_UNITS * s
-    escalator.style.transform = `translate3d(${-d * ESC_COS}px, ${-d * ESC_SIN}px, 0)`
+    // Escalator: exactly along the 20° slope for the diagonal leg (so the
+    // slope's edge looks stationary) until its bottom reaches the bottom of the
+    // screen, then straight left, quickly, and out of view.
+    let ex
+    let ey
+    if (progress <= bend) {
+      const d = bend ? (progress / bend) * slopeTravel : slopeTravel
+      ex = -d * ESC_COS
+      ey = -d * ESC_SIN
+    } else {
+      const k = Math.min(1, (progress - bend) / ESC_EXIT_SPAN)
+      ex = -slopeTravel * ESC_COS - k * slideTravel
+      ey = -slopeTravel * ESC_SIN
+    }
+    escalator.style.transform = `translate3d(${ex}px, ${ey}px, 0)`
   }, [])
 
   const { requestUpdate } = useScrollProgress(trackRef, applyProgress)
@@ -367,11 +439,44 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       const tan = parseFloat(cs.getPropertyValue("--pan-tan")) || 0
       const travelX = travel * vw
       const travelY = travelX * tan
+      const bend = parseFloat(cs.getPropertyValue("--bend")) || 1
       const s = escalator ? escalator.offsetHeight / ESC_VIEWBOX_H : 0
-      dimsRef.current = { vw, vh, s, travelX, travelY, tan }
+
+      // Escalator ride: slide along the slope until the artwork's bottom edge
+      // is just below the bottom of the screen.
+      let slopeTravel = 0
+      let slideTravel = 0
+      if (escalator && escalator.offsetParent) {
+        const stageH = escalator.offsetParent.clientHeight
+        const bottom0 = escalator.offsetTop + escalator.offsetHeight
+        const right0 = escalator.offsetLeft + escalator.offsetWidth
+        slopeTravel = Math.max(
+          0,
+          (bottom0 - ESC_BOTTOM_OVERSHOOT - stageH) / ESC_SIN
+        )
+        // Then leave to the left, just far enough for its right edge to clear
+        // the screen.
+        slideTravel = Math.max(0, right0 - slopeTravel * ESC_COS + 8)
+      }
+      const vertScreens = parseFloat(cs.getPropertyValue("--vert-screens")) || 0
+      const vertSpeed =
+        (vertScreens * vh) / (1 - Math.min(1, bend + ESC_EXIT_SPAN))
+      dimsRef.current = {
+        vw,
+        vh,
+        s,
+        travelX,
+        travelY,
+        tan,
+        bend,
+        vertSpeed,
+        slopeTravel,
+        slideTravel,
+      }
       if (wall) {
-        wall.style.width = `${vw + travelX}px`
-        wall.style.height = `${vh + travelY}px`
+        const end = cameraAt(1, dimsRef.current)
+        wall.style.width = `${vw + end.x}px`
+        wall.style.height = `${vh + end.y}px`
       }
     }
 
@@ -443,7 +548,8 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       return
     }
 
-    const { travelX, travelY, tan } = dimsRef.current
+    const dims = dimsRef.current
+    const { tan } = dims
     const clamp01 = (v) => Math.min(1, Math.max(0, v))
     const cardW = cardEl.offsetWidth
     const cardH = cardEl.offsetHeight
@@ -451,23 +557,12 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     const cardStyle = window.getComputedStyle(cardEl)
     const cardX = parseFloat(cardStyle.getPropertyValue("--cx")) || 0
     const cardV = parseFloat(cardStyle.getPropertyValue("--cv")) || 0
+    const knee = parseFloat(cardStyle.getPropertyValue("--knee")) || 0
     const left = (cardX / 100) * vw // card box on the wall, px
-    const top = (cardV / 100) * vh + left * tan
+    // The pan line is bent: it rises at `tan` only up to the knee.
+    const top = (cardV / 100) * vh + Math.min(cardX, knee) * (vw / 100) * tan
 
-    // 1) Progress that would put the card centre at the target spot. The wall
-    //    only moves along (travelX, travelY), so project onto that line.
-    const cx = left + cardW / 2
-    const cy = top + Math.min(cardH, 90) / 2
-    const denom = travelX * travelX + travelY * travelY
-    const centred = denom
-      ? clamp01(
-          ((cx - vw * 0.5) * travelX + (cy - vh * 0.45) * travelY) / denom
-        )
-      : 0
-
-    // 2) Progress range in which the whole card is inside the safe area. The
-    //    centred value can miss this (travel isn't 45°), so clamp into it.
-    //    Cards tilt about their top-left corner, so use the rotated bounds.
+    // Cards tilt about their top-left corner, so use the rotated bounds.
     const rad = (item.rotate * Math.PI) / 180
     const cos = Math.cos(rad)
     const sin = Math.sin(rad)
@@ -478,19 +573,28 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     const by0 = top + Math.min(...ys)
     const by1 = top + Math.max(...ys)
 
-    const xLo = travelX ? (bx1 - (vw - SAFE.right)) / travelX : -Infinity
-    const xHi = travelX ? (bx0 - SAFE.left) / travelX : Infinity
-    const yLo = travelY ? (by1 - (vh - SAFE.bottom)) / travelY : -Infinity
-    const yHi = travelY ? (by0 - SAFE.top) / travelY : Infinity
-
-    const lo = Math.max(0, xLo, yLo)
-    const hi = Math.min(1, xHi, yHi)
-    let p = centred
-    if (lo <= hi) {
-      p = Math.min(hi, Math.max(lo, centred))
-    } else if (yLo <= yHi) {
-      // Can't satisfy both axes: at least keep it clear of the navbar / bottom.
-      p = Math.min(yHi, Math.max(yLo, centred))
+    // The wall's camera at progress p (diagonal leg, then horizontal only).
+    // Scan progress for the spot that keeps the whole card inside the safe
+    // area (vertical fit counts double) and is closest to centring the card.
+    const cx = left + cardW / 2
+    const cy = top + Math.min(cardH, 90) / 2
+    let p = 0
+    let best = Infinity
+    const STEPS = 400
+    for (let i = 0; i <= STEPS; i++) {
+      const q = i / STEPS
+      const { x: camX, y: camY } = cameraAt(q, dims)
+      const miss =
+        Math.max(0, SAFE.left - (bx0 - camX)) +
+        Math.max(0, bx1 - camX - (vw - SAFE.right)) +
+        2 * Math.max(0, SAFE.top - (by0 - camY)) +
+        2 * Math.max(0, by1 - camY - (vh - SAFE.bottom))
+      const off = Math.hypot(cx - camX - vw * 0.5, cy - camY - vh * 0.45)
+      const score = miss * 1000 + off
+      if (score < best) {
+        best = score
+        p = q
+      }
     }
     p = clamp01(p)
 
