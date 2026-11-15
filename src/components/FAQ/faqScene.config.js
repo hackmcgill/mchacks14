@@ -1,9 +1,11 @@
 // Every tunable for the diagonal-scroll FAQ scene lives here.
 import { faqLaptopUp, faqDesktopUp } from "../variable"
 
+export { ESC_ANGLE_DEG } from "./escalatorArt"
+
 // ---- Scroll / pin -----------------------------------------------------------
 // Track height in svh. Pinned scroll distance = TRACK_HEIGHT_SVH - 100 svh.
-export const TRACK_HEIGHT_SVH = 500
+export const TRACK_HEIGHT_SVH = 630
 
 // ---- Wall (tiles + cards) ---------------------------------------------------
 // The wall slides up-left by `travelX` viewport widths horizontally, along a
@@ -27,28 +29,24 @@ export const TRACK_HEIGHT_SVH = 500
 // none. Each card has one [x, v] position per range in faq.js, tuned
 // together with that range's travelX / angleDeg (see the note there).
 //
-// escHeightSvh / escStartY size the escalator for the range: image height in
-// svh, and where its top landing sits at progress 0 (0 = top of the stage,
-// 1 = bottom). The escalator scales with viewport HEIGHT, so for narrower ranges
-// it is made smaller and lower to leave room above its black band for cards.
+// escBandSvh / escStartY size the escalator for the range: thickness of its
+// band in svh (the whole artwork, figures included, scales with it), and where
+// its top landing sits at progress 0 (0 = top of the stage, 1 = bottom).
 //
-// The pan has three legs (progress = fraction of the pinned scroll):
-//   1. 0 -> bend            diagonal: the wall pans up-left at angleDeg while the
-//                           escalator rides down its own slope. It ends the moment
-//                           the escalator's bottom lands on the bottom of the screen.
-//   2. bend -> bend + ESC_EXIT_SPAN
-//                           horizontal only: the wall keeps panning left while the
-//                           escalator leaves to the left, out of view.
-//   3. bend + ESC_EXIT_SPAN -> 1
-//                           vertical only: the wall pans straight up by `vertScreens`
-//                           viewport heights, bringing the remaining cards in from below. Then the pin ends and the
-//                           page continues down.
-// `bend` is picked so the escalator, which has to cover its whole ride in leg 1,
-// still travels further than the wall does there. Cards are laid out along the same
-// path: see BEND_REF_X and the faq-card `top` rule.
+// The pan has two legs (progress = fraction of the pinned scroll):
+//   1. 0 -> ESC_BEND        diagonal: the wall pans up-left at angleDeg while the
+//                           escalator rides up-left along its own slope, faster
+//                           (ESC_SPEED_RATIO), so it reads as moving UP. It ends
+//                           the moment the escalator's bottom landing lands on the
+//                           bottom of the screen.
+//   2. ESC_BEND -> 1        horizontal only: the wall keeps panning left while the
+//                           escalator leaves to the left. The pin ends just as it
+//                           is gone, and the page continues down.
+// Cards are laid out along the same path: see BEND_REF_X and the faq-card `top`
+// rule.
 //
 // BEND_REF_X: the card's left edge (vw) at the moment the "card on the wall"
-// is at its readable spot. A card whose x is beyond BEND_REF_X + bend * travel
+// is at its readable spot. A card whose x is beyond BEND_REF_X + ESC_BEND * travel
 // is positioned along the flat leg, so its v is a plain vertical offset.
 export const BEND_REF_X = 35
 const below = (bp) => `${parseInt(bp, 10) - 1}px`
@@ -56,22 +54,18 @@ export const WALL_RANGES = [
   {
     name: "base",
     maxWidth: null,
-    travelX: 2.21,
+    travelX: 2.93,
     angleDeg: 23.0,
-    escHeightSvh: 125,
-    escStartY: 0.8,
-    bend: 0.5,
-    vertScreens: 2.2,
+    escBandSvh: 18,
+    escStartY: 0.84,
   },
   {
     name: "lg",
     maxWidth: below(faqDesktopUp),
-    travelX: 2.33,
+    travelX: 3.2,
     angleDeg: 22.7,
-    escHeightSvh: 100,
-    escStartY: 0.9,
-    bend: 0.5,
-    vertScreens: 1.0,
+    escBandSvh: 18,
+    escStartY: 0.92,
   },
 ]
 
@@ -80,20 +74,17 @@ export const TILE_W = 2199 * SCALE_FACTOR
 export const TILE_H = 1591 * SCALE_FACTOR
 
 // ---- Escalator --------------------------------------------------------------
-export const ESC_ANGLE_DEG = 20 // must match the slope in the artwork exactly
-// The escalator is the viewer's ride DOWN. During the diagonal leg of the pan it
-// slides up-left along its own 20deg slope until its bottom edge is exactly at
-// the bottom of the screen (no floating edge); then it leaves straight to the
-// left, quickly: ESC_EXIT_SPAN is the stretch of scroll (fraction of the pin) the
-// exit takes. After that the escalator is gone for the rest of the pin.
-export const ESC_EXIT_SPAN = 0.08
+// Artwork geometry (figures, shape) lives in escalatorArt.js.
+// ESC_EXIT_SPAN: the stretch of scroll (fraction of the pin) the escalator's
+// exit to the left takes, at the very end of the pin.
+export const ESC_EXIT_SPAN = 0.06
+export const ESC_BEND = 1 - ESC_EXIT_SPAN
+// During leg 1 the escalator covers this many times the wall's horizontal
+// travel. Its band LENGTH is picked at runtime to make that true at any window
+// size (the bottom landing must arrive exactly at ESC_BEND).
+export const ESC_SPEED_RATIO = 2
 // Extra px so the artwork's bottom edge sits just below the screen bottom.
 export const ESC_BOTTOM_OVERSHOOT = 4
-
-// Artwork geometry (SVG viewBox units) used for the maths above.
-export const ESC_VIEWBOX_W = 5994
-export const ESC_VIEWBOX_H = 2363
-export const ESC_LANDING_TOP_Y = 130.16
 
 // ---- Responsive / fallback --------------------------------------------------
 // Below faqLaptopUp (1024px), or with prefers-reduced-motion, the scene falls back

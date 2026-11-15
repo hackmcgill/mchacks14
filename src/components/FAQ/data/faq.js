@@ -16,23 +16,28 @@ import React from "react"
  *          unused.
  *          x is the card's left edge on the wall in vw. v is its "lane": the
  *          top edge's vertical offset in vh from the pan line. The pan has
- *          three legs (see faqScene.config.js): diagonal, horizontal while the
- *          escalator leaves, then vertical. A card at (x, v) is placed at wall
- *          y = v vh + min(x, knee) vw * tan(angle), so while the wall pans
- *          diagonally every card slides along its own line parallel to the
- *          pan, and past the knee v is a plain vertical offset (cards for the
- *          vertical leg use large v, stacked below one another).
+ *          two legs (see faqScene.config.js): diagonal while riding the
+ *          escalator, then horizontal while it leaves; the pin ends there. A
+ *          card at (x, v) is placed at wall y = v vh + min(x, knee) vw *
+ *          tan(angle), so while the wall pans diagonally every card slides
+ *          along its own line parallel to the pan, and past the knee v is a
+ *          plain vertical offset.
  *
  *          Values come from a simulator (exact rotated card boxes with EVERY
  *          card open, the escalator's real position at each scroll step,
  *          several typical window sizes per range) that enforces: no two open
- *          cards overlap; no card touches the escalator at all (it is drawn
- *          above the cards) and none gets within ~32px of its black band; every
- *          card is fully on screen below the navbar at some scroll position;
- *          the last two cards are still on screen when the pin ends; cards are
- *          spread evenly over the scroll. Window HEIGHT is only sampled at a few
- *          typical sizes. If you move a card or change a range's geometry,
- *          re-run that check.
+ *          cards overlap; cards are drawn above the escalator and may cover its
+ *          figures, but none gets within ~32px of its black band or landings
+ *          while on screen; no card touches the heading; every card is fully on
+ *          screen below the navbar at some scroll position; the last two cards
+ *          are on screen (closed) when the pin ends, the last one low on the
+ *          screen (no empty tiles before the next section); the first card is
+ *          left of the heading and on screen at the start; cards appear evenly
+ *          over the scroll, in this order. Windows shorter than ~640px or wider
+ *          than 2.4:1 were left out (the first card can't open there without
+ *          reaching the escalator). Window HEIGHT is only sampled at a few
+ *          typical sizes. If you move a card, change a range's geometry or the
+ *          escalator's length, re-run that check.
  * rotate – small tilt in degrees (-4 … 4).
  */
 const faqItems = [
@@ -50,8 +55,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [5.3, 14.6],
-      lg: [5.4, 17.4],
+      base: [11.8, -3.1],
+      lg: [10.6, -1.5],
     },
     rotate: -2.5,
   },
@@ -66,8 +71,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [76.6, -8.5],
-      lg: [81.5, -19.3],
+      base: [106.9, -48],
+      lg: [60.2, -5.7],
     },
     rotate: -1.5,
   },
@@ -83,8 +88,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [44.2, 5.0],
-      lg: [45.4, 4.3],
+      base: [71.9, -5.5],
+      lg: [98.1, -14],
     },
     rotate: 1.5,
   },
@@ -98,8 +103,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [114.4, -24.2],
-      lg: [77.4, 20.5],
+      base: [113.3, -1.6],
+      lg: [136.3, -31.2],
     },
     rotate: 0.5,
   },
@@ -115,8 +120,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [121.2, -0.3],
-      lg: [118.7, -21.5],
+      base: [165.9, -45.8],
+      lg: [173.4, -44],
     },
     rotate: 3.5,
   },
@@ -125,8 +130,8 @@ const faqItems = [
     question: "How big can my team be?",
     answer: <>Teams can have up to 4 people.</>,
     layouts: {
-      base: [186.3, 46.8],
-      lg: [115.6, 26.5],
+      base: [158.6, 3],
+      lg: [168.6, 10.3],
     },
     rotate: 2,
   },
@@ -140,8 +145,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [150.2, 12.1],
-      lg: [150.1, -19.7],
+      base: [206, -42.4],
+      lg: [212, -32.2],
     },
     rotate: 0,
   },
@@ -158,8 +163,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [184.8, -3.4],
-      lg: [164.1, 8.8],
+      base: [243.7, -50.8],
+      lg: [255.7, -44],
     },
     rotate: 0.5,
   },
@@ -174,8 +179,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [191.5, 147.6],
-      lg: [151.8, 61.4],
+      base: [208.8, -2.9],
+      lg: [223.8, 8.7],
     },
     rotate: -2,
   },
@@ -193,8 +198,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [140.2, 102.6],
-      lg: [196.9, -3.8],
+      base: [251.8, -13.3],
+      lg: [304, -44],
     },
     rotate: 1.5,
   },
@@ -210,8 +215,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [144.5, 159.3],
-      lg: [199.1, 57.4],
+      base: [290.3, -42.7],
+      lg: [271.2, 8],
     },
     rotate: -1,
   },
@@ -220,8 +225,8 @@ const faqItems = [
     question: "Does it cost anything to attend?",
     answer: <>Admission to McHacks is completely free!</>,
     layouts: {
-      base: [177.6, 258.2],
-      lg: [155.3, 103.3],
+      base: [298.8, -12.4],
+      lg: [340, -25.1],
     },
     rotate: -0.5,
   },
@@ -237,8 +242,8 @@ const faqItems = [
       </>
     ),
     layouts: {
-      base: [135.1, 258.6],
-      lg: [195.8, 116.7],
+      base: [344, 10],
+      lg: [325.3, 13.1],
     },
     rotate: 1,
   },

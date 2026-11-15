@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Helmet } from "react-helmet"
 import styled from "styled-components"
 
@@ -14,15 +14,21 @@ import {
   ESC_ANGLE_DEG,
   ESC_BOTTOM_OVERSHOOT,
   ESC_EXIT_SPAN,
+  ESC_BEND,
+  ESC_SPEED_RATIO,
   BEND_REF_X,
-  ESC_VIEWBOX_W,
-  ESC_VIEWBOX_H,
-  ESC_LANDING_TOP_Y,
   STATIC_MODE_QUERY,
 } from "./faqScene.config"
+import {
+  ESC_BAND_T,
+  ESC_DEFAULT_LENGTH,
+  ESC_LANDING_TOP_Y,
+  artSize,
+  bandLengthFor,
+} from "./escalatorArt"
+import Escalator from "./Escalator"
 
 import tileUrl from "../../assets/images/wall-tile.webp"
-import escalatorUrl from "../../assets/images/faq/escalator.webp"
 import faqHeading from "../../assets/images/designs/mchacks14-faq-heading.webp"
 
 const HEADING_W = 609
@@ -31,43 +37,41 @@ const HEADING_H = 100
 const ESC_ANGLE = (ESC_ANGLE_DEG * Math.PI) / 180
 const ESC_COS = Math.cos(ESC_ANGLE)
 const ESC_SIN = Math.sin(ESC_ANGLE)
+// Top landing's offset inside the art, per svh of band thickness (--esc-band).
+const ESC_LANDING_PER_BAND = ESC_LANDING_TOP_Y / ESC_BAND_T
 
 // Per-range pan geometry and card positions are delivered as CSS custom
 // properties so the server-rendered markup is already right for any width:
 //   --travel / --pan-tan : wall travel (viewport widths) and tan(pan angle)
-//   --esc-h / --esc-y    : escalator height (svh) and start height of its landing
-//   --bend / --knee      : where the pan bends from diagonal to horizontal (fraction
-//                          of scroll) and the card x (vw) beyond which cards sit on
-//                          the flat leg
+//   --esc-band / --esc-y : escalator band thickness (svh) and start height of its landing
+//   --knee               : the card x (vw) beyond which cards sit on the flat leg
+//                          (the pan bends from diagonal to horizontal at ESC_BEND)
 //   --cx / --cv          : the card's x (vw) and lane v (vh) for this range,
 //                          picked from --x/--v (base) or --x-<name>/--v-<name>.
 const rangeBlocks = WALL_RANGES.map((range) => {
   const tan = Math.tan((range.angleDeg * Math.PI) / 180)
   const suffix = range.maxWidth ? `-${range.name}` : ""
-  const body = `--travel: ${range.travelX}; --pan-tan: ${tan}; --esc-h: ${range.escHeightSvh}; --esc-y: ${range.escStartY}; --bend: ${range.bend}; --vert-screens: ${range.vertScreens}; --knee: ${BEND_REF_X + range.bend * range.travelX * 100};`
+  const body = `--travel: ${range.travelX}; --pan-tan: ${tan}; --esc-band: ${range.escBandSvh}; --esc-y: ${range.escStartY}; --knee: ${BEND_REF_X + ESC_BEND * range.travelX * 100};`
   const card = `.faq-card { --cx: var(--x${suffix}); --cv: var(--v${suffix}); }`
   return range.maxWidth
     ? `@media (max-width: ${range.maxWidth}) { ${body} ${card} }`
     : `${body} ${card}`
 }).join("\n  ")
 
-// Wall camera at scroll progress p (px): diagonal until `bend`, horizontal until
-// the escalator has left (`bend + ESC_EXIT_SPAN`), then vertical only.
-const cameraAt = (p, d) => {
-  const end = Math.min(1, d.bend + ESC_EXIT_SPAN)
-  return {
-    x: Math.min(p, end) * d.travelX,
-    y: Math.min(p, d.bend) * d.travelY + Math.max(0, p - end) * d.vertSpeed,
-  }
-}
+// Wall camera at scroll progress p (px): diagonal until ESC_BEND, then
+// horizontal only while the escalator leaves.
+const cameraAt = (p, d) => ({
+  x: p * d.travelX,
+  y: Math.min(p, ESC_BEND) * d.travelY,
+})
 
 const CARD_BLACK = "#050505"
 
 const Track = styled.section`
   ${rangeBlocks}
-  /* Header band: room at the top of the wall for the heading image. Cards and
-     the escalator are pushed down by --head-band so nothing sits under it.
-     Gap under the heading = the 40px below. */
+  /* Header band: room at the top of the wall for the heading image. Cards are
+     pushed down by --head-band so nothing sits under it (the escalator is not:
+     it hangs off the bottom-left of the screen, so it keeps its own position). */
   --head-w: min(46vw, 680px);
   --head-top: max(110px, 11vh);
   --head-top: max(110px, 11svh);
@@ -135,31 +139,36 @@ const Track = styled.section`
     width: calc(100vw + var(--travel) * 100vw);
     height: calc(100vh + var(--travel) * var(--pan-tan) * 100vw);
     height: calc(100svh + var(--travel) * var(--pan-tan) * 100vw);
-    z-index: 1; /* the escalator (and its figures) is drawn above the cards */
+    z-index: 1; /* below the escalator: cards are part of the wall, so figures pass in front */
     will-change: transform;
   }
 
+  /* Sized from the band thickness (the art scales with it). top = landing
+     surface at --esc-y of the stage height, minus the landing's offset inside
+     the art. Pure CSS so SSR is right. */
   .faq-escalator {
     position: absolute;
     left: 0;
-    /* top = landing surface at --esc-y of the stage height, minus the
-       landing's offset inside the image. Pure CSS so SSR is right. */
     top: calc(
-      var(--esc-y) * 100vh - ${ESC_LANDING_TOP_Y / ESC_VIEWBOX_H} * var(--esc-h) *
-        1vh + var(--head-band)
+      var(--esc-y) * 100vh - ${ESC_LANDING_PER_BAND} * var(--esc-band) * 1vh
     );
     top: calc(
-      var(--esc-y) * 100svh - ${ESC_LANDING_TOP_Y / ESC_VIEWBOX_H} *
-        var(--esc-h) * 1svh + var(--head-band)
+      var(--esc-y) * 100svh - ${ESC_LANDING_PER_BAND} * var(--esc-band) * 1svh
     );
-    height: calc(var(--esc-h) * 1vh);
-    height: calc(var(--esc-h) * 1svh);
-    width: auto;
-    max-width: none;
-    z-index: 2;
+    /* --esc-w / --esc-h: the art's size per svh of band (set by Escalator) */
+    width: calc(var(--esc-w) * var(--esc-band) * 1vh);
+    width: calc(var(--esc-w) * var(--esc-band) * 1svh);
+    height: calc(var(--esc-h) * var(--esc-band) * 1vh);
+    height: calc(var(--esc-h) * var(--esc-band) * 1svh);
+    z-index: 2; /* in front of the wall (cards); clicks pass through to them */
     pointer-events: none;
     user-select: none;
     will-change: transform;
+  }
+
+  .faq-escalator svg {
+    display: block;
+    overflow: visible;
   }
 
   /* ---- Card ------------------------------------------------------------ */
@@ -419,16 +428,15 @@ const FaqEscalatorSection = ({ scrollRef }) => {
   const escalatorRef = useRef(null)
   const bandRef = useRef(null)
   const staticModeRef = useRef(false)
+  // Set by measure() for the current window; the default is for SSR only.
+  const [bandLength, setBandLength] = useState(ESC_DEFAULT_LENGTH)
   const dimsRef = useRef({
     vw: 0,
     vh: 0,
-    s: 0,
     travelX: 0,
     travelY: 0,
     tan: 0,
-    bend: 1,
     tileY0: 0,
-    vertSpeed: 0,
     slopeTravel: 0,
     slideTravel: 0,
     band: 0,
@@ -452,7 +460,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     if (!wall || !tiles || !escalator) return
 
     const dims = dimsRef.current
-    const { bend, slopeTravel, slideTravel, tileY0 } = dims
+    const { slopeTravel, slideTravel, tileY0 } = dims
     const { x: dx, y: dy } = cameraAt(progress, dims)
 
     wall.style.transform = `translate3d(${-dx}px, ${-dy}px, 0)`
@@ -463,12 +471,12 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     // screen, then straight left, quickly, and out of view.
     let ex
     let ey
-    if (progress <= bend) {
-      const d = bend ? (progress / bend) * slopeTravel : slopeTravel
+    if (progress <= ESC_BEND) {
+      const d = (progress / ESC_BEND) * slopeTravel
       ex = -d * ESC_COS
       ey = -d * ESC_SIN
     } else {
-      const k = Math.min(1, (progress - bend) / ESC_EXIT_SPAN)
+      const k = Math.min(1, (progress - ESC_BEND) / ESC_EXIT_SPAN)
       ex = -slopeTravel * ESC_COS - k * slideTravel
       ey = -slopeTravel * ESC_SIN
     }
@@ -527,41 +535,46 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       const tan = parseFloat(cs.getPropertyValue("--pan-tan")) || 0
       const travelX = travel * vw
       const travelY = travelX * tan
-      const bend = parseFloat(cs.getPropertyValue("--bend")) || 1
-      const s = escalator ? escalator.offsetHeight / ESC_VIEWBOX_H : 0
 
-      // Escalator ride: slide along the slope until the artwork's bottom edge
-      // is just below the bottom of the screen.
+      // Escalator ride: during leg 1 it slides up along its slope, covering
+      // ESC_SPEED_RATIO times the wall's horizontal travel, and ends with its
+      // bottom edge just below the bottom of the screen. Its band length is
+      // whatever makes both true here (the art scales with the stage height,
+      // the wall's travel with its width).
       let slopeTravel = 0
       let slideTravel = 0
       if (escalator && escalator.offsetParent) {
         const stageH = escalator.offsetParent.clientHeight
-        const bottom0 = escalator.offsetTop + escalator.offsetHeight
-        const right0 = escalator.offsetLeft + escalator.offsetWidth
+        const escBand = parseFloat(cs.getPropertyValue("--esc-band")) || 0
+        const unit = (escBand * stageH) / 100 / ESC_BAND_T // px per art unit
+        const top0 = escalator.offsetTop // doesn't depend on the length
+        const want = (ESC_SPEED_RATIO * ESC_BEND * travelX) / ESC_COS
+        const length = Math.round(
+          bandLengthFor(
+            (want * ESC_SIN + ESC_BOTTOM_OVERSHOOT + stageH - top0) / unit
+          )
+        )
+        setBandLength(length)
+        const size = artSize(length)
         slopeTravel = Math.max(
           0,
-          (bottom0 - ESC_BOTTOM_OVERSHOOT - stageH) / ESC_SIN
+          (top0 + size.h * unit - ESC_BOTTOM_OVERSHOOT - stageH) / ESC_SIN
         )
         // Then leave to the left, just far enough for its right edge to clear
         // the screen.
-        slideTravel = Math.max(0, right0 - slopeTravel * ESC_COS + 8)
+        slideTravel = Math.max(
+          0,
+          escalator.offsetLeft + size.w * unit - slopeTravel * ESC_COS + 8
+        )
       }
-      const vertScreens = parseFloat(cs.getPropertyValue("--vert-screens")) || 0
-      // The cards sit `band` px lower than the lanes say; scroll that extra
-      // distance too so the last cards still end up where they were.
       const band = bandRef.current ? bandRef.current.offsetHeight : 0
-      const vertSpeed =
-        (vertScreens * vh + band) / (1 - Math.min(1, bend + ESC_EXIT_SPAN))
       dimsRef.current = {
         vw,
         vh,
-        s,
         travelX,
         travelY,
         tan,
-        bend,
         tileY0: dimsRef.current.tileY0,
-        vertSpeed,
         slopeTravel,
         slideTravel,
         band,
@@ -737,6 +750,11 @@ const FaqEscalatorSection = ({ scrollRef }) => {
           aria-hidden="true"
           style={{ backgroundImage: `url(${tileUrl})` }}
         />
+        <Escalator
+          className="faq-escalator"
+          ref={escalatorRef}
+          bandLength={bandLength}
+        />
         <div className="faq-wall" ref={wallRef} onFocus={handleFocus}>
           <div className="faq-band" ref={bandRef} aria-hidden="true" />
           <h2 className="faq-heading">
@@ -752,17 +770,6 @@ const FaqEscalatorSection = ({ scrollRef }) => {
             <FaqCard key={item.id} item={item} shape={index % 3} />
           ))}
         </div>
-        <img
-          className="faq-escalator"
-          ref={escalatorRef}
-          src={escalatorUrl}
-          alt=""
-          aria-hidden="true"
-          width={ESC_VIEWBOX_W}
-          height={ESC_VIEWBOX_H}
-          decoding="async"
-          draggable={false}
-        />
       </div>
     </Track>
   )
