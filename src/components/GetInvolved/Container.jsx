@@ -1,12 +1,7 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
 import wallTile from "../../assets/images/wall-tile.webp"
-import {
-  TILE_W,
-  TILE_H,
-  STATIC_MODE_QUERY,
-  STACKED_LAYOUT_QUERY,
-} from "../FAQ/faqScene.config"
+import { TILE_W, TILE_H, STATIC_MODE_QUERY } from "../FAQ/faqScene.config"
 
 const Container = styled.section`
   position: relative;
@@ -27,10 +22,6 @@ const Container = styled.section`
     background-size: ${TILE_W / 2}px ${TILE_H / 2}px;
   }
 
-  @media ${STACKED_LAYOUT_QUERY} {
-    height: 1370px;
-  }
-
   .visually-hidden {
     position: absolute;
     width: 1px;
@@ -48,6 +39,9 @@ const Container = styled.section`
   }
 
   @media screen and (max-width: ${styleVars.smUp}) {
+    /* Same breakpoint as the stacked layout below (max-width is inclusive, so
+       this includes exactly 768px). */
+    height: 1370px;
     flex-direction: column;
     align-items: center;
     gap: 32px;

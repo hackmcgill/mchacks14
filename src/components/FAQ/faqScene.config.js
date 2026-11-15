@@ -1,5 +1,5 @@
 // Every tunable for the diagonal-scroll FAQ scene lives here.
-import { faqTabletUp, faqLaptopUp, faqDesktopUp } from "../variable"
+import { faqLaptopUp, faqDesktopUp } from "../variable"
 
 // ---- Scroll / pin -----------------------------------------------------------
 // Track height in svh. Pinned scroll distance = TRACK_HEIGHT_SVH - 100 svh.
@@ -101,7 +101,3 @@ export const ESC_LANDING_TOP_Y = 130.16
 // 768px, up; a single column below that). Only width is considered (not height).
 export const STATIC_MAX_WIDTH = parseInt(faqLaptopUp, 10) - 1
 export const STATIC_MODE_QUERY = `(max-width: ${STATIC_MAX_WIDTH}px), (prefers-reduced-motion: reduce)`
-// Phone-sized layout (the old static cut-off). Other sections that stack at this
-// size (GetInvolved) key off it.
-export const MOBILE_MAX_WIDTH = parseInt(faqTabletUp, 10) - 1
-export const STACKED_LAYOUT_QUERY = `(max-width: ${MOBILE_MAX_WIDTH}px), (prefers-reduced-motion: reduce)`

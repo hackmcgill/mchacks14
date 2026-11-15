@@ -377,6 +377,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     travelY: 0,
     tan: 0,
     bend: 1,
+    tileY0: 0,
     vertSpeed: 0,
     slopeTravel: 0,
     slideTravel: 0,
@@ -400,11 +401,11 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     if (!wall || !tiles || !escalator) return
 
     const dims = dimsRef.current
-    const { bend, slopeTravel, slideTravel } = dims
+    const { bend, slopeTravel, slideTravel, tileY0 } = dims
     const { x: dx, y: dy } = cameraAt(progress, dims)
 
     wall.style.transform = `translate3d(${-dx}px, ${-dy}px, 0)`
-    tiles.style.transform = `translate3d(${-(dx % TILE_W)}px, ${-(dy % TILE_H)}px, 0)`
+    tiles.style.transform = `translate3d(${-(dx % TILE_W)}px, ${-((dy + tileY0) % TILE_H)}px, 0)`
 
     // Escalator: exactly along the 20° slope for the diagonal leg (so the
     // slope's edge looks stationary) until its bottom reaches the bottom of the
@@ -429,6 +430,42 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     const wall = wallRef.current
     const tiles = tilesRef.current
     const escalator = escalatorRef.current
+
+    // The wall tiles must line up with the sections either side of the FAQ, which
+    // each start their own tile pattern at their top edge. So the pattern's phase
+    // at the top of the stage starts where the previous section's pattern ended
+    // (its height), and the phase at the bottom of the stage at the end of the
+    // pin is published as --faq-tile-x / --faq-tile-y for the next section's
+    // background-position.
+    const publishTilePhase = (x, y) => {
+      const root = document.documentElement.style
+      root.setProperty("--faq-tile-x", `${-x}px`)
+      root.setProperty("--faq-tile-y", `${-y}px`)
+    }
+    function syncTilePhase() {
+      const track = trackRef.current
+      const stage = tiles && tiles.parentElement
+      if (!track || !stage) return
+      const prev = track.previousElementSibling
+      const prevH = prev ? prev.offsetHeight : 0
+      if (staticModeRef.current) {
+        // Static list: half-size tiles, no transforms.
+        const tileH = TILE_H / 2
+        const y0 = prevH % tileH
+        tiles.style.backgroundPosition = `0px ${-y0}px`
+        publishTilePhase(0, (y0 + stage.offsetHeight) % tileH)
+      } else {
+        const dims = dimsRef.current
+        dims.tileY0 = prevH % TILE_H
+        tiles.style.backgroundPosition = ""
+        const end = cameraAt(1, dims)
+        publishTilePhase(
+          end.x % TILE_W,
+          (end.y + dims.tileY0 + stage.offsetHeight) % TILE_H
+        )
+        requestUpdate()
+      }
+    }
 
     const measure = () => {
       const vw = window.innerWidth
@@ -469,6 +506,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         travelY,
         tan,
         bend,
+        tileY0: dimsRef.current.tileY0,
         vertSpeed,
         slopeTravel,
         slideTravel,
@@ -478,6 +516,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         wall.style.width = `${vw + end.x}px`
         wall.style.height = `${vh + end.y}px`
       }
+      syncTilePhase()
     }
 
     const clearInline = () => {
@@ -495,22 +534,38 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       staticModeRef.current = mq.matches
       if (mq.matches) {
         clearInline()
+        syncTilePhase()
       } else {
         measure()
         requestUpdate()
       }
     }
     const onResize = () => {
-      if (!staticModeRef.current) measure()
+      if (staticModeRef.current) syncTilePhase()
+      else measure()
     }
 
     syncMode()
+    // Section heights change without a window resize (images load, cards open).
+    const observer =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(onResize)
+    if (observer) {
+      observer.observe(tiles.parentElement)
+      if (trackRef.current.previousElementSibling) {
+        observer.observe(trackRef.current.previousElementSibling)
+      }
+    }
     window.addEventListener("resize", onResize)
     window.addEventListener("orientationchange", onResize)
     if (mq.addEventListener) mq.addEventListener("change", syncMode)
     else mq.addListener(syncMode)
 
     return () => {
+      if (observer) observer.disconnect()
+      document.documentElement.style.removeProperty("--faq-tile-x")
+      document.documentElement.style.removeProperty("--faq-tile-y")
       window.removeEventListener("resize", onResize)
       window.removeEventListener("orientationchange", onResize)
       if (mq.removeEventListener) mq.removeEventListener("change", syncMode)

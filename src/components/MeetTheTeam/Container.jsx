@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import * as styleVars from "../variable"
-import meetTheTeamBackground from "./McHacks14-MeetTheTeamBackground.png"
+import wallTile from "../../assets/images/wall-tile.webp"
+import { TILE_W, TILE_H, STATIC_MODE_QUERY } from "../FAQ/faqScene.config"
 import meetTheTeamPlatform from "../../assets/images/designs/mchacks14-platform.webp"
 import meetTheTeamBlackLine from "../../assets/images/designs/mchacks14-platform-black-line.webp"
 import meetTheTeamHeading from "../../assets/images/designs/mchacks14-team-heading.webp"
@@ -28,10 +29,16 @@ const Container = styled.section`
   width: 100%;
   height: 100vh;
   min-height: 800px;
-  background: ${styleVars.m13White} url(${meetTheTeamBackground});
+  /* Same wall tile (and tile scale) as the FAQ and Get Involved sections. */
+  background-color: #e4ebf2;
+  background-image: url("${wallTile}");
+  background-repeat: repeat;
+  /* The FAQ publishes where its tile pattern ends so the tiles run on unbroken. */
+  background-position: var(--faq-tile-x, 0px) var(--faq-tile-y, 0px);
+  background-size: ${TILE_W}px ${TILE_H}px;
 
-  @media screen and (max-width: ${styleVars.smUp}) {
-    background-size: 640px auto;
+  @media ${STATIC_MODE_QUERY} {
+    background-size: ${TILE_W / 2}px ${TILE_H / 2}px;
   }
 `
 
