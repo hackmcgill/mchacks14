@@ -4,7 +4,6 @@ import * as styleVars from "../variable"
 export const Container = styled.section`
   position: relative;
   width: 100%;
-  max-width: 1440px;
   min-width: 360px;
   aspect-ratio: 10 / 9;
 
@@ -20,6 +19,10 @@ export const Container = styled.section`
 
   @media only screen and (max-width: ${styleVars.smUp}) {
     aspect-ratio: 10 / 19;
+  }
+
+  @media only screen and (max-width: 500px) {
+    aspect-ratio: 10 / 24;
   }
 `
 

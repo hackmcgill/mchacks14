@@ -15,6 +15,16 @@ const Content = styled.div`
   height: inherit;
   width: inherit;
   aspect-ratio: inherit;
+
+  @media only screen and (max-width: 500px) {
+    img:nth-child(-n + 2) {
+      top: 47%;
+    }
+
+    img:nth-child(n + 3) {
+      top: 58%;
+    }
+  }
 `
 
 const images = [
