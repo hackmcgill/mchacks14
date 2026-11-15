@@ -23,6 +23,10 @@ import {
 
 import tileUrl from "../../assets/images/wall-tile.webp"
 import escalatorUrl from "../../assets/images/faq/escalator.webp"
+import faqHeading from "../../assets/images/designs/mchacks14-faq-heading.webp"
+
+const HEADING_W = 609
+const HEADING_H = 100
 
 const ESC_ANGLE = (ESC_ANGLE_DEG * Math.PI) / 180
 const ESC_COS = Math.cos(ESC_ANGLE)
@@ -61,20 +65,44 @@ const CARD_BLACK = "#050505"
 
 const Track = styled.section`
   ${rangeBlocks}
+  /* Header band: room at the top of the wall for the heading image. Cards and
+     the escalator are pushed down by --head-band so nothing sits under it.
+     Gap under the heading = the 40px below. */
+  --head-w: min(46vw, 680px);
+  --head-top: max(110px, 11vh);
+  --head-top: max(110px, 11svh);
+  --head-band: calc(var(--head-top) + var(--head-w) * ${HEADING_H / HEADING_W});
   position: relative;
   height: ${TRACK_HEIGHT_SVH}vh;
   height: ${TRACK_HEIGHT_SVH}svh;
 
-  .visually-hidden {
+  /* Heading image: lives on the wall, so it pans away with the cards and tiles.
+     Centred on the first screen (50vw). */
+  .faq-heading {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    left: 50vw;
+    top: var(--head-top);
+    transform: translateX(-50%);
+    z-index: 0;
+    margin: 0;
+    font: inherit;
+    pointer-events: none;
+  }
+
+  /* Zero-size probe so the script can read --head-band in px. */
+  .faq-band {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: var(--head-band);
+    pointer-events: none;
+  }
+
+  .faq-heading img {
+    display: block;
+    width: var(--head-w);
+    height: auto;
   }
 
   .faq-stage {
@@ -118,11 +146,11 @@ const Track = styled.section`
        landing's offset inside the image. Pure CSS so SSR is right. */
     top: calc(
       var(--esc-y) * 100vh - ${ESC_LANDING_TOP_Y / ESC_VIEWBOX_H} * var(--esc-h) *
-        1vh
+        1vh + var(--head-band)
     );
     top: calc(
       var(--esc-y) * 100svh - ${ESC_LANDING_TOP_Y / ESC_VIEWBOX_H} *
-        var(--esc-h) * 1svh
+        var(--esc-h) * 1svh + var(--head-band)
     );
     height: calc(var(--esc-h) * 1vh);
     height: calc(var(--esc-h) * 1svh);
@@ -143,10 +171,12 @@ const Track = styled.section`
        The pan line is bent: it rises at --pan-tan until x = --knee, then is flat. */
     left: calc(var(--cx) * 1vw);
     top: calc(
-      var(--cv) * 1vh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw
+      var(--cv) * 1vh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw +
+        var(--head-band)
     );
     top: calc(
-      var(--cv) * 1svh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw
+      var(--cv) * 1svh + min(var(--cx), var(--knee)) * var(--pan-tan) * 1vw +
+        var(--head-band)
     );
     width: clamp(260px, 30vw, 420px);
     z-index: 1;
@@ -185,7 +215,6 @@ const Track = styled.section`
 
   .faq-card__heading {
     margin: 0;
-    font: inherit;
   }
 
   .faq-card__button {
@@ -212,6 +241,12 @@ const Track = styled.section`
      and as a white halo on the wrapper (see :has rule above). */
   .faq-card__button:focus-visible {
     outline: none;
+  }
+
+  .faq-card__question {
+    font-family: "Instrument Sans", sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
   }
 
   .faq-card__button:focus-visible .faq-card__question {
@@ -272,7 +307,8 @@ const Track = styled.section`
   .faq-card__answer {
     padding: 0 30px 26px 28px;
     font-family: "Instrument Sans", sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
+    font-weight: 400;
     line-height: 1.45;
     color: ${styleVars.m14GlowAmber100};
   }
@@ -317,6 +353,19 @@ const Track = styled.section`
       flex-direction: column;
       gap: 22px;
       transform: none !important;
+    }
+
+    .faq-heading {
+      position: static;
+      transform: none;
+      align-self: center;
+      width: 100%;
+      max-width: 560px;
+      margin-bottom: 8px;
+    }
+
+    .faq-heading img {
+      width: 100%;
     }
 
     .faq-card {
@@ -368,6 +417,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
   const tilesRef = useRef(null)
   const wallRef = useRef(null)
   const escalatorRef = useRef(null)
+  const bandRef = useRef(null)
   const staticModeRef = useRef(false)
   const dimsRef = useRef({
     vw: 0,
@@ -381,6 +431,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     vertSpeed: 0,
     slopeTravel: 0,
     slideTravel: 0,
+    band: 0,
   })
 
   // Share the track node with the page's nav ref (used by scrollTo on "FAQ").
@@ -496,8 +547,11 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         slideTravel = Math.max(0, right0 - slopeTravel * ESC_COS + 8)
       }
       const vertScreens = parseFloat(cs.getPropertyValue("--vert-screens")) || 0
+      // The cards sit `band` px lower than the lanes say; scroll that extra
+      // distance too so the last cards still end up where they were.
+      const band = bandRef.current ? bandRef.current.offsetHeight : 0
       const vertSpeed =
-        (vertScreens * vh) / (1 - Math.min(1, bend + ESC_EXIT_SPAN))
+        (vertScreens * vh + band) / (1 - Math.min(1, bend + ESC_EXIT_SPAN))
       dimsRef.current = {
         vw,
         vh,
@@ -510,6 +564,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         vertSpeed,
         slopeTravel,
         slideTravel,
+        band,
       }
       if (wall) {
         const end = cameraAt(1, dimsRef.current)
@@ -604,7 +659,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     }
 
     const dims = dimsRef.current
-    const { tan } = dims
+    const { tan, band } = dims
     const clamp01 = (v) => Math.min(1, Math.max(0, v))
     const cardW = cardEl.offsetWidth
     const cardH = cardEl.offsetHeight
@@ -615,7 +670,8 @@ const FaqEscalatorSection = ({ scrollRef }) => {
     const knee = parseFloat(cardStyle.getPropertyValue("--knee")) || 0
     const left = (cardX / 100) * vw // card box on the wall, px
     // The pan line is bent: it rises at `tan` only up to the knee.
-    const top = (cardV / 100) * vh + Math.min(cardX, knee) * (vw / 100) * tan
+    const top =
+      (cardV / 100) * vh + Math.min(cardX, knee) * (vw / 100) * tan + band
 
     // Cards tilt about their top-left corner, so use the rotated bounds.
     const rad = (item.rotate * Math.PI) / 180
@@ -675,7 +731,6 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         />
       </Helmet>
       <div className="faq-stage">
-        <h2 className="visually-hidden">Frequently asked questions</h2>
         <div
           className="faq-tiles"
           ref={tilesRef}
@@ -683,6 +738,16 @@ const FaqEscalatorSection = ({ scrollRef }) => {
           style={{ backgroundImage: `url(${tileUrl})` }}
         />
         <div className="faq-wall" ref={wallRef} onFocus={handleFocus}>
+          <div className="faq-band" ref={bandRef} aria-hidden="true" />
+          <h2 className="faq-heading">
+            <img
+              src={faqHeading}
+              alt="Frequently asked questions"
+              width={HEADING_W}
+              height={HEADING_H}
+              draggable={false}
+            />
+          </h2>
           {faqItems.map((item, index) => (
             <FaqCard key={item.id} item={item} shape={index % 3} />
           ))}
