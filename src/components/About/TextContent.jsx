@@ -11,10 +11,6 @@ const Content = styled.div`
   max-width: 56vw;
 
   @media only screen and (max-width: ${styleVars.lgUp}) {
-    max-width: 50vw;
-  }
-
-  @media only screen and (max-width: ${styleVars.lgUp}) {
     top: 14%;
   }
 
