@@ -9,47 +9,47 @@ Legend:
  (H): Real person (not a stick...?)
 */
 
-//Co-Directors
-  "Shirley", // (H)
-
-//Dev
-  "Jane", // Lead
-  "Muhammad",
-  "Jamie",
-  "Mona", // (H)
-  "Jongmin",
-
-//Experience
-  "Jeffrey", // Lead
-  "Alex",
-  "Aidan", // (H)
-  "Jen",
-  "Clara",
-  "Arnav", // + Design
+// Communication
+  "Janelle",
+  "Lyland", // Lead + Design
 
 // Design
-  "Amy", // Lead (H)
   "Ashley",
+  "Amy", // Lead (H)
 
-// Communication
-  "Lyland", // Lead + Design
-  "Janelle",
+//Experience
+  "Arnav", // + Design
+  "Alex",
+  "Jen",
+  "Aidan", // (H)
+  "Clara",
+  "Jeffrey", // Lead
 
 // Logistic
+  "Emily", 
   "Qian", // Co-Lead (H)
   "Remi", // Co-Lead (H)
-  "Emily", 
 
+//Dev
+  "Jongmin",
+  "Jamie",
+  "Mona", // (H)
+  "Muhammad",
+  "Jane", // Lead
+  
 // Finance
-  "Ikram", // Lead (H)
   "Doaa",
+  "Ikram", // Lead (H)
 
 // Sponsorship
-  "Julia", // Co-Lead
-  "Jimmy", // (H)
   "Jaanya",
   "Carolyn",
-  "Daniel"
+  "Jimmy", // (H)
+  "Daniel",
+  "Julia", // Co-Lead
+
+//Co-Directors
+  "Shirley" // (H)
 
 ]
 
