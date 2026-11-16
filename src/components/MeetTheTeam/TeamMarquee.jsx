@@ -150,7 +150,6 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
             hoverSrc={hoverSrc}
             profileUrl={profileUrl}
             altitude={altitude}
-            eagerLoad={index < 6}
           />
         ))}
       </Track>

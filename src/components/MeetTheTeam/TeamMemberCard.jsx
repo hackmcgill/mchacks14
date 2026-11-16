@@ -50,7 +50,7 @@ const profileNetworkLabel = (profileUrl) => {
   return "profile"
 }
 
-const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad, altitude = 0 }) => {
+const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, altitude = 0 }) => {
   const [hovered, setHovered] = useState(false)
   const [hoverReady, setHoverReady] = useState(false)
 
@@ -70,7 +70,7 @@ const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, eagerLoad, altit
     <MemberImg
       src={hovered && hoverReady ? hoverSrc : src}
       alt={name}
-      loading={eagerLoad ? "eager" : "lazy"}
+      loading="eager"
       decoding="async"
       draggable={false}
     />
