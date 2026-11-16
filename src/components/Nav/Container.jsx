@@ -146,6 +146,13 @@ export const Container = styled.nav`
         opacity 200ms ease-in-out;
     }
 
+    /* Wrap onto a second row on narrow phones instead of being clipped. */
+    .Nav__socials > div {
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 1.6rem;
+    }
+
     .Nav__mlh_banner {
       display: none;
     }
