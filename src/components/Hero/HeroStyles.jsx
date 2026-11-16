@@ -60,8 +60,16 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: calc(var(--hero-x) * 100%) center;
+  }
+
+  /* Only promote layers to the GPU while the effect is actually running */
+  &[data-anim="on"] .hero-layer {
     will-change: transform;
     backface-visibility: hidden;
+  }
+
+  &[data-anim="on"] .hero-content {
+    will-change: transform, opacity;
   }
 
   .hero-scene {
@@ -143,7 +151,6 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
     opacity: var(--hero-fade);
     transform: scale(calc(1 + (var(--hero-zoom) - 1) * 0.35));
     transform-origin: var(--hero-focus-x, 22%) var(--hero-focus-y, 80%);
-    will-change: transform, opacity;
   }
 
   .hero__images-container {

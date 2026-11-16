@@ -7,12 +7,12 @@ const apply = () => {
 }
 
 /* ----- tuning constants ---------------------------------------------------- */
-const STAGE_VH = 200 // 260, total height of the scroll stage (vh)
-const SCENE_MAX = 3 // 7, extra scale applied to the scene at full zoom
-const LAMP_MAX = 5 // 11, extra scale applied to the lamp (faster = parallax depth)
-const VEIL_OPEN = 70 // 70, vignette hole radius (vmax) that counts as fully open
-const FADE_END = 0.20 // 0.28, fraction of zoom progress over which the hero UI fades out
-const CLOSE_START = 0.10 // 0.55, zoom progress at which the fade-to-black begins
+const STAGE_VH = 200 // total height of the scroll stage (vh)
+const SCENE_MAX = 3 // extra scale applied to the scene at full zoom
+const LAMP_MAX = 5 // extra scale applied to the lamp (faster = parallax depth)
+const VEIL_OPEN = 70 // vignette hole radius (vmax) that counts as fully open
+const FADE_END = 0.20 // fraction of zoom progress over which the hero UI fades out
+const CLOSE_START = 0.10 // zoom progress at which the fade-to-black begins
 
 const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x)
 const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
@@ -25,9 +25,9 @@ const Hero = () => {
     if (!stage) return
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    // Pointer-fine + room to scroll: the zoom only makes sense on desktop.
+    // Desktop with a real mouse/trackpad only.
     const enabledQuery = window.matchMedia(
-      "(min-width: 769px) and (pointer: fine)"
+      "(min-width: 769px) and (hover: hover) and (pointer: fine)"
     )
 
     let rafId = null
@@ -45,6 +45,8 @@ const Hero = () => {
 
     const update = () => {
       ticking = false
+      // When the effect is off, hold everything at rest
+      if (!enabled) return reset()
       const vh = window.innerHeight
       const top = -stage.getBoundingClientRect().top
       const runway = stage.offsetHeight - vh // scroll distance while pinned
@@ -75,7 +77,7 @@ const Hero = () => {
     }
 
     const onScroll = () => {
-      if (ticking) return
+      if (!enabled || ticking) return
       ticking = true
       rafId = window.requestAnimationFrame(update)
     }
