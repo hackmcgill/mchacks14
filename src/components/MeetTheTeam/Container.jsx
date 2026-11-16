@@ -29,6 +29,9 @@ const Container = styled.section`
   width: 100%;
   height: 100vh;
   min-height: 800px;
+  /* The heading is 110% wide on phones (its edges are transparent padding):
+     clip what sticks out so the page doesn't scroll sideways. */
+  overflow-x: clip;
   /* Same wall tile (and tile scale) as the FAQ and Get Involved sections. */
   background-color: #e4ebf2;
   background-image: url("${wallTile}");
