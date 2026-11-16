@@ -42,6 +42,14 @@ export const Container = styled.footer`
     padding: 3.5rem 8vw;
     gap: 2rem;
     font-size: 1.5rem;
+
+    /* The icon row sits beside the logo and only gets ~84vw - 68px; at full
+       gap (1.8rem) it needs ~255px, which doesn't fit below ~360px. Shrink the
+       gap with the screen, and wrap rather than overflow as a last resort. */
+    .footer__social-links > div {
+      flex-wrap: wrap;
+      gap: 1.2rem clamp(0.6rem, 14vw - 3.8rem, 1.8rem);
+    }
   }
 `
 
