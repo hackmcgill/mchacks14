@@ -23,14 +23,23 @@ const Content = styled.div`
     top: 8%;
   }
 
-  @media only screen and (max-width: 450px) {
-    img:nth-child(-n + 2) {
-      top: 55%;
-    }
+  /* On small screens, lay the photos out as a wrapping flex band so they
+     can never overlap each other regardless of device width. */
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    position: static;
+    top: auto;
+    right: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
 
-    img:nth-child(n + 3) {
-      top: 75%
-    }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px 6%;
+    padding: 0 8%;
+    box-sizing: border-box;
   }
 `
 
@@ -42,7 +51,7 @@ const images = [
     mobiletop: "50%",
     mobileright: "10%",
     width: "13vw",
-    mobilewidth: "33vw",
+    mobilewidth: "44%",
     initrotation: "-4deg",
     hovrotation: "-12deg",
     alt: "Image of hackathon speaker",
@@ -54,7 +63,7 @@ const images = [
     mobiletop: "60%",
     mobileright: "60%",
     width: "10vw",
-    mobilewidth: "30vw",
+    mobilewidth: "42%",
     initrotation: "-2deg",
     hovrotation: "-10deg",
     alt: "Image of hackathon participants",
@@ -66,7 +75,7 @@ const images = [
     mobiletop: "74%",
     mobileright: "20%",
     width: "14vw",
-    mobilewidth: "28vw",
+    mobilewidth: "44%",
     initrotation: "4deg",
     hovrotation: "12deg",
     alt: "Image of hackathon participants",

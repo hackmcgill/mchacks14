@@ -26,7 +26,11 @@ const Content = styled.div`
   }
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    bottom: 6%;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: fit-content;
+    margin: 0 auto;
 
     #lineStats {
       width: 78vw;

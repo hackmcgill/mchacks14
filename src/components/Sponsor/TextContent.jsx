@@ -11,8 +11,11 @@ const Content = styled.div`
   max-width: 52vw;
 
   @media only screen and (max-width: ${styleVars.smUp}) {
-    left: 14%;
-    max-width: 72vw;
+    position: static;
+    top: auto;
+    left: auto;
+    max-width: 84%;
+    margin: 0 auto;
   }
 `
 

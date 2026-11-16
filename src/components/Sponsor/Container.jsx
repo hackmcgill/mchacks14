@@ -17,18 +17,20 @@ export const Container = styled.section`
     aspect-ratio: 2 / 1.2;
   }
 
+  /* On small screens, stop using a fixed aspect-ratio canvas with absolutely
+     positioned children. Flow the sections as a vertical column so nothing
+     can overlap regardless of how tall the text wraps. */
   @media only screen and (max-width: ${styleVars.smUp}) {
-    aspect-ratio: 2 / 2.4;
-  }
+    aspect-ratio: auto;
+    height: auto;
+    min-width: 0;
 
-  @media only screen and (max-width: 450px) {
-    aspect-ratio: 2 / 2.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 8vw, 64px);
+    padding: clamp(36px, 12vw, 80px) 0;
   }
-
-  @media only screen and (max-width: 380px) {
-    aspect-ratio: 2 / 3.6;
-  }
-
 `
 
 export default Container

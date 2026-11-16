@@ -15,9 +15,12 @@ export const Image = styled.img`
   }
     
   @media only screen and (max-width: ${styleVars.smUp}) {
-    top: ${(props) => props.$mobiletop};
-    right: ${(props) => props.$mobileright};
+    /* flow inside the flex band instead of absolute positioning */
+    position: static;
+    top: auto;
+    right: auto;
     width: ${(props) => props.$mobilewidth};
+    height: auto;
   }
 `
 export default Image
