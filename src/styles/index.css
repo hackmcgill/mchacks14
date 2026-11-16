@@ -35,17 +35,6 @@ body {
   background-color: #121947;
 }
 
-.site-hero {
-  background-image: url(../assets/images/designs/mchacks14-bg.webp);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 80% center;
-  background-color: #121947;
-  @media screen and (max-width: 560px) {
-    background-image: url(../assets/images/designs/mchacks14-bg-mobile.webp);
-  }
-}
-
 p {
   font-family:
     Hind Siliguri,

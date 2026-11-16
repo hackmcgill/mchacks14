@@ -1,23 +1,109 @@
 import styled from "styled-components"
-import * as styleVars from "../variable"
 
-export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
+import HeroBgNoLamp from "../../assets/images/designs/mchacks14-bg-no-lamp.webp"
+import HeroLamp from "../../assets/images/designs/mchacks14-lamp.webp"
+import HeroBgMobile from "../../assets/images/designs/mchacks14-bg-mobile.webp"
+
+/*
+  Hero "parallax zoom" stage.
+
+  The section is a tall scroll "stage". Inside it a sticky viewport stays pinned
+  while the page scrolls past it. A small scroll handler (see Hero.jsx) writes
+  three custom properties that this stylesheet reacts to:
+
+    --hero-zoom   scene scale              (1 -> ~8, zooming into the metro doors)
+    --hero-lamp   foreground lamp scale    (scales faster than the scene = parallax)
+    --hero-fade   hero content opacity     (1 -> 0 as we dive in)
+    --hero-veil   vignette "hole" radius   (vmax; large = open, 0 = full black)
+
+  When the effect is disabled (reduced motion, touch / small screens, or no JS)
+  the stage collapses to a normal 100vh hero and every custom property sits at
+  its rest value, so the scene renders exactly as a static hero.
+*/
+
+export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
+  --hero-x: 0.88;
+  --hero-zoom: 1;
+  --hero-lamp: 1;
+  --hero-fade: 1;
+  --hero-veil: 70; /* vmax: >~55 is fully open, 0 is fully black */
+
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: max(100vh, 800px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  container-type: size;
-  --hero-x: 0.88;
+  background-color: #121947;
 
-  && {
-    background-position: calc(var(--hero-x) * 100%) center;
-    background-size: cover;
+  /* Animated (desktop + motion allowed): become a tall scroll stage. */
+  &[data-anim="on"] {
+    height: var(--hero-stage-height, 260vh);
+  }
+
+  .hero-sticky {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: max(100vh, 800px);
+    overflow: hidden;
+    container-type: size;
+    background-color: #121947;
+  }
+
+  &[data-anim="on"] .hero-sticky {
+    position: sticky;
+    min-height: 100vh;
+  }
+
+  .hero-layer {
+    position: absolute;
+    inset: 0;
     background-repeat: no-repeat;
+    background-size: cover;
+    background-position: calc(var(--hero-x) * 100%) center;
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  .hero-scene {
+    background-image: url(${HeroBgNoLamp});
+    transform: scale(var(--hero-zoom));
+    transform-origin: var(--hero-focus-x, 10%) var(--hero-focus-y, 90%);
+  }
+
+  .hero-lamp {
+    background-image: url(${HeroLamp});
+    transform: scale(var(--hero-lamp));
+    transform-origin: var(--hero-focus-x, 10%) var(--hero-focus-y, 90%);
+  }
+
+  /* Fixed full-screen vignette used for the fade-to-black / iris-open hand-off
+     to the next section. Transparent (and inert) except during the transition. */
+  .hero-veil {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 50% 52%,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 0) calc(var(--hero-veil) * 1vmax - 7vmax),
+      #000 calc(var(--hero-veil) * 1vmax)
+    );
+  }
+
+  /* No veil needed when the effect is off. */
+  &[data-anim="off"] .hero-veil {
+    display: none;
+  }
+
+  /* On small screens the mobile artwork already contains the lamp. */
+  @media screen and (max-width: 560px) {
+    .hero-scene {
+      background-image: url(${HeroBgMobile});
+    }
+    .hero-lamp {
+      display: none;
+    }
   }
 
   .hero__hit-frame {
@@ -29,63 +115,10 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
     transform: translateY(-50%);
     pointer-events: none;
     z-index: 100;
+    opacity: var(--hero-fade);
   }
 
-  .hero__portal {
-    width: 20%;
-    margin: 120px 0px;
-    transform: translateY(7%);
-
-    @media (max-width: 1800px) {
-      width: 22%;
-      margin: 150px 0px;
-    }
-
-    @media (max-width: 1700px) {
-      width: 20%;
-      margin: 100px 0px;
-    }
-
-    @media (max-width: 1550px) {
-      width: 18%;
-      margin: 50px 0px;
-    }
-
-    @media (max-width: 1400px) {
-      margin: 10px 0px;
-    }
-  }
-
-  .hero__challenge-text {
-    font-family: "Afacad", sans-serif;
-    color: #d9f1ff;
-    font-size: 24px;
-    max-width: 840px;
-    font-weight: 400;
-    line-height: normal;
-    text-align: center;
-    border-radius: 20px;
-    padding: 24px;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    margin: 0 auto -120px;
-    z-index: 2;
-
-    @media (max-width: ${styleVars.lgUp}) {
-      font-size: 18px;
-      padding: 15px;
-      max-width: 90%;
-      margin-bottom: -50px;
-    }
-
-    @media (max-width: ${styleVars.smUp}) {
-      font-size: 16px;
-      padding: 10px;
-      margin-bottom: -20px;
-    }
-  }
-
-    .invisible-apply {
+  .invisible-apply {
     position: absolute;
     left: 79.31%;
     top: 22.37%;
@@ -98,92 +131,31 @@ export const HeroStyles = styled.section.attrs({ className: "site-hero" })`
     cursor: pointer;
   }
 
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+    opacity: var(--hero-fade);
+    transform: scale(calc(1 + (var(--hero-zoom) - 1) * 0.35));
+    transform-origin: var(--hero-focus-x, 22%) var(--hero-focus-y, 80%);
+    will-change: transform, opacity;
+  }
+
   .hero__images-container {
     position: relative;
     width: 100%;
-    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    @keyframes shine {
-      0%, 100% {
-        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
-      }
-      50% {
-        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1));
-      }
-    }
-
-    @keyframes floatUpDown {
-      0% {
-        transform: translateY(0); /* Start at original position */
-      }
-      50% {
-        transform: translateY(-10px); /* Move up by 10 pixels */
-      }
-    }
-  }
-
-  .hero__wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hero__grid {
-    display: flex;
-    gap: 300px;
-    max-width: 100%;
-    justify-content: space-between;
-    margin-top: -50px;
-    letter-spacing: 0.5px;
-    word-spacing: 5px;
-    margin-bottom: 50px;
-
-    & > div {
-      font-family: "Afacad", sans-serif;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .hero__heading-image {
-      grid-column: 1 / span 3;
-      width: 100%;
-    }
-
-    .hero__grid__subheading {
-      font-size: 35px;
-      line-height: normal;
-      margin: 0;
-      font-weight: 400;
-      text-align: center;
-      color: #d9f1ff;
-      letter-spacing: -1.2px;
-    }
   }
 
   .hero__heading {
     display: none; /* Leave in h1 for SEO */
-  }
-
-  @media screen and (max-width: ${styleVars.lgUp}) {
-    .hero__wrapper {
-      margin-top: 0 !important;
-      padding-top: 0;
-      gap: 0;
-    }
   }
 `
 
