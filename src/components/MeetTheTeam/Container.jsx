@@ -16,7 +16,7 @@ export const HeadingImage = styled.img.attrs({ src: meetTheTeamHeading, alt: "Me
   pointer-events: none;
   @media screen and (max-width: ${styleVars.mdUp}) {
     max-width: 80%;
-    top: 39%;
+    top: 40%;
   }
   @media screen and (max-width: ${styleVars.smUp}) {
     max-width: 110%;
@@ -49,9 +49,9 @@ export const BlackLine = styled.img.attrs({ src: meetTheTeamBlackLine, alt: "" }
   display: block;
   width: 100%;
   height: auto;
-  min-height: 7px;
+  min-height: 10px;
   object-fit: cover;
-  bottom: calc(100vw * 924 / 5760 + 0.34);
+  bottom: calc(100vw * 924 / 5760 + 280px * 0.34);
 `;
 
 export default Container
