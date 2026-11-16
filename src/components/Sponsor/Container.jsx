@@ -6,6 +6,10 @@ export const Container = styled.section`
   width: 100%;
   min-width: 360px;
   aspect-ratio: 2 / 1;
+  /* Clip non-wrapping text/links so this section can't push the page wider
+     than the viewport (which would expose the navy body background on very
+     narrow screens). Only clips the horizontal axis. */
+  overflow-x: clip;
 
   background-color: ${styleVars.m14Dark};
 
