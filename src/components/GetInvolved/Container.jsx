@@ -6,6 +6,9 @@ import { TILE_W, TILE_H, STATIC_MODE_QUERY } from "../FAQ/faqScene.config"
 const Container = styled.section`
   position: relative;
   height: 795px;
+  /* Keep cards/images from pushing the page wider than the viewport on very
+     narrow screens (which would expose the navy body background). */
+  overflow-x: clip;
   display: flex;
   justify-content: center;
   align-items: flex-start;
