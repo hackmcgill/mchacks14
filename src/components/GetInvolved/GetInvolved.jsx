@@ -3,20 +3,57 @@ import Container from "./Container"
 import Board from "./Board"
 import InfoCard from "./InfoCard"
 import BoardImage from "../../../static/GetInvolvedDesign/get-involved-board.png"
-import PianoPhoto from "../../../static/GetInvolvedDesign/DSCF0483 1.png"
-import CrowdPhoto from "../../../static/GetInvolvedDesign/DSCF0445 1.png"
-import DemoPhoto from "../../../static/GetInvolvedDesign/DSCF0459 1.png"
 
 const MENTOR_JUDGE_FORM =
   "https://docs.google.com/forms/d/e/1FAIpQLSeBDT2TCbXlj47mLSM6HCzDLgQe6ZD1cYwvjv6m4-8GbL8XWA/viewform"
 const VOLUNTEER_FORM =
   "https://docs.google.com/forms/d/e/1FAIpQLScV7bk5yhAMqyI25r6ubHDoz5hlbG5UKZR9cf5NKgW2upCz4Q/viewform"
 
+// Loop length scales with the number of photos so the strip moves at the
+// same speed no matter how many are in a folder
+const SECONDS_PER_PHOTO = 5
+
+// Every image in a role's folder is picked up automatically
+const loadPhotos = (context) => [
+  ...new Set(
+    context
+      .keys()
+      .sort()
+      .map((id) => {
+        const mod = context(id)
+        return mod?.default ?? mod
+      })
+  ),
+]
+
+const mentorPhotos = loadPhotos(
+  require.context(
+    "../../assets/images/get-involved/mentor-pics",
+    false,
+    /\.(png|jpe?g|webp)$/
+  )
+)
+const judgePhotos = loadPhotos(
+  require.context(
+    "../../assets/images/get-involved/judge-pics",
+    false,
+    /\.(png|jpe?g|webp)$/
+  )
+)
+const volunteerPhotos = loadPhotos(
+  require.context(
+    "../../assets/images/get-involved/volunteer-pics",
+    false,
+    /\.(png|jpe?g|webp)$/
+  )
+)
+
 // hotspot (label + station) and station centre are percentages of the
 // 461x574 board export, so they scale with the image
 const roles = [
   {
     id: "mentor",
+    photos: mentorPhotos,
     title: "Mentor",
     cta: "Become a Mentor",
     form: MENTOR_JUDGE_FORM,
@@ -27,6 +64,7 @@ const roles = [
   },
   {
     id: "judge",
+    photos: judgePhotos,
     title: "Judge",
     cta: "Become a Judge",
     form: MENTOR_JUDGE_FORM,
@@ -37,6 +75,7 @@ const roles = [
   },
   {
     id: "volunteer",
+    photos: volunteerPhotos,
     title: "Volunteer",
     cta: "Become a Volunteer",
     form: VOLUNTEER_FORM,
@@ -104,9 +143,25 @@ const GetInvolved = ({ scrollRef }) => {
           </a>
         </div>
         <div className="photos">
-          <img src={PianoPhoto} alt="Hacker playing a keyboard project" />
-          <img src={CrowdPhoto} alt="Students gathered around a project demo" />
-          <img src={DemoPhoto} alt="Hackers presenting at their table" />
+          <div
+            className="photo-window"
+            role="img"
+            aria-label={`Photos of ${active.title.toLowerCase()}s at past McHacks events`}
+          >
+            {/* Two copies of the set so the strip can loop without a gap;
+                keyed by role so switching restarts it from the first photo */}
+            <div
+              key={active.id}
+              className="photo-track"
+              style={{
+                animationDuration: `${active.photos.length * SECONDS_PER_PHOTO}s`,
+              }}
+            >
+              {[...active.photos, ...active.photos].map((src, i) => (
+                <img key={i} src={src} alt="" />
+              ))}
+            </div>
+          </div>
         </div>
       </InfoCard>
     </Container>

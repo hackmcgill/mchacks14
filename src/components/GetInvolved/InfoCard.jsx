@@ -76,26 +76,50 @@ export const InfoCard = styled.article`
   }
 
   .photos {
-    display: grid;
-    grid-template-columns: 133fr 200fr 97fr;
-    gap: 6px;
     margin-top: auto;
     border-bottom: 56px solid #1b1a1d;
+  }
+
+  /* Same footprint as the original three-photo row: 133px tall at the
+     442px desktop card width, scaling down with the card */
+  .photo-window {
+    aspect-ratio: 442 / 133;
+    overflow: hidden;
+  }
+
+  .photo-track {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    animation: photo-scroll linear infinite;
 
     img {
       display: block;
-      width: 100%;
+      flex: none;
       height: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
+      width: auto;
+      /* margin rather than gap so both copies of the set are exactly the
+         same width and the -50% loop point lines up */
+      margin-right: 6px;
     }
+  }
 
-    img:nth-child(2) {
-      aspect-ratio: 200 / 133;
+  .photo-window:hover .photo-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes photo-scroll {
+    from {
+      transform: translateX(0);
     }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 
-    img:nth-child(3) {
-      aspect-ratio: 97 / 133;
+  @media (prefers-reduced-motion: reduce) {
+    .photo-track {
+      animation: none;
     }
   }
 
