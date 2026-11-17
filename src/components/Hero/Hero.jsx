@@ -1,81 +1,151 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import HeroStyles from "./HeroStyles"
-import McHacksLogo from "../../assets/images/designs/mchacks13-heroLogo.svg"
-import Moon from "../../assets/images/designs/mchacks13-moon.svg"
-import LeftCloud from "../../assets/images/designs/mchacks13-leftCloud.svg"
-import RightCloud from "../../assets/images/designs/mchacks13-rightCloud.svg"
-import Saturn from "../../assets/images/designs/mchacks13-saturn.svg"
-import star1 from "../../assets/images/designs/mchacks13-star1.svg"
-import star2 from "../../assets/images/designs/mchacks13-star2.svg"
-import star3 from "../../assets/images/designs/mchacks13-star3.svg"
-import star4 from "../../assets/images/designs/mchacks13-star4.svg"
-import Portal from "../../assets/gifs/mchacks13-portal.gif"
-import Button from "./Button"
+import McHacksLogo from "../../assets/images/designs/mchacks14-hero-logo.webp"
 
-const interestForm = () => {
-  window.location = "https://docs.google.com/forms/d/e/1FAIpQLSesvFEVGTwj6ZmPs2YBE3xehJTkoBe8fsHZV8zsq2CXhEDR_w/viewform"
+const apply = () => {
+  window.location = "https://app.mchacks.ca/"
 }
 
-// const live = () => {
-//   window.location = "/live"
-// }
+/* ----- tuning constants ---------------------------------------------------- */
+const STAGE_VH = 200 // total height of the scroll stage (vh)
+const SCENE_MAX = 3 // extra scale applied to the scene at full zoom
+const LAMP_MAX = 5 // extra scale applied to the lamp (faster = parallax depth)
+const VEIL_OPEN = 70 // vignette hole radius (vmax) that counts as fully open
+const FADE_END = 0.20 // fraction of zoom progress over which the hero UI fades out
+const CLOSE_START = 0.10 // zoom progress at which the fade-to-black begins
 
-// const apply = () => {
-//   window.open("/bot_or_not_challenge.pdf", "_blank")
-// }
+const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x)
+const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
 
-const Hero = () => (
-  <HeroStyles>
-    <div className="hero__wrapper">
-      <div className="hero__clouds"></div>
-      <h1 className="hero__heading">McHacks 14</h1>
-      <div className="hero__images-container">
-        <div className="hero__leftCloud-container">
-          <img src={LeftCloud} className="hero__leftCloud" alt="Cloud" />
-          <div className="hero__leftMoon-stars">
-            <img src={star1} className="hero__star1" alt="Star" />
-            <img src={Moon} className="hero__moon" alt="Moon" />
-            <img src={star2} className="hero__star2" alt="Star" />
+const Hero = () => {
+  const stageRef = useRef(null)
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    // Desktop with a real mouse/trackpad only.
+    const enabledQuery = window.matchMedia(
+      "(min-width: 769px) and (hover: hover) and (pointer: fine)"
+    )
+
+    let rafId = null
+    let ticking = false
+    const root = stage.style
+
+    const setVars = (zoom, lamp, fade, veil) => {
+      root.setProperty("--hero-zoom", zoom.toFixed(3))
+      root.setProperty("--hero-lamp", lamp.toFixed(3))
+      root.setProperty("--hero-fade", fade.toFixed(3))
+      root.setProperty("--hero-veil", veil.toFixed(2))
+    }
+
+    const reset = () => setVars(1, 1, 1, VEIL_OPEN)
+
+    const update = () => {
+      ticking = false
+      // When the effect is off, hold everything at rest
+      if (!enabled) return reset()
+      const vh = window.innerHeight
+      const top = -stage.getBoundingClientRect().top
+      const runway = stage.offsetHeight - vh // scroll distance while pinned
+      if (runway <= 0) return reset()
+
+      // zp: 0 at the top of the stage, 1 once we've scrolled through the pin.
+      const zp = clamp01(top / runway)
+      const zoomT = easeInOut(clamp01(zp / 0.85))
+      const zoom = 1 + zoomT * SCENE_MAX
+      const lamp = 1 + zoomT * LAMP_MAX
+      const fade = 1 - clamp01(zp / FADE_END)
+
+      // Vignette: close to black over the back half of the pin, then open again
+      // as the following section rises to fill the viewport.
+      let veil
+      if (zp < 1) {
+        const closeT = easeInOut(clamp01((zp - CLOSE_START) / (1 - CLOSE_START)))
+        veil = VEIL_OPEN * (1 - closeT)
+      } else {
+        const next = stage.nextElementSibling
+        const nextTop = next ? next.getBoundingClientRect().top : -vh
+        // Open while the next section travels from ~55% down the screen to the top.
+        const openT = easeInOut(clamp01((0.55 * vh - nextTop) / (0.6 * vh)))
+        veil = VEIL_OPEN * openT
+      }
+
+      setVars(zoom, lamp, fade, veil)
+    }
+
+    const onScroll = () => {
+      if (!enabled || ticking) return
+      ticking = true
+      rafId = window.requestAnimationFrame(update)
+    }
+
+    let enabled = false
+    const applyMode = () => {
+      enabled = enabledQuery.matches && !motionQuery.matches
+      if (enabled) {
+        stage.dataset.anim = "on"
+        root.setProperty("--hero-stage-height", `${STAGE_VH}vh`)
+        update()
+      } else {
+        stage.dataset.anim = "off"
+        reset()
+      }
+    }
+
+    const onResize = () => {
+      applyMode()
+      if (enabled) onScroll()
+    }
+
+    applyMode()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize)
+    // matchMedia change (e.g. OS reduced-motion toggle, rotating a tablet)
+    enabledQuery.addEventListener?.("change", onResize)
+    motionQuery.addEventListener?.("change", onResize)
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
+      enabledQuery.removeEventListener?.("change", onResize)
+      motionQuery.removeEventListener?.("change", onResize)
+      if (rafId) window.cancelAnimationFrame(rafId)
+    }
+  }, [])
+
+  return (
+    <HeroStyles ref={stageRef} data-anim="off">
+      <div className="hero-sticky">
+        <div className="hero-layer hero-scene" aria-hidden="true" />
+        <div className="hero-layer hero-lamp" aria-hidden="true" />
+
+        <div className="hero-content">
+          <h1 className="hero__heading">McHacks 14</h1>
+          <div className="hero__images-container">
+            <img
+              className="hero__heading-image"
+              src={McHacksLogo}
+              alt="McHacks 14"
+            />
           </div>
         </div>
-        <img
-          className="hero__heading-image"
-          src={McHacksLogo}
-          alt="McHacks 13"
-        />
-        <div className="hero__rightCloud-container">
-          <img src={RightCloud} className="hero__rightCloud" alt="Cloud" />
-          <img src={Saturn} className="hero__saturn" alt="Saturn" />
-          <img src={star3} className="hero__star3" alt="Star" />
-          <img src={star4} className="hero__star4" alt="Star" />
-        </div>
-        {/* <h1 className="hero__temp-heading">McHacks 13</h1> */}
+
+        {/* <div className="hero__hit-frame">
+          <button
+            type="button"
+            className="invisible-apply"
+            onClick={apply}
+            aria-label="Click me to apply"
+          />
+        </div> */}
       </div>
-      <div className="hero__grid">
-        <div className="hero__grid__date">
-          <h2 className="hero__grid__subheading">Jan. 16-17, 2027 | In-Person | McGill University</h2>
-        </div>
-      </div>
-      <Button onClick={interestForm}>
-        McHacks 14 Interest Form
-      </Button>
-      <div className="grid__clouds"></div>
-      {/*<p className="hero__challenge-text">
-       Want to win $1000 or $500? Think you can tell humans from bots on 
-       social media? Prove it and sign up for the Bot or Not Post Hackathon
-       Challenge and submit your project by February 14th, 1:00 PM EST! Open
-       to anyone and everyone. You can still register until the submission deadline.{" "}
-        <b>Click the portal below for more info!</b>
-      </p>
-      <div className="invisible-apply" onClick={apply} />
-      <img
-        src={Portal}
-        onClick={apply}
-        className="hero__portal" 
-        alt="Portal" 
-      />*/}
-    </div>
-  </HeroStyles>
-)
+
+      <div className="hero-veil" aria-hidden="true" />
+    </HeroStyles>
+  )
+}
 
 export default Hero

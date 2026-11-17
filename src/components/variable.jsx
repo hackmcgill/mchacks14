@@ -70,12 +70,21 @@ export const m12LightPurple = "#9790BC"
 export const m12DarkestGrey = "#1F2025"
 
 // mchacks 13 colour palette
-// why mchacks 13?
 export const m13White = "#EEF9FF"
 export const m13Red = "#FF2026"
 export const m13Orange = "#FFA96E" // guess?
 export const hackRed = "#A51A4B"
 export const hackGrey = "#797979"
+
+// mchacks 14
+export const m14Navy1000 = "#16293E"
+export const m14GlowAmber300 = "#F3A134"
+export const m14GlowAmber200 = "#FFC465"
+export const m14GlowAmber100 = "#FEEDC7"
+export const m14Grey900 = "#3F3F3F"
+export const m14Dark = "#242020"
+export const m14OffWhite = "#EDE0D9"
+export const m14Beige = "#fff0ca"
 
 // global colors
 export const globalColorPrimary = hackWhite
@@ -85,3 +94,8 @@ export const xsUp = "435px"
 export const smUp = "768px"
 export const mdUp = "992px"
 export const lgUp = "1200px"
+
+// FAQ scene width boundaries (separate from the site CSS breakpoints above)
+export const faqTabletUp = "768px" // below this the FAQ is a static list
+export const faqLaptopUp = "1024px"
+export const faqDesktopUp = "1440px"
