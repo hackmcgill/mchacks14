@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import React from "react"
 import Helmet from "react-helmet"
 
-import bannerImage from "../../assets/images/designs/mchacks14-hero-logo.png"
+import bannerImage from "../../assets/images/designs/mchacks14-hero-logo.webp"
 
 const SEO = ({ description, title, lang, image }) => (
   <Helmet>
