@@ -2,7 +2,12 @@ import React, { useState } from "react"
 import Container from "./Container"
 import Board from "./Board"
 import InfoCard from "./InfoCard"
-import BoardImage from "../../../static/GetInvolvedDesign/get-involved-board.png"
+// The board export with its station names painted out; the names are drawn
+// on top from masks so they can change colour with the selected role
+import BoardImage from "../../assets/images/get-involved/board/get-involved-board-clean.png"
+import MentorLabel from "../../assets/images/get-involved/board/label-mentor.png"
+import JudgeLabel from "../../assets/images/get-involved/board/label-judge.png"
+import VolunteerLabel from "../../assets/images/get-involved/board/label-volunteer.png"
 
 const MENTOR_JUDGE_FORM =
   "https://docs.google.com/forms/d/e/1FAIpQLSeBDT2TCbXlj47mLSM6HCzDLgQe6ZD1cYwvjv6m4-8GbL8XWA/viewform"
@@ -48,8 +53,8 @@ const volunteerPhotos = loadPhotos(
   )
 )
 
-// hotspot (label + station) and station centre are percentages of the
-// 461x574 board export, so they scale with the image
+// hotspot (label + station), station centre and label box are percentages
+// of the 461x574 board export, so they scale with the image
 const roles = [
   {
     id: "mentor",
@@ -59,6 +64,13 @@ const roles = [
     form: MENTOR_JUDGE_FORM,
     hotspot: { left: 17, top: 36.5, width: 23, height: 9 },
     station: { x: 36.9, y: 39.4 },
+    label: {
+      mask: MentorLabel,
+      left: 18.66,
+      top: 40.24,
+      width: 13.88,
+      height: 3.66,
+    },
     description:
       "Every great hacker needs a guide. Mentors guide hackers through technical challenges, brainstorm solutions, and inspire teams to come up with their next Big Idea. Whether you’re a developer, designer, or entrepreneur, your insight makes a huge impact.",
   },
@@ -70,6 +82,13 @@ const roles = [
     form: MENTOR_JUDGE_FORM,
     hotspot: { left: 54, top: 41, width: 22, height: 8 },
     station: { x: 57.7, y: 45.8 },
+    label: {
+      mask: JudgeLabel,
+      left: 63.34,
+      top: 41.99,
+      width: 11.28,
+      height: 3.83,
+    },
     description:
       "Help us celebrate innovation! Judges review projects, meet brilliant student teams, and decide which hacks shine the brightest. You’ll get a front-row seat to creativity in action, and help recognize the ideas that push boundaries!",
   },
@@ -81,6 +100,13 @@ const roles = [
     form: VOLUNTEER_FORM,
     hotspot: { left: 59, top: 68, width: 27, height: 9 },
     station: { x: 62.3, y: 74.2 },
+    label: {
+      mask: VolunteerLabel,
+      left: 68.55,
+      top: 69.34,
+      width: 17.57,
+      height: 3.83,
+    },
     description:
       "Help keep the magic alive behind the scenes! Volunteers support logistics, registration, workshops, and more – keeping the event running smoothly. It’s a fun, fast-paced weekend full of collaboration, energy, and community spirit.",
   },
@@ -102,6 +128,20 @@ const GetInvolved = ({ scrollRef }) => {
           src={BoardImage}
           alt="Transit map with three lines meeting at the Mentor, Judge, and Volunteer stations"
         />
+        {roles.map((role) => (
+          <span
+            key={`${role.id}-label`}
+            className={`label${role.id === activeId ? " is-active" : ""}`}
+            aria-hidden="true"
+            style={{
+              "--mask": `url("${role.label.mask}")`,
+              left: `${role.label.left}%`,
+              top: `${role.label.top}%`,
+              width: `${role.label.width}%`,
+              height: `${role.label.height}%`,
+            }}
+          />
+        ))}
         {roles.map((role) => (
           <button
             key={role.id}

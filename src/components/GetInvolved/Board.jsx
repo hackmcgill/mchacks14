@@ -12,6 +12,21 @@ export const Board = styled.div`
     height: auto;
   }
 
+  /* Station names: orange by default, white for the selected role */
+  .label {
+    position: absolute;
+    pointer-events: none;
+    background-color: #e49832;
+    -webkit-mask: var(--mask) center / 100% 100% no-repeat;
+    mask: var(--mask) center / 100% 100% no-repeat;
+    transition: background-color 0.2s ease;
+
+    &.is-active {
+      background-color: #fbf4e6;
+      filter: drop-shadow(0 0 2px rgba(255, 238, 205, 0.75));
+    }
+  }
+
   .station {
     position: absolute;
     padding: 0;
