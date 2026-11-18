@@ -49,7 +49,7 @@ export const Board = styled.div`
      turns green. Sized to the ~20px stop dot in the 461px board export. */
   .glow {
     position: absolute;
-    width: 4.4%;
+    width: 4.0%;
     aspect-ratio: 1;
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -70,7 +70,8 @@ export const Board = styled.div`
     }
 
     &.is-active {
-      background-color: #4fc760;
+      background-color: rgba(79, 199, 96, 0.7);
+      animation: stop-center-pulse 4s ease-in-out infinite;
     }
 
     &.is-active::before {
@@ -90,10 +91,24 @@ export const Board = styled.div`
     }
   }
 
+  @keyframes stop-center-pulse {
+    0%,
+    100% {
+      background-color: rgba(79, 199, 96, 0.45);
+    }
+    50% {
+      background-color: rgba(79, 199, 96, 0.8);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .glow::before {
       animation: none;
       opacity: 0.6;
+    }
+
+    .glow.is-active {
+      animation: none;
     }
   }
 
