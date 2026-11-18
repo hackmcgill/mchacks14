@@ -12,19 +12,35 @@ Legend:
 //Co-Directors
   "Shirley", // (H)
 
+// Sponsorship
+  "Julia", // Co-Lead
+  "Daniel",
+  "Jimmy", // (H)
+  "Carolyn",
+  "Jaanya",
+
+// Finance
+  "Ikram", // Lead (H)
+  "Doaa",
+
 //Dev
   "Jane", // Lead
   "Muhammad",
-  "Jamie",
   "Mona", // (H)
+  "Jamie",
   "Jongmin",
+
+// Logistic
+  "Remi", // Co-Lead (H)
+  "Qian", // Co-Lead (H)
+  "Emily",
 
 //Experience
   "Jeffrey", // Lead
-  "Alex",
+  "Clara",
   "Aidan", // (H)
   "Jen",
-  "Clara",
+  "Alex",
   "Arnav", // + Design
 
 // Design
@@ -33,23 +49,7 @@ Legend:
 
 // Communication
   "Lyland", // Lead + Design
-  "Janelle",
-
-// Logistic
-  "Qian", // Co-Lead (H)
-  "Remi", // Co-Lead (H)
-  "Emily", 
-
-// Finance
-  "Ikram", // Lead (H)
-  "Doaa",
-
-// Sponsorship
-  "Julia", // Co-Lead
-  "Jimmy", // (H)
-  "Jaanya",
-  "Carolyn",
-  "Daniel"
+  "Janelle"
 
 ]
 

@@ -5,9 +5,14 @@ import teamSlides from "./teamSlides"
 import TeamMemberCard, { CARD_HEIGHT, CARD_WIDTH } from "./TeamMemberCard"
 
 const SPEED = 40
+const PRIORITY_COUNT = 9
 
 const Viewport = styled.div`
   overflow: hidden;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
 
   ${(props) =>
     props.$inline
@@ -25,6 +30,7 @@ const Viewport = styled.div`
 
 const Track = styled.div`
   display: flex;
+  flex-shrink: 0;
   width: max-content;
   gap: clamp(10px, 1.5vw, 22px);
   backface-visibility: hidden;
@@ -64,7 +70,10 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
     let bgTile = 960
 
     const measure = () => {
-      loopWidth = track.scrollWidth / 2
+      const half = teamSlides.length
+      const first = track.children[0]
+      const second = track.children[half]
+      loopWidth = first && second ? second.offsetLeft - first.offsetLeft : track.scrollWidth / 2
       if (background) {
         const size = getComputedStyle(background).backgroundSize.split(" ")[0]
         bgTile = parseFloat(size) || bgTile
@@ -83,7 +92,7 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
         const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0
         lastTime = time
         offset = (offset + SPEED * delta) % loopWidth
-        track.style.transform = `translate3d(${offset - loopWidth}px, 0, 0)`
+        track.style.transform = `translate3d(${offset}px, 0, 0)`
         frame = requestAnimationFrame(tick)
       } else {
         lastTime = 0
@@ -129,7 +138,11 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
 
   if (!teamSlides.length) return null
 
-  const loopSlides = [...teamSlides, ...teamSlides]
+  const ordered = teamSlides.map((slide, originalIndex) => ({ ...slide, originalIndex })).reverse()
+  const loopSlides = [
+    ...ordered.map((s) => ({ ...s, copy: 0 })),
+    ...ordered.map((s) => ({ ...s, copy: 1 })),
+  ]
   const { lift, drop } = getAltitudeRoom()
 
   return (
@@ -138,19 +151,23 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
       $inline={inline}
       $drop={drop}
       style={{ paddingTop: lift, paddingBottom: drop }}
-      onMouseEnter={() => setCarouselPaused(true)}
-      onMouseLeave={() => setCarouselPaused(false)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") setCarouselPaused(true)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") setCarouselPaused(false)
+      }}
     >
       <Track ref={trackRef} aria-label="McHacks organizing team">
-        {loopSlides.map(({ id, name, src, hoverSrc, profileUrl, altitude }, index) => (
+        {loopSlides.map(({ id, name, src, hoverSrc, profileUrl, altitude, originalIndex, copy }) => (
           <TeamMemberCard
-            key={`${id}-${index}`}
+            key={`${id}-${copy}`}
             name={name}
             src={src}
             hoverSrc={hoverSrc}
             profileUrl={profileUrl}
             altitude={altitude}
-            eagerLoad={index < 6}
+            priority={copy === 1 && originalIndex < PRIORITY_COUNT}
           />
         ))}
       </Track>

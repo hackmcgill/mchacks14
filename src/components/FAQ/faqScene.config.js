@@ -83,6 +83,10 @@ export const ESC_BEND = 1 - ESC_EXIT_SPAN
 // travel. Its band LENGTH is picked at runtime to make that true at any window
 // size (the bottom landing must arrive exactly at ESC_BEND).
 export const ESC_SPEED_RATIO = 2
+// The figures also walk UP the band while it rides: they move this fraction
+// further than the band does (0.1 = 10% faster), so at the end of the ride
+// they are higher up the band than where escalatorArt.js places them.
+export const FIGURE_WALK_RATIO = 0.1
 // Extra px so the artwork's bottom edge sits just below the screen bottom.
 export const ESC_BOTTOM_OVERSHOOT = 4
 

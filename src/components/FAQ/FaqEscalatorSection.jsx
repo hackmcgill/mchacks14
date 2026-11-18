@@ -16,6 +16,7 @@ import {
   ESC_EXIT_SPAN,
   ESC_BEND,
   ESC_SPEED_RATIO,
+  FIGURE_WALK_RATIO,
   BEND_REF_X,
   STATIC_MODE_QUERY,
 } from "./faqScene.config"
@@ -407,6 +408,19 @@ const Track = styled.section`
       .faq-card {
         width: calc((100% - 24px) / 2);
       }
+
+      /* Independent columns (see useStaticColumns) so opening a card only
+         pushes down the cards below it, not the row beside it. */
+      .faq-column {
+        width: calc((100% - 24px) / 2);
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .faq-column .faq-card {
+        width: 100%;
+      }
     }
 
     @media (min-width: 1200px) {
@@ -414,14 +428,54 @@ const Track = styled.section`
         max-width: 1280px;
       }
 
-      .faq-card {
+      .faq-card,
+      .faq-column {
         width: calc((100% - 48px) / 3);
       }
     }
   }
 `
 
+// Number of card columns in the static (tablet / reduced-motion) layout, or 1
+// when cards should stay a flat list (phones, and the pinned scene, where
+// cards are absolutely positioned and DOM order drives keyboard panning).
+// Starts at 1 so SSR / hydration markup matches; the CSS flex-wrap layout
+// covers the first paint.
+const useStaticColumns = () => {
+  const [columns, setColumns] = useState(1)
+
+  useEffect(() => {
+    const staticMq = window.matchMedia(STATIC_MODE_QUERY)
+    const tabletMq = window.matchMedia(
+      `(min-width: ${styleVars.faqTabletUp})`
+    )
+    const wideMq = window.matchMedia("(min-width: 1200px)")
+    const mqs = [staticMq, tabletMq, wideMq]
+
+    const sync = () => {
+      if (!staticMq.matches || !tabletMq.matches) setColumns(1)
+      else setColumns(wideMq.matches ? 3 : 2)
+    }
+
+    sync()
+    mqs.forEach((mq) =>
+      mq.addEventListener
+        ? mq.addEventListener("change", sync)
+        : mq.addListener(sync)
+    )
+    return () =>
+      mqs.forEach((mq) =>
+        mq.removeEventListener
+          ? mq.removeEventListener("change", sync)
+          : mq.removeListener(sync)
+      )
+  }, [])
+
+  return columns
+}
+
 const FaqEscalatorSection = ({ scrollRef }) => {
+  const columns = useStaticColumns()
   const trackRef = useRef(null)
   const tilesRef = useRef(null)
   const wallRef = useRef(null)
@@ -481,6 +535,19 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       ey = -slopeTravel * ESC_SIN
     }
     escalator.style.transform = `translate3d(${ex}px, ${ey}px, 0)`
+
+    // Figures: walk up the band (in art units, along the slope) a little
+    // faster than it carries them, so they look like they are climbing it.
+    // They stop walking when the ride ends and the escalator leaves.
+    const figures = escalator.querySelector(".faq-escalator__figures")
+    if (figures && dims.unit > 0) {
+      const ride = Math.min(1, progress / ESC_BEND) * slopeTravel
+      const walk = (FIGURE_WALK_RATIO * ride) / dims.unit
+      figures.setAttribute(
+        "transform",
+        `translate(${-walk * ESC_COS} ${-walk * ESC_SIN})`
+      )
+    }
   }, [])
 
   const { requestUpdate } = useScrollProgress(trackRef, applyProgress)
@@ -543,10 +610,11 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       // the wall's travel with its width).
       let slopeTravel = 0
       let slideTravel = 0
+      let unit = 0
       if (escalator && escalator.offsetParent) {
         const stageH = escalator.offsetParent.clientHeight
         const escBand = parseFloat(cs.getPropertyValue("--esc-band")) || 0
-        const unit = (escBand * stageH) / 100 / ESC_BAND_T // px per art unit
+        unit = (escBand * stageH) / 100 / ESC_BAND_T // px per art unit
         const top0 = escalator.offsetTop // doesn't depend on the length
         const want = (ESC_SPEED_RATIO * ESC_BEND * travelX) / ESC_COS
         const length = Math.round(
@@ -577,6 +645,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         tileY0: dimsRef.current.tileY0,
         slopeTravel,
         slideTravel,
+        unit,
         band,
       }
       if (wall) {
@@ -766,9 +835,20 @@ const FaqEscalatorSection = ({ scrollRef }) => {
               draggable={false}
             />
           </h2>
-          {faqItems.map((item, index) => (
-            <FaqCard key={item.id} item={item} shape={index % 3} />
-          ))}
+          {columns === 1
+            ? faqItems.map((item, index) => (
+                <FaqCard key={item.id} item={item} shape={index % 3} />
+              ))
+            : // Round-robin keeps the original left-to-right, row-by-row order.
+              Array.from({ length: columns }, (_, col) => (
+                <div className="faq-column" key={col}>
+                  {faqItems.map((item, index) =>
+                    index % columns === col ? (
+                      <FaqCard key={item.id} item={item} shape={index % 3} />
+                    ) : null
+                  )}
+                </div>
+              ))}
         </div>
       </div>
     </Track>

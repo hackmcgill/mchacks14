@@ -1,10 +1,8 @@
 import styled from "styled-components"
 
 import HeroBgNoLamp from "../../assets/images/designs/mchacks14-bg-no-lamp.webp"
-// import HeroLamp from "../../assets/images/designs/mchacks14-lamp.webp" // use this when applications open
-import HeroLamp from "../../assets/images/designs/mchacks14-lamp-noApply.webp" // use this before applications open
-// import HeroBgMobile from "../../assets/images/designs/mchacks14-bg-mobile.webp" // use this when applications open
-import HeroBgMobile from "../../assets/images/designs/mchacks14-bg-mobile-noApply.webp" // use this before applications open
+import HeroLamp from "../../assets/images/designs/mchacks14-lamp.webp"
+import HeroBgMobile from "../../assets/images/designs/mchacks14-bg-mobile.webp"
 /*
   Hero "parallax zoom" stage.
 

@@ -12,18 +12,18 @@
 // bandLengthFor and FaqEscalatorSection's measure()). ESC_DEFAULT_LENGTH is only
 // what the server-rendered HTML uses until then.
 //
-// Figures are the character exports (figures/figure-N.webp, rendered at 2x
-// from the SVGs). They are drawn BEHIND the band so their bottoms are hidden in
-// it, like in the original artwork. Their order, pairings and how deep they sit
+// Figures are the character SVGs as exported from the design (figures/
+// figure-N.svg, used as-is for full quality). They are drawn BEHIND the band so
+// their bottoms are hidden in it, like in the original artwork. Their order, pairings and how deep they sit
 // in the band were measured from that artwork (escalator-with-figures.svg).
-import fig1 from "../../assets/images/faq/figures/figure-1.webp"
-import fig2 from "../../assets/images/faq/figures/figure-2.webp"
-import fig3 from "../../assets/images/faq/figures/figure-3.webp"
-import fig4 from "../../assets/images/faq/figures/figure-4.webp"
-import fig5 from "../../assets/images/faq/figures/figure-5.webp"
-import fig6 from "../../assets/images/faq/figures/figure-6.webp"
-import fig7 from "../../assets/images/faq/figures/figure-7.webp"
-import fig8 from "../../assets/images/faq/figures/figure-8.webp"
+import fig1 from "../../assets/images/faq/figures/figure-1.svg"
+import fig2 from "../../assets/images/faq/figures/figure-2.svg"
+import fig3 from "../../assets/images/faq/figures/figure-3.svg"
+import fig4 from "../../assets/images/faq/figures/figure-4.svg"
+import fig5 from "../../assets/images/faq/figures/figure-5.svg"
+import fig6 from "../../assets/images/faq/figures/figure-6.svg"
+import fig7 from "../../assets/images/faq/figures/figure-7.svg"
+import fig8 from "../../assets/images/faq/figures/figure-8.svg"
 
 export const ESC_ANGLE_DEG = 20 // must match the artwork
 
@@ -144,22 +144,71 @@ export const artSize = (bandLength) => {
 export const bandLengthFor = (height) =>
   Math.max(MIN_LENGTH, (height + TOP - ESC_BAND_T * COS) / SIN)
 
+// Look of the escalator (from the design file "Property 1=Default.svg"): dark
+// grey panels split by thin seams square to the band, a near-black handrail
+// along the outer (top) edge with a slightly lighter lip just inside it. The
+// thicknesses and seam spacing are the design's, as fractions of BAND_T.
+export const ESC_COLORS = {
+  panel: "#28292a",
+  seam: "#1b1b1c",
+  lip: "#1f2022",
+  rail: "#0e0e0e",
+  // Below the band (only the bottom-left corner of the screen): darker than
+  // the panels so the band's bottom edge still reads.
+  under: "#161617",
+}
+export const ESC_RAIL_W = ESC_BAND_T * 0.067
+export const ESC_LIP_W = ESC_BAND_T * 0.043
+export const ESC_SEAM_W = 4
+const SEAM_GAP = ESC_BAND_T * 1.65 // seam spacing along the band (approx.)
+
 export const buildArt = (bandLength) => {
   const e = ends(bandLength)
-  // Top edge: top landing, down the band to where it meets the bottom
-  // landing's top, along that to its rounded corner; then straight down and
-  // back along the bottom: everything under the edge is black.
+  const T = ESC_BAND_T
+  // Outer edge: up the top landing's left side, round its corner, along it,
+  // down the band to where it meets the bottom landing's top, along that,
+  // round its corner and down its right side. The handrail is drawn on this.
   const meet = BAND_X0 + e.top / TAN
   const bottom = e.by + UNDER
-  const shape = [
-    `M0 0H${BAND_X0}L${meet} ${e.top}H${e.right - LAND_R}`,
+  const edge = [
+    `M0 ${bottom}V${LAND_R}A${LAND_R} ${LAND_R} 0 0 1 ${LAND_R} 0`,
+    `H${BAND_X0}L${meet} ${e.top}H${e.right - LAND_R}`,
     `A${LAND_R} ${LAND_R} 0 0 1 ${e.right} ${e.top + LAND_R}`,
+    `V${bottom}`,
+  ].join("")
+  // The whole silhouette: everything under the edge is filled, so no tiles
+  // show under the band in the bottom-left corner of the screen.
+  const shape = `${edge}H0Z`
+
+  // Under the band: below the top landing, the band's bottom edge and the
+  // bottom landing's left side.
+  const bandBottomY = (x) => (x - BAND_X0) * TAN + T / COS
+  const xi = BAND_X0 + (LAND_H - T / COS) / TAN
+  const under = [
+    `M0 ${LAND_H}H${xi}L${e.bx} ${bandBottomY(e.bx)}`,
     `V${bottom}H0Z`,
   ].join("")
+
+  // Seams: square to the band, from its top edge to its bottom edge, at both
+  // landing joints and evenly in between. They run a little long so the end
+  // ones reach the landings' bottoms; the under fill covers the overrun.
+  const n = Math.max(1, Math.round(bandLength / SEAM_GAP))
+  const len = T * 1.1
+  const seams = []
+  for (let i = 0; i <= n; i++) {
+    const s = (bandLength * i) / n
+    const x = BAND_X0 + s * COS
+    const y = s * SIN
+    seams.push(`M${x} ${y}l${-len * SIN} ${len * COS}`)
+  }
+
   const { w, h } = artSize(bandLength)
   return {
     viewBox: { x: 0, y: TOP, w, h },
     shape,
+    edge,
+    under,
+    seams: seams.join(""),
     figures: placeFigures(bandLength),
   }
 }
