@@ -5,6 +5,9 @@ export const Container = styled.footer`
   background: ${styleVars.m14Grey900};
   display: flex;
   width: 100%;
+  /* Keep the social-icon row from pushing the page wider than the viewport on
+     very narrow screens (which would expose the navy body background). */
+  overflow-x: clip;
   justify-content: center;
   align-items: start;
   height: 15.2rem;

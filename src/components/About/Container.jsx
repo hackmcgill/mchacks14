@@ -3,29 +3,39 @@ import * as styleVars from "../variable"
 
 export const Container = styled.section`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 200px;
+  width: 100%;
+  min-width: 360px;
+  aspect-ratio: 10 / 9;
+  /* Clip the decorative 100vw lines and any non-wrapping text so this section
+     can't push the page wider than the viewport (which would expose the navy
+     body background on very narrow screens). Only clips the horizontal axis,
+     so nothing is cut vertically. */
+  overflow-x: clip;
 
-  @media only screen and (max-width: 1250px) {
-    margin-top: 100px;
+  background-color: ${styleVars.m14Dark};
+
+  @media only screen and (max-width: ${styleVars.lgUp}) {
+    aspect-ratio: 10 / 9.6;
   }
 
-  @media only screen and (max-width: 1158px) {
-    margin-top: 50px;
+  @media only screen and (max-width: ${styleVars.mdUp}) {
+    aspect-ratio: 10 / 10;
   }
 
-  @media screen and (max-width: ${styleVars.smUp}) {
+  /* On small screens, stop using a fixed aspect-ratio canvas with absolutely
+     positioned children. Flow the sections as a vertical column so nothing
+     can overlap regardless of how tall the text wraps. */
+  @media only screen and (max-width: ${styleVars.smUp}) {
+    aspect-ratio: auto;
+    height: auto;
+    min-width: 0;
+
     display: flex;
     flex-direction: column;
-    align-self: center;
-    justify-self: center;
-    margin-top: 20px;
-    width: 80%;
+    align-items: center;
+    gap: clamp(28px, 8vw, 64px);
+    padding: clamp(36px, 12vw, 80px) 0;
   }
-
 `
 
 export default Container

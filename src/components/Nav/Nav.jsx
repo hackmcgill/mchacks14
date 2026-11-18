@@ -73,9 +73,9 @@ const Nav = ({ navItems = [], docPage = false }) => {
         </NavLink>
       ) : null}
 
-      <NavLink href="https://app.mchacks.ca/" $mobile={mobile}>
+      {/* <NavLink href="https://app.mchacks.ca/" $mobile={mobile}>
         Apply
-      </NavLink>
+      </NavLink> */}
 
       <NavLink
         href="https://docs.google.com/forms/d/e/1FAIpQLSesvFEVGTwj6ZmPs2YBE3xehJTkoBe8fsHZV8zsq2CXhEDR_w/viewform"
