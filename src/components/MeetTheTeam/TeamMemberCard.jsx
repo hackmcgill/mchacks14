@@ -1,5 +1,22 @@
-import React, { memo, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 import styled from "styled-components"
+import * as styleVars from "../variable"
+
+const MOBILE_QUERY = `(max-width: ${styleVars.smUp}), (pointer: coarse)`
+
+const useHoverLocked = () => {
+  const [locked, setLocked] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_QUERY)
+    const update = () => setLocked(media.matches)
+    update()
+    media.addEventListener("change", update)
+    return () => media.removeEventListener("change", update)
+  }, [])
+
+  return locked
+}
 
 export const CARD_WIDTH = "clamp(155px, 10vw, 155px)"
 export const CARD_HEIGHT = "300px"
@@ -51,24 +68,29 @@ const profileNetworkLabel = (profileUrl) => {
 }
 
 const TeamMemberCard = memo(({ name, src, hoverSrc, profileUrl, altitude = 0 }) => {
+  const hoverLocked = useHoverLocked()
   const [hovered, setHovered] = useState(false)
   const [hoverReady, setHoverReady] = useState(false)
+  const showHover = hoverLocked || (hovered && hoverReady)
 
   const onEnter = () => {
+    if (hoverLocked) return
     if (!hoverReady && hoverSrc !== src) setHoverReady(true)
     setHovered(true)
   }
-  const onLeave = () => setHovered(false)
+  const onLeave = () => {
+    if (!hoverLocked) setHovered(false)
+  }
 
   const handleProfileClick = (event) => {
     if (!profileUrl) return
     openProfile(event, profileUrl)
-    setHovered(false)
+    if (!hoverLocked) setHovered(false)
   }
 
   const image = (
     <MemberImg
-      src={hovered && hoverReady ? hoverSrc : src}
+      src={showHover ? hoverSrc : src}
       alt={name}
       loading="eager"
       decoding="async"
