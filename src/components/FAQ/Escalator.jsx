@@ -41,17 +41,20 @@ const Escalator = forwardRef(({ className, bandLength }, ref) => {
             <path d={art.shape} />
           </clipPath>
         </defs>
-        {art.figures.map((f) => (
-          <image
-            key={f.src}
-            href={f.src}
-            x={f.x}
-            y={f.y}
-            width={f.w}
-            height={f.h}
-            preserveAspectRatio="none"
-          />
-        ))}
+        {/* The scene moves this group to make the figures walk up the band. */}
+        <g className="faq-escalator__figures">
+          {art.figures.map((f) => (
+            <image
+              key={f.src}
+              href={f.src}
+              x={f.x}
+              y={f.y}
+              width={f.w}
+              height={f.h}
+              preserveAspectRatio="none"
+            />
+          ))}
+        </g>
         <path d={art.shape} fill={ESC_COLORS.panel} />
         <g clipPath={`url(#${clipId})`} fill="none" strokeLinejoin="round">
           <path

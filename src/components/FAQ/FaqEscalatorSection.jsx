@@ -16,6 +16,7 @@ import {
   ESC_EXIT_SPAN,
   ESC_BEND,
   ESC_SPEED_RATIO,
+  FIGURE_WALK_RATIO,
   BEND_REF_X,
   STATIC_MODE_QUERY,
 } from "./faqScene.config"
@@ -534,6 +535,19 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       ey = -slopeTravel * ESC_SIN
     }
     escalator.style.transform = `translate3d(${ex}px, ${ey}px, 0)`
+
+    // Figures: walk up the band (in art units, along the slope) a little
+    // faster than it carries them, so they look like they are climbing it.
+    // They stop walking when the ride ends and the escalator leaves.
+    const figures = escalator.querySelector(".faq-escalator__figures")
+    if (figures && dims.unit > 0) {
+      const ride = Math.min(1, progress / ESC_BEND) * slopeTravel
+      const walk = (FIGURE_WALK_RATIO * ride) / dims.unit
+      figures.setAttribute(
+        "transform",
+        `translate(${-walk * ESC_COS} ${-walk * ESC_SIN})`
+      )
+    }
   }, [])
 
   const { requestUpdate } = useScrollProgress(trackRef, applyProgress)
@@ -596,10 +610,11 @@ const FaqEscalatorSection = ({ scrollRef }) => {
       // the wall's travel with its width).
       let slopeTravel = 0
       let slideTravel = 0
+      let unit = 0
       if (escalator && escalator.offsetParent) {
         const stageH = escalator.offsetParent.clientHeight
         const escBand = parseFloat(cs.getPropertyValue("--esc-band")) || 0
-        const unit = (escBand * stageH) / 100 / ESC_BAND_T // px per art unit
+        unit = (escBand * stageH) / 100 / ESC_BAND_T // px per art unit
         const top0 = escalator.offsetTop // doesn't depend on the length
         const want = (ESC_SPEED_RATIO * ESC_BEND * travelX) / ESC_COS
         const length = Math.round(
@@ -630,6 +645,7 @@ const FaqEscalatorSection = ({ scrollRef }) => {
         tileY0: dimsRef.current.tileY0,
         slopeTravel,
         slideTravel,
+        unit,
         band,
       }
       if (wall) {
