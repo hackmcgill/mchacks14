@@ -63,7 +63,7 @@ const roles = [
     cta: "Become a Mentor",
     form: MENTOR_JUDGE_FORM,
     hotspot: { left: 17, top: 36.5, width: 23, height: 9 },
-    station: { x: 36.9, y: 39.4 },
+    station: { x: 36.89, y: 39.34 },
     label: {
       mask: MentorLabel,
       left: 18.66,
@@ -81,7 +81,7 @@ const roles = [
     cta: "Become a Judge",
     form: MENTOR_JUDGE_FORM,
     hotspot: { left: 54, top: 41, width: 22, height: 8 },
-    station: { x: 57.7, y: 45.8 },
+    station: { x: 57.82, y: 45.52 },
     label: {
       mask: JudgeLabel,
       left: 63.34,
@@ -99,7 +99,7 @@ const roles = [
     cta: "Become a Volunteer",
     form: VOLUNTEER_FORM,
     hotspot: { left: 59, top: 68, width: 27, height: 9 },
-    station: { x: 62.3, y: 74.2 },
+    station: { x: 62.27, y: 74.01 },
     label: {
       mask: VolunteerLabel,
       left: 68.55,
@@ -159,11 +159,14 @@ const GetInvolved = ({ scrollRef }) => {
             }}
           />
         ))}
-        <span
-          className="glow"
-          aria-hidden="true"
-          style={{ left: `${active.station.x}%`, top: `${active.station.y}%` }}
-        />
+        {roles.map((role) => (
+          <span
+            key={`${role.id}-glow`}
+            className={`glow${role.id === activeId ? " is-active" : ""}`}
+            aria-hidden="true"
+            style={{ left: `${role.station.x}%`, top: `${role.station.y}%` }}
+          />
+        ))}
       </Board>
 
       <InfoCard id="get-involved-details" aria-live="polite">

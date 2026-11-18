@@ -45,33 +45,55 @@ export const Board = styled.div`
     }
   }
 
+  /* Every stop breathes slowly so it reads as clickable; the selected stop
+     turns green. Sized to the ~20px stop dot in the 461px board export. */
   .glow {
     position: absolute;
-    width: 5.5%;
+    width: 4.4%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: #fff;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    box-shadow:
-      0 0 8px 3px rgba(255, 255, 255, 0.85),
-      0 0 22px 8px rgba(255, 244, 214, 0.45);
-    animation: station-pulse 2.4s ease-in-out infinite;
+    transition: background-color 0.3s ease;
+
+    /* the halo pulses on its own layer so the green centre stays solid */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow:
+        0 0 6px 2px rgba(255, 248, 232, 0.85),
+        0 0 16px 6px rgba(255, 244, 214, 0.4);
+      animation: stop-pulse 4s ease-in-out infinite;
+      transition: box-shadow 0.3s ease;
+    }
+
+    &.is-active {
+      background-color: #4fc760;
+    }
+
+    &.is-active::before {
+      box-shadow:
+        0 0 6px 2px rgba(79, 199, 96, 0.9),
+        0 0 18px 7px rgba(79, 199, 96, 0.45);
+    }
   }
 
-  @keyframes station-pulse {
+  @keyframes stop-pulse {
     0%,
     100% {
-      opacity: 1;
+      opacity: 0.15;
     }
     50% {
-      opacity: 0.65;
+      opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .glow {
+    .glow::before {
       animation: none;
+      opacity: 0.6;
     }
   }
 
