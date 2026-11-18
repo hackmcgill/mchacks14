@@ -133,14 +133,14 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* <div className="hero__hit-frame">
+        <div className="hero__hit-frame">
           <button
             type="button"
             className="invisible-apply"
             onClick={apply}
             aria-label="Click me to apply"
           />
-        </div> */}
+        </div>
       </div>
 
       <div className="hero-veil" aria-hidden="true" />
