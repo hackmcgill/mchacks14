@@ -98,8 +98,8 @@ const faqItems = [
     question: "How can I participate in McHacks?",
     answer: (
       <>
-        Applications will open soon! In the meantime, fill out our interest form
-        to stay updated on applications and event announcements.
+        Applications are open now! You have until December 14th, 2026 at 11:59pm
+        EST to apply.
       </>
     ),
     layouts: {
