@@ -10,9 +10,9 @@ const apply = () => {
 const STAGE_VH = 200 // total height of the scroll stage (vh)
 const SCENE_MAX = 3 // extra scale applied to the scene at full zoom
 const LAMP_MAX = 5 // extra scale applied to the lamp (faster = parallax depth)
-const VEIL_OPEN = 70 // vignette hole radius (vmax) that counts as fully open
+const VEIL_OPEN = 80 // vignette hole radius (vmax) that counts as fully open
 const FADE_END = 0.20 // fraction of zoom progress over which the hero UI fades out
-const CLOSE_START = 0.10 // zoom progress at which the fade-to-black begins
+const CLOSE_START = 0.01 // zoom progress at which the fade-to-black begins
 
 const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x)
 const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
