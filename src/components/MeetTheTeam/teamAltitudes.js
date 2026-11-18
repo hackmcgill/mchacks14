@@ -5,7 +5,10 @@ const teamAltitudes = {
   Jimmy: -25,
   Mona: -25,
   Amy: 25,
-  Doaa: -5
+  Doaa: -5,
+  Ikram: 5,
+  Lyland: -5,
+  Janelle: 5
 }
 
 export const getAltitudeRoom = () => {

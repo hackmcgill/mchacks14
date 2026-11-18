@@ -15,9 +15,13 @@ export const HeadingImage = styled.img.attrs({
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  max-width: 70%;
+  max-width: 60%;
   height: auto;
   pointer-events: none;
+  @media screen and (max-width: ${styleVars.mdUp}) {
+    max-width: 80%;
+    top: 40%;
+  }
   @media screen and (max-width: ${styleVars.smUp}) {
     max-width: 110%;
     top: 33%;
@@ -64,6 +68,8 @@ export const BlackLine = styled.img.attrs({
   display: block;
   width: 100%;
   height: auto;
+  min-height: 10px;
+  object-fit: cover;
   bottom: calc(100vw * 924 / 5760 + 280px * 0.34);
 `
 
