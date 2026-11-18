@@ -151,8 +151,12 @@ const TeamMarquee = ({ active, inline = false, backgroundRef }) => {
       $inline={inline}
       $drop={drop}
       style={{ paddingTop: lift, paddingBottom: drop }}
-      onMouseEnter={() => setCarouselPaused(true)}
-      onMouseLeave={() => setCarouselPaused(false)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") setCarouselPaused(true)
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") setCarouselPaused(false)
+      }}
     >
       <Track ref={trackRef} aria-label="McHacks organizing team">
         {loopSlides.map(({ id, name, src, hoverSrc, profileUrl, altitude, originalIndex, copy }) => (
