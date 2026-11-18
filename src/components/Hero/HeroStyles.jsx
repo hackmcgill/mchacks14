@@ -163,6 +163,21 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
   .hero__heading {
     display: none; /* Leave in h1 for SEO */
   }
+
+  @media screen and (max-width: 560px) {
+    .hero__hit-frame {
+      width: max(100cqw, calc(100cqh * 1560 / 3376));
+      aspect-ratio: 1560 / 3376;
+      left: calc((100cqw - max(100cqw, 100cqh * 1560 / 3376)) * var(--hero-x));
+    }
+
+    .invisible-apply {
+      left: 48.27%;
+      top: 34.51%;
+      width: 36.79%;
+      height: 21.27%;
+    }
+  }
 `
 
 export default HeroStyles
