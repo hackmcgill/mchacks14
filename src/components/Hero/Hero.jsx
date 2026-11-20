@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import HeroStyles from "./HeroStyles"
 import McHacksLogo from "../../assets/images/designs/mchacks14-hero-logo.webp"
+import McHacksLogoMobile from "../../assets/images/designs/mchacks14-hero-logo-mobile.webp"
 
 const apply = () => {
   window.location = "https://app.mchacks.ca/"
@@ -125,11 +126,14 @@ const Hero = () => {
         <div className="hero-content">
           <h1 className="hero__heading">McHacks 14</h1>
           <div className="hero__images-container">
+          <picture>
+            <source media="(max-width: 560px)" srcSet={McHacksLogoMobile}/>
             <img
               className="hero__heading-image"
               src={McHacksLogo}
               alt="McHacks 14"
             />
+          </picture>
           </div>
         </div>
 
