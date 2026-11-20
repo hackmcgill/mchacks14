@@ -127,7 +127,7 @@ const Hero = () => {
           <h1 className="hero__heading">McHacks 14</h1>
           <div className="hero__images-container">
           <picture>
-            <source media="(max-width: 560px)" srcSet={McHacksLogoMobile}/>
+            <source media="(max-width: 460px)" srcSet={McHacksLogoMobile}/>
             <img
               className="hero__heading-image"
               src={McHacksLogo}
