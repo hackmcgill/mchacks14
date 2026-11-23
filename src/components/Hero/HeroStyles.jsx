@@ -132,10 +132,10 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
 
   .invisible-apply {
     position: absolute;
-    left: 79.31%;
-    top: 22.37%;
-    width: 9.93%;
-    height: 18.97%;
+    left: 82.5%;
+    top: 21.38%;
+    width: 10.9%;
+    height: 21.7%;
     padding: 0;
     border: none;
     background: transparent;
