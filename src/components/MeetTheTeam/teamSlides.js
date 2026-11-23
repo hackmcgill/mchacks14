@@ -49,6 +49,7 @@ Legend:
 // Design
   "Amy", // Lead (H)
   "Ashley",
+  "Rhianna", // (H)
 
 // Communication
   "Lyland", // Lead + Design

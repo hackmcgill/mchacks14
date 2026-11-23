@@ -8,7 +8,8 @@ const teamAltitudes = {
   Doaa: -5,
   Ikram: 5,
   Lyland: -5,
-  Janelle: 5
+  Janelle: 5,
+  Rhianna: -15
 }
 
 export const getAltitudeRoom = () => {
