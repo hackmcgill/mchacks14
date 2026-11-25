@@ -25,7 +25,10 @@ const teamSocialLinks = {
   Janelle: "",
   Ikram: "https://www.linkedin.com/in/ikram-maachy-721a391b7",
   Carolyn: "https://www.linkedin.com/in/carolyn-re-yang/",
-  Daniel: "https://www.linkedin.com/in/daniel-wei1"
+  Daniel: "https://www.linkedin.com/in/daniel-wei1",
+  Siva: "https://www.linkedin.com/in/sivabalan-muthurajan/",
+  Sophie: "https://www.linkedin.com/in/sophie-selinger-702600283",
+  Prisha: "https://www.linkedin.com/in/prisha-manek"
 }
 
 const normalizeUrl = (raw) => {
