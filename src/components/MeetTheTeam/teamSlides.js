@@ -11,6 +11,7 @@ Legend:
 
 //Co-Directors
   "Shirley", // (H)
+  "Siva",
 
 // Sponsorship
   "Julia", // Co-Lead
@@ -18,6 +19,7 @@ Legend:
   "Jimmy", // (H)
   "Carolyn",
   "Jaanya",
+  "Belinda",
 
 // Finance
   "Ikram", // Lead (H)
@@ -29,6 +31,7 @@ Legend:
   "Mona", // (H)
   "Jamie",
   "Jongmin",
+  "Prisha",
 
 // Logistic
   "Remi", // Co-Lead (H)
@@ -46,10 +49,12 @@ Legend:
 // Design
   "Amy", // Lead (H)
   "Ashley",
+  "Rhianna", // (H)
 
 // Communication
   "Lyland", // Lead + Design
-  "Janelle"
+  "Janelle",
+  "Sophie"
 
 ]
 
