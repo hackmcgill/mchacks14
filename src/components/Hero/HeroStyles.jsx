@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 import HeroBgNoLamp from "../../assets/images/designs/mchacks14-bg-no-lamp.webp"
 import HeroLamp from "../../assets/images/designs/mchacks14-lamp.webp"
+import HeroLampMobile from "../../assets/images/designs/mchacks14-lamp-mobile.webp"
 import HeroBgMobile from "../../assets/images/designs/mchacks14-bg-mobile.webp"
 /*
   Hero "parallax zoom" stage.
@@ -81,6 +82,10 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
     background-image: url(${HeroLamp});
     transform: scale(var(--hero-lamp));
     transform-origin: var(--hero-focus-x, 10%) var(--hero-focus-y, 90%);
+
+    @media (max-width: 460px) {
+      background-image: url(${HeroLampMobile});
+    }
   }
 
   /* Fixed full-screen vignette used for the fade-to-black / iris-open hand-off
@@ -104,7 +109,7 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
   }
 
   /* On small screens the mobile artwork already contains the lamp. */
-  @media screen and (max-width: 560px) {
+  @media screen and (max-width: 460px) {
     .hero-scene {
       background-image: url(${HeroBgMobile});
     }
@@ -127,10 +132,10 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
 
   .invisible-apply {
     position: absolute;
-    left: 79.31%;
-    top: 22.37%;
-    width: 9.93%;
-    height: 18.97%;
+    left: 82.5%;
+    top: 21.38%;
+    width: 10.9%;
+    height: 21.7%;
     padding: 0;
     border: none;
     background: transparent;
@@ -164,7 +169,7 @@ export const HeroStyles = styled.section.attrs({ className: "hero-stage" })`
     display: none; /* Leave in h1 for SEO */
   }
 
-  @media screen and (max-width: 560px) {
+  @media screen and (max-width: 460px) {
     .hero__hit-frame {
       width: max(100cqw, calc(100cqh * 1560 / 3376));
       aspect-ratio: 1560 / 3376;
